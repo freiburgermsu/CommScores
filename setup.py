@@ -8,6 +8,10 @@ with open("README.rst") as f:
 with open("LICENSE") as f:
     license = f.read()
 
+from os import system
+system("pip install git+https://github.com/freiburgermsu/ModelSEEDpy.git")
+print("ModelSEEDpy is installed")
+
 setup(
     name="CommScores",
     version="0.0.1",
