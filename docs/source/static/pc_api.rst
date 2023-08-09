@@ -23,4 +23,4 @@ The relative growth of the members between their isolate growth and their growth
 - *interaction_threshold* ``float``: The deviation threshold from a PC score of 1 is that used to identify a positive or negative effect on a given member, which is used to compute the BIT score.
 - *compatibilized* ``bool``: specifies whether the member models have been compatibilized to ModelSEED conventions, which is necessary to appropriately simulate the community growth and behaviors.
 
-**Returns** ``float|tuple``: The function returns the community PC score when *comm_effects* is ``False``. A *comm_effects* of ``True`` returns instead a tuple of the community PC score, a dictionary with the PC score of each member, and the string BIT score prediction based on the .
+**Returns** ``float|tuple``: The function returns the community PC score when *comm_effects* is ``False``. A *comm_effects* of ``True`` returns instead a tuple of the community PC score, a dictionary with the PC score of each member, and the string BIT score prediction based on the member PC scores.
