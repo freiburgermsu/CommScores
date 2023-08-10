@@ -1,2 +1,3 @@
 autoapi
 nbsphinx
+sphinx-rtd-theme
