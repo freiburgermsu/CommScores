@@ -15,7 +15,7 @@ A high-level function that simulates all of the scores for a range of models and
 
 - *pairs* ``list|dict``: A provided list denotes all of the argument inputs from parallelization -- ``pairs``, ``models_media``, ``environments``, ``annotated_genomes``, ``lazy_load``, ``kbase_obj`` -- and is accordingly unpacked. A provided dictionary specifies all of the models that are paired with each given model, as a concise means of simulating only specified pairs.
 - *models_media* ``dict``: The minimal media of each member, which follows the structure: `<member ID>: {"media": {< exchange ID> : < flux >}}`.
-- *environments* ``list<dict|cobrakbase.core.kbasebiochem.media.Media>``: The media environments in which the member models will be simulated.
+- *environments* ``dict``: The media environments in which the member models will be simulated.
 - *annotated_genomes* ``dict``: The collection of annotated genomes that will be compared, as an alternative to acquiring the model genomes via *kbase_object*.
 - *lazy_load* ``bool``: specifies whether only models that are necessary for the current comparison are loaded, to save RAM for analyses of many models.
 - *kbase_object* ``cobrakbase.kbaseapi.KBaseAPI``: The KBase API object that allows the corresponding genomes for each model to acquired.

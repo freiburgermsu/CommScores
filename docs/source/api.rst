@@ -23,7 +23,7 @@ The ``core`` sub-library permits parsing and manipulating metabolic models::
    static/bss_api
    static/pc_api
    static/calculate_scores_api
-   static/kbase_report_api
+   static/kbase_output_api
    
    
 Class object
