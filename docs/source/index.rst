@@ -3,7 +3,7 @@ ________________________________________________________________________
 
 |PyPI version| |Downloads| |License|
 
-.. |Supported Python Versions| image:: https://img.shields.io/pypi/pyversions/commscores)
+.. |Supported Python Versions| image:: https://img.shields.io/pypi/pyversions/commscores
    :target: https://pypi.org/project/commscores/
    :alt: Python versions
 
@@ -37,12 +37,7 @@ The primary dependency of CommScores is the `Freiburgermsu` fork of the ModelSEE
 
  pip install git+https://github.com/freiburgermsu/ModelSEEDpy.git
 
-**Windows users** must separately install the ``pyeda`` module: 1) download the appropriate wheel for your Python version from `this website <https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyeda>`_ ; and 2) install the wheel through the following commands in a command prompt/powershell console::
-
- cd path/to/pyeda/wheel
- pip install pyeda_wheel_name.whl
-
-Every other dependency should automatically install from the command::
+All other dependencies should automatically install when ``CommScores`` is installed from PyPI::
 
  pip install commscores 
 
