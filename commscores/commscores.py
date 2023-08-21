@@ -1,14 +1,14 @@
-from modelseedpy.community.mscompatibility import MSCompatibility
-from modelseedpy.core.msminimalmedia import MSMinimalMedia
-from modelseedpy.community.commhelper import build_from_species_models
-from modelseedpy.community.mscommunity import MSCommunity
-from modelseedpy.core.fbahelper import FBAHelper
-from modelseedpy.core.msgapfill import MSGapfill
+from modelseedpy_freiburgermsu.community.mscompatibility import MSCompatibility
+from modelseedpy_freiburgermsu.core.msminimalmedia import MSMinimalMedia
+from modelseedpy_freiburgermsu.community.commhelper import build_from_species_models
+from modelseedpy_freiburgermsu.community.mscommunity import MSCommunity
+from modelseedpy_freiburgermsu.core.fbahelper import FBAHelper
+from modelseedpy_freiburgermsu.core.msgapfill import MSGapfill
 from itertools import combinations, permutations, chain
 from optlang import Variable, Constraint, Objective
-from modelseedpy.core.exceptions import ObjectiveError, ParameterError
+from modelseedpy_freiburgermsu.core.exceptions import ObjectiveError, ParameterError
 from numpy import array, unique, ndarray, where, sort, array_split, nan
-from modelseedpy.core.msmodelutl import MSModelUtil
+from modelseedpy_freiburgermsu.core.msmodelutl import MSModelUtil
 from collections import Counter
 from deepdiff import DeepDiff  # (old, new)
 from typing import Iterable, Union
