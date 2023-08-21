@@ -10,7 +10,7 @@ with open("LICENSE") as f:
 
 setup(
     name="commscores",
-    version="0.0.4",
+    version="0.0.7",
     description="A Python package for quantifying microbial interactions",
     long_description_content_type="text/x-rst",
     long_description=readme,
@@ -18,10 +18,10 @@ setup(
     author_email="andrewfreiburger@gmail.com",
     url="https://github.com/freiburgermsu/CommScores",
     license=license,
-    packages=["commscores"],
-    # package_dir = {'CommScores':'commscores'},
     package_data={"data": ["raw/at_leaf/*"],   # strangely neither of these directories are captured by the sdist
                   "notebooks": ["at_leaf/*"]},
+    # package_dir = {'CommScores':'commscores'},
+    packages=["commscores"],
     classifiers=[
         "Topic :: Scientific/Engineering :: Bio-Informatics",
         "Intended Audience :: Science/Research",
@@ -34,9 +34,10 @@ setup(
     ],
     include_package_data =True,
     keywords = ['microbiology', "community", "scores", "interaction", "syntrophy", "competition"],
-    # dependency_links = ['https://github.com/freiburgermsu/ModelSEEDpy/archive/refs/tags/CommScores.tar.gz'],
+    # dependency_links = ['https://github.com/freiburgermsu/ModelSEEDpy/tarball/master#egg=modelseedpy-0.3.2'],
     install_requires=[
-        "modelseedpy @ https://github.com/freiburgermsu/ModelSEEDpy/archive/refs/tags/CommScores.tar.gz", "optlang", "numpy", "deepdiff", "sigfig"
+        "modelseedpy_freiburgermsu",
+        "optlang", "numpy", "deepdiff", "sigfig"
     ],
     project_urls={
         "Documentation": "https://commscores.readthedocs.io/en/latest/",

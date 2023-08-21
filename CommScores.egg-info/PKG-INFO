@@ -1,13 +1,13 @@
 Metadata-Version: 2.1
 Name: commscores
-Version: 0.0.4
+Version: 0.0.7
 Summary: A Python package for quantifying microbial interactions
 Home-page: https://github.com/freiburgermsu/CommScores
 Author: Andrew Freiburger
 Author-email: andrewfreiburger@gmail.com
 License: MIT License
         
-        Copyright (c) 2021 ModelSEED
+        Copyright (c) 2023 CommScores
         
         Permission is hereby granted, free of charge, to any person obtaining a copy
         of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@ License: MIT License
 Project-URL: Documentation, https://commscores.readthedocs.io/en/latest/
 Project-URL: Issues, https://github.com/freiburgermsu/CommScores/issues
 Keywords: microbiology,community,scores,interaction,syntrophy,competition
+Platform: UNKNOWN
 Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
 Classifier: Intended Audience :: Science/Research
 Classifier: Operating System :: OS Independent
@@ -76,10 +77,8 @@ Microbial communities predicate most biological systems on Earth, yet the intera
 Installation
 ----------------------
 
-The primary dependency of CommScores is the `Freiburgermsu` fork of the ModelSEEDpy library, which must be installed via ``pip`` in a terminal/command prompt::
-
- pip install git+https://github.com/freiburgermsu/ModelSEEDpy.git
-
-All other dependencies should automatically install when ``CommScores`` is installed from PyPI::
+CommScores and all of its dependencies should automatically install when it is installed from PyPI::
 
  pip install commscores
+
+

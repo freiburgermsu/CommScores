@@ -6,6 +6,7 @@ CommScores.egg-info/SOURCES.txt
 CommScores.egg-info/dependency_links.txt
 CommScores.egg-info/requires.txt
 CommScores.egg-info/top_level.txt
+commscores/__init__.py
 commscores/commscores.py
 commscores.egg-info/PKG-INFO
 commscores.egg-info/SOURCES.txt
