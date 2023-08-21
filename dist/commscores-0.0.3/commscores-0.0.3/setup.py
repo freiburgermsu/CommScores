@@ -8,9 +8,13 @@ with open("README.rst") as f:
 with open("LICENSE") as f:
     license = f.read()
 
+from os import system
+# system("pip install git+https://github.com/freiburgermsu/ModelSEEDpy.git")
+# print("ModelSEEDpy is installed")
+
 setup(
     name="commscores",
-    version="0.0.4",
+    version="0.0.3",
     description="A Python package for quantifying microbial interactions",
     long_description_content_type="text/x-rst",
     long_description=readme,
@@ -34,9 +38,9 @@ setup(
     ],
     include_package_data =True,
     keywords = ['microbiology', "community", "scores", "interaction", "syntrophy", "competition"],
-    # dependency_links = ['https://github.com/freiburgermsu/ModelSEEDpy/archive/refs/tags/CommScores.tar.gz'],
+    dependency_links = ['https://github.com/freiburgermsu/ModelSEEDpy/archive/refs/tags/CommScores.tar.gz'],
     install_requires=[
-        "modelseedpy @ https://github.com/freiburgermsu/ModelSEEDpy/archive/refs/tags/CommScores.tar.gz", "optlang", "numpy", "deepdiff", "sigfig"
+        "modelseedpy", "optlang", "numpy", "deepdiff", "sigfig"
     ],
     project_urls={
         "Documentation": "https://commscores.readthedocs.io/en/latest/",

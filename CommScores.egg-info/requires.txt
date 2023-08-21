@@ -1,0 +1,5 @@
+modelseedpy@ https://github.com/freiburgermsu/ModelSEEDpy/archive/refs/tags/CommScores.tar.gz
+optlang
+numpy
+deepdiff
+sigfig

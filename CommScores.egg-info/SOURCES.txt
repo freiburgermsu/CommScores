@@ -1,0 +1,14 @@
+LICENSE
+README.rst
+setup.py
+CommScores.egg-info/PKG-INFO
+CommScores.egg-info/SOURCES.txt
+CommScores.egg-info/dependency_links.txt
+CommScores.egg-info/requires.txt
+CommScores.egg-info/top_level.txt
+commscores/commscores.py
+commscores.egg-info/PKG-INFO
+commscores.egg-info/SOURCES.txt
+commscores.egg-info/dependency_links.txt
+commscores.egg-info/requires.txt
+commscores.egg-info/top_level.txt
