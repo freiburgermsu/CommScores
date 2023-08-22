@@ -186,8 +186,11 @@ def parse_commscores_data(
                 "model2": model2,
                 "gr1": gr1,
                 "gr2": gr2,
+                "gr_comm": gr_comm,
+                "gyd": (gr1 - gr2) / gr1,
                 "mro1": mro1,
                 "mro2": mro2,
+                "cip": row.CIP,
                 "mip1": mip1,
                 "mip2": mip2,
                 "mip_c1": mip_c1,
@@ -196,6 +199,8 @@ def parse_commscores_data(
                 "bss2": row.BSS_model2,
                 "pc1": row.PC_model1,
                 "pc2": row.PC_model2,
+                "pc_comm": row.PC_comm,
+                "fs": row.FS,
             }
             commscores_data.append(data_item)
             data_item = {
@@ -203,8 +208,11 @@ def parse_commscores_data(
                 "model2": model1,
                 "gr1": gr2,
                 "gr2": gr1,
+                "gr_comm": gr_comm,
+                "gyd": (gr2 - gr1) / gr2,
                 "mro1": mro2,
                 "mro2": mro1,
+                "cip": row.CIP,
                 "mip1": mip2,
                 "mip2": mip1,
                 "mip_c1": mip_c2,
@@ -213,6 +221,8 @@ def parse_commscores_data(
                 "bss2": row.BSS_model1,
                 "pc1": row.PC_model2,
                 "pc2": row.PC_model1,
+                "pc_comm": row.PC_comm,
+                "fs": row.FS,
             }
             commscores_data.append(data_item)
         else:
