@@ -361,6 +361,7 @@ class CommScores:
                         kbase_dic.update({f"MIP_model1 (costless)": "", f"MIP_model2 (costless)": ""})
                         mets[-1].update({"MIP model1 metabolites": [None], "MIP model2 metabolites": [None]})
                     if print_progress:  print("MIP done", end="\t")
+                    # define the BSS content
                     bss_values = CommScores.bss(grouping, grouping_utils, environments, models_media, skip_bad_media)
                     kbase_dic.update({f"BSS_model{modelIDs.index(name.split(' supporting ')[0])+1}":
                                       f"{_sigfig_check(100*val, 5, '')}%" for name, (mets, val) in bss_values.items()})
