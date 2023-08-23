@@ -1,11 +1,11 @@
-from modelseedpy.core.exceptions import ObjectiveError, ParameterError
-from modelseedpy.community.commhelper import build_from_species_models
-from modelseedpy.community.mscompatibility import MSCompatibility
-from modelseedpy.core.msminimalmedia import MSMinimalMedia
-from modelseedpy.community.mscommunity import MSCommunity
-from modelseedpy.core.msmodelutl import MSModelUtil
-from modelseedpy.core.fbahelper import FBAHelper
-from modelseedpy.core.msgapfill import MSGapfill
+from modelseedpy_freiburgermsu.core.exceptions import ObjectiveError, ParameterError
+from modelseedpy_freiburgermsu.community.commhelper import build_from_species_models
+from modelseedpy_freiburgermsu.community.mscompatibility import MSCompatibility
+from modelseedpy_freiburgermsu.core.msminimalmedia import MSMinimalMedia
+from modelseedpy_freiburgermsu.community.mscommunity import MSCommunity
+from modelseedpy_freiburgermsu.core.msmodelutl import MSModelUtil
+from modelseedpy_freiburgermsu.core.fbahelper import FBAHelper
+from modelseedpy_freiburgermsu.core.msgapfill import MSGapfill
 from itertools import combinations, permutations, chain
 from optlang import Variable, Constraint, Objective
 from numpy import array, unique, ndarray, where, sort, array_split, nan
@@ -395,7 +395,7 @@ class CommScores:
 
     @staticmethod
     def html_report(df, mets, export_html_path="commscores_report.html", msdb_path=None):
-        from modelseedpy.core.report import commscores_report
+        from modelseedpy_freiburgermsu.core.report import commscores_report
         return commscores_report(df, mets, export_html_path, msdb_path)
 
     @staticmethod

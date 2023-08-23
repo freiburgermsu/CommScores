@@ -10,7 +10,7 @@ with open("LICENSE") as f:
 
 setup(
     name="commscores",
-    version="0.0.9",
+    version="0.0.10",
     description="A Python package for quantifying microbial interactions",
     long_description_content_type="text/x-rst",
     long_description=readme,
