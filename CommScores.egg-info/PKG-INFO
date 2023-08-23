@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: commscores
-Version: 0.0.7
+Version: 0.0.8
 Summary: A Python package for quantifying microbial interactions
 Home-page: https://github.com/freiburgermsu/CommScores
 Author: Andrew Freiburger

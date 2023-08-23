@@ -1,8 +1,8 @@
-KBase Output
+Report generation
 ----------------------------------------------------------------------------
 
 ----------------------
-kbase_output()
+report_generation()
 ----------------------
 
 The highest-level function in CommScores that executes **calculate_scores**, possibly with parallelization, and returns a Pandas Dataframe and all involved metabolites for succinct analysis:

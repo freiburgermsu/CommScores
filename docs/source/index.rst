@@ -21,7 +21,7 @@ ________________________________________________________________________
 
 .. |Downloads| image:: https://pepy.tech/badge/commscores
    :target: https://pepy.tech/project/commscores
-   :alt: Downloads
+   :alt: Downloads   
 
 Microbial communities predicate most biological systems on Earth, yet the interaction dynamics between community members remains opaque. Quantitative metrics offer a means of isolating these complex, multi-dimensional, interactions into single biological dimensions; although, several ostensibly important biological dimensions evade existing metrics and extant metrics have moreover not be consolidated into a single operable package. We therefore developed CommScores as a comprehensive package for quantifying microbial interaction dimensions within a microbial community, and thereby elucidating the dynamics that govern the given community. CommScores leverages `ModelSEEDpy <https://github.com/ModelSEED/ModelSEEDpy>`_ and `COBRApy <https://github.com/opencobra/cobrapy>`_ packages for metabolic modeling, and the `COBRA-KBase <https://github.com/fliu/cobrakbase>`_ package for acquiring genomic information from KBase. CommScores should accelerate fundamental discoveries in microbial ecology and the rational design of microbial communities for diverse applications in medicine, ecology, and industry.
 
@@ -33,13 +33,9 @@ Microbial communities predicate most biological systems on Earth, yet the intera
 Installation
 ----------------------
 
-The primary dependency of CommScores is the `Freiburgermsu` fork of the ModelSEEDpy library, which must be installed via ``pip`` in a terminal/command prompt::
+CommScores and all of its dependencies should automatically install when it is installed from PyPI::
 
- pip install git+https://github.com/freiburgermsu/ModelSEEDpy.git
-
-All other dependencies should automatically install when ``CommScores`` is installed from PyPI::
-
- pip install commscores 
+ pip install commscores
 
 .. toctree::
    :hidden:

@@ -5,7 +5,7 @@ CommScores report
 commscores_report()
 ----------------------
 
-A function that processes CommScores results from **kbase_output** into an HTML report with multiple tabs that succinctly communicate the simulation results:
+A function that processes CommScores results from **report_generation** into an HTML report with multiple tabs that succinctly communicate the simulation results:
 
 
 
