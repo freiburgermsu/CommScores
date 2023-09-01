@@ -36,7 +36,7 @@ setup(
     keywords = ['microbiology', "community", "scores", "interaction", "syntrophy", "competition"],
     # dependency_links = ['https://github.com/freiburgermsu/ModelSEEDpy/tarball/master#egg=modelseedpy-0.3.2'],
     install_requires=[
-        "modelseedpy_freiburgermsu >= 0.3.1.3",
+        "modelseedpy_freiburgermsu >= 0.3.1.4",
         "optlang", "numpy", "deepdiff", "sigfig"
     ],
     project_urls={
