@@ -6,9 +6,9 @@ from modelseedpy_freiburgermsu.community.mscommunity import MSCommunity
 from modelseedpy_freiburgermsu.core.msmodelutl import MSModelUtil
 from modelseedpy_freiburgermsu.core.fbahelper import FBAHelper
 from modelseedpy_freiburgermsu.core.msgapfill import MSGapfill
+from numpy import array, unique, ndarray, where, sort, array_split, nan, load
 from itertools import combinations, permutations, chain
 from optlang import Variable, Constraint, Objective
-from numpy import array, unique, ndarray, where, sort, array_split, nan
 from collections import Counter
 from deepdiff import DeepDiff  # (old, new)
 from typing import Iterable, Union
@@ -18,7 +18,7 @@ from multiprocess import current_process
 from math import inf
 import sigfig
 # from icecream import ic
-import re
+import os, re
 # from math import prod
 
 # silence deprecation warnings from DeepDiff parsing the syntrophy
@@ -26,6 +26,38 @@ import warnings
 warnings.simplefilter("ignore", category=DeprecationWarning)
 
 rm_comp = FBAHelper.remove_compartment
+rm_costless = re.compile("(\s\(.+\))")
+def remove_metadata(element):
+    try:  element = float(rm_costless.sub("", str(element)).replace("%", ""))
+    except: pass
+    return element
+def convert_to_int(element):
+    try:  element = int(element)
+    except: pass
+    return element
+
+
+package_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), "..")
+categories_dir = os.path.join(package_dir, "data", "categories")
+sugars, aminoacids = load(os.path.join(categories_dir, "sugars.npy")), load(os.path.join(categories_dir, "aminoAcids.npy"))
+vitamins, minerals = load(os.path.join(categories_dir, "vitamins.npy")), load(os.path.join(categories_dir, "minerals.npy"))
+energy_compounds = load(os.path.join(categories_dir, "energy_compounds.npy"))
+sugars_dic, aminoacids_dic = dict(zip(sugars[:,0], sugars[:,1])), dict(zip(aminoacids[:,0], aminoacids[:,1]))
+vitamins_dic, minerals_dic = dict(zip(vitamins[:,0], vitamins[:,1])), dict(zip(minerals[:,0], minerals[:,1]))
+energy_compounds_dic = dict(zip(energy_compounds[:,0], energy_compounds[:,1]))
+def _categorize_mets(metIDs):
+    met_sugars, met_aminoAcids, met_vitamins, met_minerals, met_energy, met_other = [], [], [], [], [], []
+    for metID in metIDs:
+        if metID in sugars[:, 0]:  met_sugars.append(f"{sugars_dic[metID]} ({metID})")
+        elif metID in aminoacids[:, 0]:  met_aminoAcids.append(f"{aminoacids_dic[metID]} ({metID})")
+        elif metID in vitamins[:, 0]:  met_vitamins.append(f"{vitamins_dic[metID]} ({metID})")
+        elif metID in minerals[:, 0]:  met_minerals.append(f"{minerals_dic[metID]} ({metID})")
+        elif metID in energy_compounds[:, 0]:  met_energy.append(f"{energy_compounds_dic[metID]} ({metID})")
+        else:  met_other.append(metID)
+    return met_sugars, met_aminoAcids, met_vitamins, met_minerals, met_energy, met_other
+
+def _process_mets(metIDs):
+    return [", ".join(lst) for lst in _categorize_mets(metIDs)]
 
 def _compatibilize(member_models: Iterable, printing=False):
     # return member_models
@@ -44,7 +76,7 @@ def _load_models(member_models: Iterable, com_model=None, compatibilize=True, pr
 
 def _get_media(media=None, com_model=None, model_s_=None, min_growth=None, environment=None,
                interacting=True, printing=False, minimization_method="minFlux", skip_bad_media=False):
-    # ic(media, com_model, model_s_)
+    # print(media, com_model, model_s_)
     if com_model is None and model_s_ is None:  raise TypeError("< com_model > or < model_s_ > must be parameterized.")
     if media is not None:
         if model_s_ is not None and not isinstance(model_s_, (list,set,tuple)):
@@ -297,25 +329,27 @@ class CommScores:
         model_utils = {}
         count = 0
         for model1, models in pairs.items():
+            if model1.id == "":  model1.id = "model1"
             if lazy_load:  model1, model1_str = CommScores._load(model1, kbase_obj)
             else:  model1_str = model1.id
             if model1.id not in models_media:
                 models_media[model1.id] = {"media": _get_media(model_s_=model1, skip_bad_media=skip_bad_media)}
                 if models_media[model1.id] is None:  continue
-            if model1.id not in model_utils:  model_utils[model1.id] = MSModelUtil(model1)
+            if model1.id not in model_utils:  model_utils[model1.id] = MSModelUtil(model1, True)
             # print(pid, model1)
             for model_index, model2 in enumerate(models):
+                if model2.id == "":  model2.id = "model2"
                 if lazy_load:  model2, model2_str = CommScores._load(model2, kbase_obj)
                 else:  model2_str = model2.id
                 if model2.id not in models_media:
                     models_media[model2.id] = {"media": _get_media(model_s_=model2, skip_bad_media=skip_bad_media)}
                     if models_media[model2.id] is None:  continue
-                if model2.id not in model_utils:  model_utils[model2.id] = MSModelUtil(model2)
+                if model2.id not in model_utils:  model_utils[model2.id] = MSModelUtil(model2, True)
                 grouping = [model1, model2]  ;  grouping_utils = [model_utils[model1.id], model_utils[model2.id]]
-                comm_model = build_from_species_models(grouping)
-                community = MSCommunity(comm_model, grouping)
-                comm_sol = comm_model.optimize()
                 modelIDs = [model.id for model in grouping]
+                comm_model = build_from_species_models(grouping)
+                community = MSCommunity(comm_model, ids=modelIDs)
+                comm_sol = comm_model.optimize()
                 print(f"{pid}~~{count}\t{modelIDs}")
                 for environName, environ in environments.items():
                     if print_progress:  print(f"\tEnvironment\t{environName}", end="\t")
@@ -323,15 +357,15 @@ class CommScores:
                         model1 = CommScores._check_model(model_utils[model1.id], environ, model1_str, skip_bad_media)
                         model2 = CommScores._check_model(model_utils[model2.id], environ, model2_str, skip_bad_media)
                     # initiate the KBase output
-                    kbase_dic = {f"model{i+1}": modelID for i,modelID in enumerate(modelIDs)}
+                    report_dic = {f"model{i+1}": modelID for i,modelID in enumerate(modelIDs)}
                     g1, g2, comm = CommScores._determine_growths([model_utils[model1.id], model_utils[model2.id], community.util])
                     g1, g2, comm = _sigfig_check(g1, 5, ""), _sigfig_check(g2, 5, ""), _sigfig_check(comm, 5, "")
-                    kbase_dic.update({"media": environName, "model1 growth": g1, "model2 growth": g2, "community growth": comm})
+                    report_dic.update({"media": environName, "model1 growth": g1, "model2 growth": g2, "community growth": comm})
                     coculture_growths = {mem.id: comm_sol.fluxes[mem.primary_biomass.id] for mem in community.members}
-                    kbase_dic.update({f"coculture growth model{modelIDs.index(mem.id)}": growth for mem, growth in coculture_growths.items()})
+                    report_dic.update({f"coculture growth model{modelIDs.index(memID)}": growth for memID, growth in coculture_growths.items()})
                     # define the MRO content
                     mro_values = CommScores.mro(grouping, models_media, raw_content=True, environment=environ)
-                    kbase_dic.update({f"MRO_model{modelIDs.index(models_string.split('--')[0])+1}":
+                    report_dic.update({f"MRO_model{modelIDs.index(models_string.split('--')[0])+1}":
                                       f"{100*len(intersection)/len(memMedia):.3f}% ({len(intersection)}/{len(memMedia)})"
                                       for models_string, (intersection, memMedia) in mro_values.items()})
                     mets.append({"MRO metabolites": list(mro_values.values())[0][0]})
@@ -339,7 +373,7 @@ class CommScores:
                     # define the CIP content
                     if cip_score:
                         cip_values = CommScores.cip(modelutils=[model_utils[mem.id] for mem in grouping])
-                        kbase_dic.update({"CIP": cip_values[1]})
+                        report_dic.update({"CIP": cip_values[1]})
                         mets[-1].update({"CIP metabolites": list(cip_values[0])})
                         if print_progress:  print("CIP done", end="\t")
                     # define the MIP content
@@ -347,23 +381,23 @@ class CommScores:
                                                 costless, costless, skip_bad_media)
                     # print(mip_values)
                     if mip_values is not None:
-                        kbase_dic.update({f"MIP_model{modelIDs.index(models_name)+1}": str(len(received))
+                        report_dic.update({f"MIP_model{modelIDs.index(models_name)+1}": str(len(received))
                                           for models_name, received in mip_values[0].items()})
                         mets[-1].update({"MIP model1 metabolites": list(mip_values[0].values())[0],
                                          "MIP model2 metabolites": list(mip_values[0].values())[1]})
                         if costless:
                             for models_name, received in mip_values[1].items():
-                                kbase_dic[f"MIP_model{modelIDs.index(models_name)+1} (costless)"] = kbase_dic[
+                                report_dic[f"MIP_model{modelIDs.index(models_name)+1} (costless)"] = report_dic[
                                     f"MIP_model{modelIDs.index(models_name)+1}"] + f" ({len(received)})"
-                                del kbase_dic[f"MIP_model{modelIDs.index(models_name)+1}"]
+                                del report_dic[f"MIP_model{modelIDs.index(models_name)+1}"]
                             if print_progress:  print("costless_MIP  done", end="\t")
                     else:
-                        kbase_dic.update({f"MIP_model1 (costless)": "", f"MIP_model2 (costless)": ""})
+                        report_dic.update({f"MIP_model1 (costless)": "", f"MIP_model2 (costless)": ""})
                         mets[-1].update({"MIP model1 metabolites": [None], "MIP model2 metabolites": [None]})
                     if print_progress:  print("MIP done", end="\t")
                     # define the BSS content
                     bss_values = CommScores.bss(grouping, grouping_utils, environments, models_media, skip_bad_media)
-                    kbase_dic.update({f"BSS_model{modelIDs.index(name.split(' supporting ')[0])+1}":
+                    report_dic.update({f"BSS_model{modelIDs.index(name.split(' supporting ')[0])+1}":
                                       f"{_sigfig_check(100*val, 5, '')}%" for name, (mets, val) in bss_values.items()})
                     mets[-1].update({"BSS model1 metabolites": [met_set for met_set, val in bss_values.values()][0],
                                      "BSS model2 metabolites": [met_set for met_set, val in bss_values.values()][1]})
@@ -371,32 +405,28 @@ class CommScores:
                     if print_progress:  print("BSS done", end="\t")
                     # define the PC content
                     pc_values = CommScores.pc(grouping, grouping_utils, comm_model, None, comm_sol, environ, True, community)
-                    kbase_dic.update({"PC_comm": _sigfig_check(pc_values[0], 5, ""),
-                                      "PC_model1": _sigfig_check(list(pc_values[1].values())[0], 5, ""),
-                                      "PC_model2": _sigfig_check(list(pc_values[1].values())[1], 5, ""),
-                                      "BIT": pc_values[3]})
+                    report_dic.update({"PC_comm": _sigfig_check(pc_values[0], 5, ""),
+                                       "PC_model1": _sigfig_check(list(pc_values[1].values())[0], 5, ""),
+                                       "PC_model2": _sigfig_check(list(pc_values[1].values())[1], 5, ""),
+                                       "BIT": pc_values[3]})
                     if print_progress:  print("PC  done\tBIT done", end="\t")
                     # print([mem.slim_optimize() for mem in grouping])
                     # define the GYD content
+                    print(list(CommScores.gyd(grouping, grouping_utils, environ, False, community, anme_comm).values()))
                     gyd1, gyd2, g1, g2 = list(CommScores.gyd(grouping, grouping_utils, environ, False, community, anme_comm).values())[0]
-                    kbase_dic.update({"GYD1": _sigfig_check(gyd1, 5, ""), "GYD2": _sigfig_check(gyd2, 5, "")})
+                    report_dic.update({"GYD1": _sigfig_check(gyd1, 5, ""), "GYD2": _sigfig_check(gyd2, 5, "")})
                     if print_progress:  print("GYD done\t\t", end="\t" if annotated_genomes else "\n")
                     # define the FS content
                     if kbase_obj is not None and annotated_genomes and not anme_comm:
                         fs_values = list(CommScores.fs(grouping, kbase_obj, annotated_genomes=annotated_genomes).values())[0]
                         print(len(fs_values[0]) if fs_values[0] is not None else "NaN", fs_values[1])
-                        kbase_dic.update({"FS": sigfig.round(fs_values[1], 5)})
+                        report_dic.update({"FS": sigfig.round(fs_values[1], 5)})
                         if fs_values is not None:  mets[-1].update({"FS features": fs_values[0]})
                         if print_progress:  print("FS done\t\t")
                     # return a pandas Series, which can be easily aggregated with other results into a DataFrame
-                    series.append(Series(kbase_dic))
+                    series.append(Series(report_dic))
                 count += 1
         return series, mets
-
-    @staticmethod
-    def html_report(df, mets, export_html_path="commscores_report.html", msdb_path=None):
-        from modelseedpy_freiburgermsu.core.report import commscores_report
-        return commscores_report(df, mets, export_html_path, msdb_path)
 
     @staticmethod
     def report_generation(all_models:iter=None,  # a list of distinct lists is provided for specifying exclusive groups
@@ -434,6 +464,11 @@ class CommScores:
         if not all_models:  all_models = list(chain(*[list(values) for values in pairs.values()])) + list(pairs.keys())
         lazy_load = len(model_pairs) > 10000     # all_models[0], (list,set,tuple))
         if lazy_load and not kbase_obj:  ValueError("The < kbase_obj > argument must be provided to lazy load models.")
+        new_models = []
+        for index, model in enumerate(all_models):
+            if model.id == "":  model.id = f"model_index{index}"
+            new_models.append(model)
+        all_models = new_models[:]
         if not mem_media:  models_media = _get_media(model_s_=all_models, skip_bad_media=skip_bad_media)
         else:
             models_media = mem_media.copy()
@@ -713,8 +748,7 @@ class CommScores:
                 community.run_fba()
                 member_growths = community.parse_member_growths()
                 G_m1, G_m2 = member_growths[model1_util.model.id], member_growths[model2_util.model.id]
-            if G_m2 <= 0 and G_m1 <= 0: gyds[f"{model1_util.model.id} ++ {model2_util.model.id}"] = ("", G_m1, G_m2)  ;  continue
-            if G_m2 <= 0 or G_m1 <= 0: gyds[f"{model1_util.model.id} ++ {model2_util.model.id}"] = ("", G_m1, G_m2)  ;  continue
+            if G_m2 <= 0 or G_m1 <= 0: gyds[f"{model1_util.model.id} ++ {model2_util.model.id}"] = ("", "", G_m1, G_m2)  ;  continue
             gyds[f"{model1_util.model.id} ++ {model2_util.model.id}"] = (abs(G_m1-G_m2)/G_m1, abs(G_m2-G_m1)/G_m2, G_m1, G_m2)
         return gyds
 
@@ -722,7 +756,7 @@ class CommScores:
     def pc(member_models=None, modelutils=None, com_model=None, isolate_growths=None, comm_sol=None,
            environment=None, comm_effects=True, community=None, interaction_threshold=0.1, compatibilized=False):
         assert member_models or modelutils or community, "Members must be defined through either < member_models >" \
-                                                         "or < modelutils > or < community >."
+                                                         " or < modelutils > or < community >."
         member_models = member_models or [mem.model for mem in modelutils] or community.members
         if com_model is None:  member_models, com_model = _load_models(member_models, None, not compatibilized, printing=False)
         community = community or MSCommunity(com_model, member_models)
@@ -745,7 +779,8 @@ class CommScores:
         elif all(growth_diffs > th_neg) and any(growth_diffs > th_pos):  bit = "commensalism"
         elif all(growth_diffs < th_pos) and any(growth_diffs < th_neg):  bit = "amensalism"
         elif any(growth_diffs > th_pos) and any(growth_diffs < th_neg):  bit = "parasitism"
-        else: print(f"The relative growths {comm_growth_effect} from {comm_member_growths} are not captured.")  ;  bit = ""
+        else: print(f"The relative growths {comm_growth_effect} from {comm_member_growths} coculture and"
+                    f" {isolate_growths} monoculture are not captured.")  ;  bit = ""
         return (pc_score, comm_growth_effect, comm_member_growths, bit)
 
     @staticmethod
@@ -871,6 +906,122 @@ class CommScores:
                             mp_score = 0 if met.id not in mp[model1.id] else 1
                             smetana_scores[model1.id][model2.id] += mu[model1.id].get(met.id,0)*sc_score*mp_score
         return smetana_scores
+
+    @staticmethod
+    def html_report(df, mets, export_html_path="commscores_report.html", msdb_path=None):
+        from pandas import to_numeric
+        import jinja2
+        def names_updateCPD(metIDs, update_cpdNames):
+            names = []
+            for metID in metIDs:
+                if metID not in cpdNames:
+                    if "msdb" not in locals().keys():
+                        from modelseedpy_freiburgermsu.biochem import from_local
+                        msdb = from_local(msdb_path)
+                    name = msdb.compounds.get_by_id(metID).name
+                    update_cpdNames[metID] = name
+                else:
+                    name = cpdNames[metID]
+                names.append(name)
+            return names, update_cpdNames
+
+        # construct a heatmap
+        df.index.name = "Community_index"
+        heatmap_df = df.copy(deep=True)  # takes some time
+        heatmap_df_index = zip(heatmap_df["model1"].to_numpy(), heatmap_df["model2"].to_numpy())
+        heatmap_df.index = [" ++ ".join(index) for index in heatmap_df_index]
+        heatmap_df.index.name = "model1 ++ model2"
+        if "media" in heatmap_df.columns:
+            media_list = heatmap_df['media'].tolist()
+            new_index = [f"{models} in {media_list[i]}" for i, models in enumerate(heatmap_df.index)]
+            heatmap_df.index = new_index
+            heatmap_df.index.name = "model1 ++ model2 in Media"
+        heatmap_df = heatmap_df.loc[~heatmap_df.index.duplicated(), :]
+        heatmap_df = heatmap_df.drop(["model1", "model2"], axis=1)
+        if "media" in heatmap_df:  heatmap_df = heatmap_df.drop(["media"], axis=1)
+        costless = re.compile(r"(?<=\s\()(\d)(?=\))")
+        if "MIP_model1 (costless)" in heatmap_df.columns:
+            mip_model1, mip_model2 = [], []
+            for e in heatmap_df["MIP_model1 (costless)"]:
+                if e == "":  mip_model1.append("");  continue
+                mip_model1.append(costless.search(str(e)).group() if e not in [0, "0"] else "")
+            for e in heatmap_df["MIP_model2 (costless)"]:
+                if e == "":  mip_model2.append("");  continue
+                mip_model2.append(costless.search(str(e)).group() if e not in [0, "0"] else "")
+            for col, lis in {"c_MIP1": mip_model1, "c_MIP2": mip_model2,
+                             "MIP_model1": heatmap_df["MIP_model1 (costless)"].apply(remove_metadata),
+                             "MIP_model2": heatmap_df["MIP_model2 (costless)"].apply(remove_metadata)}.items():
+                heatmap_df[col] = to_numeric(lis, errors='coerce')
+        for col in ["MRO_model1", "MRO_model2", "BSS_model1", "BSS_model2", "PC_model1", "PC_model2", "FS", "GYD"]:
+            heatmap_df[col] = to_numeric(heatmap_df[col].apply(remove_metadata), errors='coerce')
+        del heatmap_df["BIT"], heatmap_df["MIP_model1 (costless)"], heatmap_df[
+            "MIP_model2 (costless)"]  # TODO colorize the BIT entries as well
+        heatmap_df = heatmap_df.astype(float)
+        int_cols = ["CIP", "MIP_model1", "MIP_model2"]
+        if "costless_MIP_model1" in heatmap_df.columns:  int_cols.extend(["c_MIP1", "c_MIP2"])
+        for col in int_cols:
+            heatmap_df[col] = heatmap_df[col].apply(convert_to_int)
+
+        # construct a metabolites table
+        from pandas import DataFrame
+        # from pandas import set_option
+        # set_option("display.max_colwidth", None, 'display.width', 1500)
+
+        ## Process the score metabolites
+        mro_mets, mro_mets_names, mip_model1_mets, mip_model1_mets_names = [], [], [], []
+        mip_model2_mets, mip_model2_mets_names, cip_mets, cip_mets_names = [], [], [], []
+        from json import load, dump
+        cpdNames_path = os.path.join(package_dir, "data", "cpdNames.json")
+        with open(cpdNames_path, "r") as jsonIn:
+            cpdNames = load(jsonIn)
+        update_cpdNames = {}
+        for met in mets:
+            # MRO metabolites
+            mro_metIDs = [metID for metID in map(str, met["MRO metabolites"]) if metID not in ["None", None]]
+            mro_mets.append(", ".join(mro_metIDs))
+            names, update_cpdNames = names_updateCPD(mro_metIDs, update_cpdNames)
+            mro_mets_names.append(", ".join(names))
+            # MIP metabolites
+            mip_model1_metIDs = [metID for metID in map(str, met["MIP model1 metabolites"]) if
+                                 metID not in ["None", None]]
+            mip_model1_mets.append(", ".join(mip_model1_metIDs))
+            names, update_cpdNames = names_updateCPD(mip_model1_metIDs, update_cpdNames)
+            mip_model1_mets_names.append(", ".join(names))
+            ## model2 MIP metabolites
+            mip_model2_metIDs = [metID for metID in map(str, met["MIP model2 metabolites"]) if
+                                 metID not in ["None", None]]
+            mip_model2_mets.append(", ".join(mip_model2_metIDs))
+            names, update_cpdNames = names_updateCPD(mip_model2_metIDs, update_cpdNames)
+            mip_model2_mets_names.append(", ".join(names))
+            # CIP metabolites
+            cip_metIDs = [metID for metID in map(str, met["CIP metabolites"]) if metID not in ["None", None]]
+            cip_mets.append(", ".join(cip_metIDs))
+            names, update_cpdNames = names_updateCPD(cip_metIDs, update_cpdNames)
+            cip_mets_names.append(", ".join(names))
+        df_content = {"MRO metabolite names": mro_mets_names, "MRO metabolite IDs": mro_mets,
+                      "MIP model1 metabolite names": mip_model1_mets_names,
+                      "MIP model1 metabolite IDs": mip_model1_mets,
+                      "MIP model2 metabolite names": mip_model2_mets_names,
+                      "MIP model2 metabolite IDs": mip_model2_mets,
+                      "CIP metabolite names": cip_mets_names, "CIP metabolite IDs": cip_mets}
+        if update_cpdNames != {}:
+            cpdNames.update(update_cpdNames)
+            with open(cpdNames_path, "w") as jsonOut:
+                dump(cpdNames, jsonOut, indent=3)
+        # print(list(map(len, df_content.values())))
+        mets_table = DataFrame(data=df_content)
+        mets_table.index.name = "Community_index"
+
+        # populate the HTML template with the assembled simulation data from the DataFrame -> HTML conversion
+        content = {'table': df.to_html(table_id="main", classes="display"), "mets_table": mets_table.to_html(),
+                   "heatmap": heatmap_df.applymap(lambda x: round(x, 3)).style.background_gradient().to_html(
+                       table_id="heat", classes="display")}
+        env = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.join(package_dir, "community")),
+                                 autoescape=jinja2.select_autoescape(['html', 'xml']))
+        html_report = env.get_template("commscores_template.html").render(content)
+        with open(export_html_path, "w") as out:
+            out.writelines(html_report)
+        return html_report
 
     @staticmethod
     def antiSMASH(json_path=None, zip_path=None):
