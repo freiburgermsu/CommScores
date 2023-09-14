@@ -1,0 +1,11 @@
+Name,ID,type,cpd_ids
+Thiamin,thm[e],Vitamin,cpd00305
+Biotin,btn[e],Vitamin,cpd00104
+Riboflavin,ribflv[e],Vitamin,cpd00220
+Pyridoxal,pydx[e],Vitamin,cpd00215
+Cobalamin,cbl1[e],Vitamin,cpd00635
+Lipoate,lipoate[e],Vitamin,cpd00541
+Folate,fol[e],Vitamin,cpd00393
+Pantothenate,pnto__R[e],Vitamin,cpd00644
+Nicotinate,nac[e],Vitamin,cpd00218
+4-Aminobenzoate,4abz[e],Vitamin,cpd00443
