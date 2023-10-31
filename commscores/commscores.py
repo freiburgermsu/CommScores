@@ -1,6 +1,5 @@
 from modelseedpy_freiburgermsu.core.exceptions import ObjectiveError, ParameterError
 from modelseedpy_freiburgermsu.community.commhelper import build_from_species_models
-from modelseedpy_freiburgermsu.community.mscompatibility import MSCompatibility
 from modelseedpy_freiburgermsu.core.msminimalmedia import MSMinimalMedia
 from modelseedpy_freiburgermsu.community.mscommunity import MSCommunity
 from modelseedpy_freiburgermsu.core.msmodelutl import MSModelUtil
@@ -9,12 +8,13 @@ from modelseedpy_freiburgermsu.core.msgapfill import MSGapfill
 from numpy import array, unique, ndarray, where, sort, array_split, nan, load
 from itertools import combinations, permutations, chain
 from optlang import Variable, Constraint, Objective
+from multiprocess import current_process
+from typing import Iterable, Union
+from numpy.random import shuffle
 from collections import Counter
 from deepdiff import DeepDiff  # (old, new)
-from typing import Iterable, Union
 from pprint import pprint
-from numpy.random import shuffle
-from multiprocess import current_process
+import GEMCompatibility
 from math import inf
 import sigfig
 # from icecream import ic
@@ -61,7 +61,7 @@ def _process_mets(metIDs):
 
 def _compatibilize(member_models: Iterable, printing=False):
     # return member_models
-    models = MSCompatibility.standardize(member_models, conflicts_file_name='exchanges_conflicts.json', printing=printing)
+    models = GEMCompatibility.standardize(member_models, conflicts_file_name='exchanges_conflicts.json', printing=printing)
     if not isinstance(member_models, (set, list, tuple)):  return models[0]
     return models
 
