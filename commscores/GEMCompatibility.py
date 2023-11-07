@@ -1,13 +1,13 @@
 from collections import OrderedDict, namedtuple
-from cobra import Reaction
 from cobra.io.json import save_json_model
-from itertools import chain
-from typing import Iterable
 from zipfile import ZipFile, ZIP_LZMA
+from deepdiff import DeepDiff
+from typing import Iterable
+from itertools import chain
+from cobra import Reaction
 from math import isclose
 # from icecream import ic
 from pprint import pprint
-from deepdiff import DeepDiff
 import platform, logging, json, re, os #, lzma
 
 # ic.configureOutput(includeContext=True, contextAbsPath=False)
@@ -65,7 +65,26 @@ def add_custom_reaction(model, stoichiometry, direction=">", rxnID="rxn42", rxnN
 resultsTup = namedtuple("resultsTup", ("new_met_id", "unknown_met_id", "changed_mets", "changed_rxns"))
         
     
-class MSCompatibility:
+class GEMCompatibility:
+
+    # TODO 1 (exchanges)
+    ## change just the external/environment perception of exchanges (just the extracellular compartment of exchanged reactions)
+    ## log changes in a parsable JSON that can be exported and then referenced to reverse any changes
+
+    # TODO 2 (CommScores)
+    ## implement with the example model sets
+
+    # TODO 3 (tests)
+    ## test validity of the model
+    ## some exchanged metabolites are not changed
+
+    # TODO 10 (generalize)
+    ## compatibilize models to an arbitrary convention (whose conventions are specified in a JSON file)
+
+    @staticmethod
+    def exchanges():
+        pass
+
         
     @staticmethod
     def standardize(models, metabolites:bool=True, exchanges:bool=True, conflicts_file_name:str=None,
@@ -99,7 +118,7 @@ class MSCompatibility:
                 ### correct each metabolite in each exchange reaction
                 for ex_rxn in model_exchanges:
                     for met in ex_rxn.metabolites:
-                        model, met, reactions, results = MSCompatibility._correct_met(
+                        model, met, reactions, results = GEMCompatibility._correct_met(
                             model, met, reactions, True, printing)
                         new_rxn_id = 'EX_'+results.new_met_id
                         if all(['cpd' not in met.id, results.new_met_id not in ex_mets, results.unknown_met_id]):
@@ -114,7 +133,7 @@ class MSCompatibility:
                     print(message, "\n", "="*len(message))
                 model_mets = [met.id for rxn in model.reactions for met in rxn.metabolites]
                 for met in model.metabolites:
-                    model, met, reactions, results = MSCompatibility._correct_met(model, met, reactions, True, printing)
+                    model, met, reactions, results = GEMCompatibility._correct_met(model, met, reactions, True, printing)
                     if met.id in ex_mets:  mets_ex_map[met.id].id = "EX_"+results.new_met_id
                     if all(['cpd' not in met.id, results.new_met_id not in model_mets, results.unknown_met_id]):
                         unknown_mets.append(met.id)
@@ -122,17 +141,17 @@ class MSCompatibility:
                 for rxn in model.reactions:
                     if "biomass" in rxn.name:  rxn.id = "bio1"  ;  break
                     # if rxn in model_exchanges:
-                    #     model, met, reactions, results = MSCompatibility._correct_met(
+                    #     model, met, reactions, results = GEMCompatibility._correct_met(
                     #         model, met, reactions, True, printing)
                     #     new_rxn_id = 'EX_'+results.new_met_id
 
                 if conflicts_file_name is not None:
                     model_names = model_names or [model.id for model in models]
-                    MSCompatibility._export(
+                    GEMCompatibility._export(
                         models, {'metabolite_changes':changed_mets, 'reaction_changes':changed_rxns},
                         conflicts_file_name, model_names, export_directory)
             new_models.append(model)
-            MSCompatibility._validate_results(model, org_model, unknown_mets)
+            GEMCompatibility._validate_results(model, org_model, unknown_mets)
         models_id = ",".join([model.id for model in models])
         if len(changed_rxns) == len(changed_mets) == 0:
             print(f"The {'exchange ' if exchanges else ''} metabolite ID's of the model {models_id} "
@@ -184,7 +203,7 @@ class MSCompatibility:
                                         f'model{model_index}_id': met.id,
                                         f'model{model_index}_met': met
                                     })
-                            model, met, reactions, results = MSCompatibility._correct_met(model, met, reactions, False, printing)
+                            model, met, reactions, results = GEMCompatibility._correct_met(model, met, reactions, False, printing)
                     else:
                         former_name = unique_names[list(unique_mets.keys()).index(met.id)]
                         former_model_index = _remove_prefix(list(unique_mets[met.id].keys())[0].split('_')[0], 'model')
@@ -217,17 +236,17 @@ class MSCompatibility:
                                             f'model{model_index}_{iteration}_name': met.name,
                                             f'model{model_index}_{iteration}_met': met
                                         })
-                            model, met, reactions, results = MSCompatibility._correct_met(model, met, reactions, False, printing)
+                            model, met, reactions, results = GEMCompatibility._correct_met(model, met, reactions, False, printing)
                     
                 # correct the reaction ID
                 reaction = _remove_prefix(re.sub('(_\w\d$)', '', ex_rxn.id), 'EX_')
                 if reaction in model_metabolites:
                     suffix = re.search('(_\w\d$)', reaction).group()
-                    model, met, reactions, results = MSCompatibility._correct_met(
+                    model, met, reactions, results = GEMCompatibility._correct_met(
                         model, _remove_suffix(reaction, suffix), reactions, False, printing)
                     ex_rxn.id = 'EX_'+results.new_met_id+suffix
             new_models.append(model)
-            MSCompatibility._validate_results(model, org_model, unknown_mets)
+            GEMCompatibility._validate_results(model, org_model, unknown_mets)
 
         if conflicts_file_name:
             export_met_conflicts = {}
@@ -238,7 +257,7 @@ class MSCompatibility:
                         export_met_conflicts[met_id][key] = val
                     else:
                         export_met_conflicts[met_id][key.replace('_met','_formula')] = val.formula
-            MSCompatibility._export(new_models, export_met_conflicts, conflicts_file_name, model_names, export_directory)
+            GEMCompatibility._export(new_models, export_met_conflicts, conflicts_file_name, model_names, export_directory)
 
         print(f'\n\n{len(changed_rxns)} exchange reactions were substituted and '
               f'{len(changed_mets)} exchange metabolite IDs were redefined by align_exchanges().')
