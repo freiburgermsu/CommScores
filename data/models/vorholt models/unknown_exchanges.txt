@@ -1,0 +1,599 @@
+EX_2hxmp[e] 		 2  Hydroxymethyl phenol C7H8O2
+EX_4hpro_LT[e] 		 Trans 4 Hydroxy L proline C5H9NO3
+EX_Larab[e] 		 Alpha L Arabinan C15H24O12
+EX_R_3hdd5ea[e] 		  3 Hydroxydodecanoic 5 en acid
+EX_R_3hpba[e] 		  3 Hydroxyphenylbutanoic acid
+EX_abg4[e] 		 4-aminobenzoate-glutamate
+EX_actn__R[e] 		  R  Acetoin C4H8O2
+EX_ala_L_asp__L[e] 		 Ala L asp L C7H11N2O5
+EX_ala_L_glu__L[e] 		 Ala L glu L C8H13N2O5
+EX_alahis[e] 		 L alaninylhistidine
+EX_alaleu[e] 		 L alaninylleucine
+EX_alathr[e] 		 L alaninylthreonine
+EX_alatrp[e] 		 L alaninyltryptophan
+EX_creat[e] 		 Creatine cytosol
+EX_fe3pyovd_kt[e] 		 Ferrypyoverdine  P putida KT2440 specific
+EX_galman4[e] 		 Galactomannan(n=4 repeat units mannose, alpha-1,4 man)
+EX_galman6[e] 		 Galactomannan(n=6 repeat units mannose, alpha-1,4 man)
+EX_glcman4[e] 		 Glucomannan (n=4 repeat units, glc beta-1,4 man)
+EX_glcman6[e] 		 Glucomannan (n=6 repeat units, glc beta-1,4 man)
+EX_glucan4[e] 		 Beta-1,3/1,4-glucan (Barley, n=4, Glc beta1->3,4 Glc)
+EX_glucan6[e] 		 Beta-1,3/1,4-glucan (Barley, n=6, Glc beta1->3,4 Glc)
+EX_gly_asn__L[e] 		 Gly asn L C6H11N3O4
+EX_gly_asp__L[e] 		 Gly asp L C6H9N2O5
+EX_gly_glu__L[e] 		 Gly glu L C7H11N2O5
+EX_gly_pro__L[e] 		 Gly pro L C7H12N2O3
+EX_glygln[e] 		 L glycinylglutamine
+EX_glyglu[e] 		 L glycinylglutamate
+EX_glymet[e] 		 L Glycinylmethionine
+EX_glyphe[e] 		 Glycylphenylalanine
+EX_glyser[e] 		 L glycinylserine
+EX_hisgly[e] 		 L histidinylglycine
+EX_hishis[e] 		 L histidinylhistidine
+EX_istfrnA[e] 		 Iron bound extracellular staphyloferrin A
+EX_istfrnB[e] 		 Iron bound extracellular staphyloferrin B
+EX_leuleu[e] 		 Leucylleucine
+EX_manb[e] 		 Mannobiose (beta-1,4)
+EX_mantr[e] 		 Mannotriose (beta-1,4)
+EX_manttr[e] 		 Mannotetraose
+EX_met_L_ala__L[e] 		 Met L ala L C8H16N2O3S
+EX_prohisglu[e] 		 Proline-histidine-glutamine tripeptide
+EX_ptsla[e] 		 Petroselaidic acid
+EX_pyovd_kt[e] 		 Pyoverdine  P putida specific
+EX_salchs4[e] 		 Salmochelin-S4
+EX_salchs4fe[e] 		 Salmochelin-S4-Fe-III
+EX_serglugly[e] 		 Serine-glutamine-glycine tripeptide
+EX_xylan8[e] 		 Xylan 8
+EX_2hxmp[e] 		 2  Hydroxymethyl phenol C7H8O2
+EX_4hpro_LT[e] 		 Trans 4 Hydroxy L proline C5H9NO3
+EX_Larab[e] 		 Alpha L Arabinan C15H24O12
+EX_R_3hdd5ea[e] 		  3 Hydroxydodecanoic 5 en acid
+EX_R_3hpba[e] 		  3 Hydroxyphenylbutanoic acid
+EX_abg4[e] 		 4-aminobenzoate-glutamate
+EX_actn__R[e] 		  R  Acetoin C4H8O2
+EX_ala_L_asp__L[e] 		 Ala L asp L C7H11N2O5
+EX_ala_L_glu__L[e] 		 Ala L glu L C8H13N2O5
+EX_alahis[e] 		 L alaninylhistidine
+EX_alaleu[e] 		 L alaninylleucine
+EX_alathr[e] 		 L alaninylthreonine
+EX_alatrp[e] 		 L alaninyltryptophan
+EX_creat[e] 		 Creatine cytosol
+EX_fe3pyovd_kt[e] 		 Ferrypyoverdine  P putida KT2440 specific
+EX_galman4[e] 		 Galactomannan(n=4 repeat units mannose, alpha-1,4 man)
+EX_galman6[e] 		 Galactomannan(n=6 repeat units mannose, alpha-1,4 man)
+EX_glcman4[e] 		 Glucomannan (n=4 repeat units, glc beta-1,4 man)
+EX_glcman6[e] 		 Glucomannan (n=6 repeat units, glc beta-1,4 man)
+EX_glucan4[e] 		 Beta-1,3/1,4-glucan (Barley, n=4, Glc beta1->3,4 Glc)
+EX_glucan6[e] 		 Beta-1,3/1,4-glucan (Barley, n=6, Glc beta1->3,4 Glc)
+EX_gly_asn__L[e] 		 Gly asn L C6H11N3O4
+EX_gly_asp__L[e] 		 Gly asp L C6H9N2O5
+EX_gly_glu__L[e] 		 Gly glu L C7H11N2O5
+EX_gly_pro__L[e] 		 Gly pro L C7H12N2O3
+EX_glygln[e] 		 L glycinylglutamine
+EX_glyglu[e] 		 L glycinylglutamate
+EX_glymet[e] 		 L Glycinylmethionine
+EX_glyphe[e] 		 Glycylphenylalanine
+EX_glyser[e] 		 L glycinylserine
+EX_hisgly[e] 		 L histidinylglycine
+EX_hishis[e] 		 L histidinylhistidine
+EX_istfrnA[e] 		 Iron bound extracellular staphyloferrin A
+EX_istfrnB[e] 		 Iron bound extracellular staphyloferrin B
+EX_leuleu[e] 		 Leucylleucine
+EX_manb[e] 		 Mannobiose (beta-1,4)
+EX_mantr[e] 		 Mannotriose (beta-1,4)
+EX_manttr[e] 		 Mannotetraose
+EX_met_L_ala__L[e] 		 Met L ala L C8H16N2O3S
+EX_prohisglu[e] 		 Proline-histidine-glutamine tripeptide
+EX_ptsla[e] 		 Petroselaidic acid
+EX_pyovd_kt[e] 		 Pyoverdine  P putida specific
+EX_salchs4[e] 		 Salmochelin-S4
+EX_salchs4fe[e] 		 Salmochelin-S4-Fe-III
+EX_serglugly[e] 		 Serine-glutamine-glycine tripeptide
+EX_xylan8[e] 		 Xylan 8
+EX_2hxmp[e] 		 2  Hydroxymethyl phenol C7H8O2
+EX_4hpro_LT[e] 		 Trans 4 Hydroxy L proline C5H9NO3
+EX_Larab[e] 		 Alpha L Arabinan C15H24O12
+EX_R_3hdd5ea[e] 		  3 Hydroxydodecanoic 5 en acid
+EX_R_3hpba[e] 		  3 Hydroxyphenylbutanoic acid
+EX_abg4[e] 		 4-aminobenzoate-glutamate
+EX_actn__R[e] 		  R  Acetoin C4H8O2
+EX_ala_L_asp__L[e] 		 Ala L asp L C7H11N2O5
+EX_ala_L_glu__L[e] 		 Ala L glu L C8H13N2O5
+EX_alahis[e] 		 L alaninylhistidine
+EX_alaleu[e] 		 L alaninylleucine
+EX_alathr[e] 		 L alaninylthreonine
+EX_alatrp[e] 		 L alaninyltryptophan
+EX_creat[e] 		 Creatine cytosol
+EX_fe3pyovd_kt[e] 		 Ferrypyoverdine  P putida KT2440 specific
+EX_galman4[e] 		 Galactomannan(n=4 repeat units mannose, alpha-1,4 man)
+EX_galman6[e] 		 Galactomannan(n=6 repeat units mannose, alpha-1,4 man)
+EX_glcman4[e] 		 Glucomannan (n=4 repeat units, glc beta-1,4 man)
+EX_glcman6[e] 		 Glucomannan (n=6 repeat units, glc beta-1,4 man)
+EX_glucan4[e] 		 Beta-1,3/1,4-glucan (Barley, n=4, Glc beta1->3,4 Glc)
+EX_glucan6[e] 		 Beta-1,3/1,4-glucan (Barley, n=6, Glc beta1->3,4 Glc)
+EX_gly_asn__L[e] 		 Gly asn L C6H11N3O4
+EX_gly_asp__L[e] 		 Gly asp L C6H9N2O5
+EX_gly_glu__L[e] 		 Gly glu L C7H11N2O5
+EX_gly_pro__L[e] 		 Gly pro L C7H12N2O3
+EX_glygln[e] 		 L glycinylglutamine
+EX_glyglu[e] 		 L glycinylglutamate
+EX_glymet[e] 		 L Glycinylmethionine
+EX_glyphe[e] 		 Glycylphenylalanine
+EX_glyser[e] 		 L glycinylserine
+EX_hisgly[e] 		 L histidinylglycine
+EX_hishis[e] 		 L histidinylhistidine
+EX_istfrnA[e] 		 Iron bound extracellular staphyloferrin A
+EX_istfrnB[e] 		 Iron bound extracellular staphyloferrin B
+EX_leuleu[e] 		 Leucylleucine
+EX_manb[e] 		 Mannobiose (beta-1,4)
+EX_mantr[e] 		 Mannotriose (beta-1,4)
+EX_manttr[e] 		 Mannotetraose
+EX_met_L_ala__L[e] 		 Met L ala L C8H16N2O3S
+EX_prohisglu[e] 		 Proline-histidine-glutamine tripeptide
+EX_ptsla[e] 		 Petroselaidic acid
+EX_pyovd_kt[e] 		 Pyoverdine  P putida specific
+EX_salchs4[e] 		 Salmochelin-S4
+EX_salchs4fe[e] 		 Salmochelin-S4-Fe-III
+EX_serglugly[e] 		 Serine-glutamine-glycine tripeptide
+EX_xylan8[e] 		 Xylan 8
+EX_2hxmp[e] 		 2  Hydroxymethyl phenol C7H8O2
+EX_4hpro_LT[e] 		 Trans 4 Hydroxy L proline C5H9NO3
+EX_Larab[e] 		 Alpha L Arabinan C15H24O12
+EX_R_3hdd5ea[e] 		  3 Hydroxydodecanoic 5 en acid
+EX_R_3hpba[e] 		  3 Hydroxyphenylbutanoic acid
+EX_abg4[e] 		 4-aminobenzoate-glutamate
+EX_actn__R[e] 		  R  Acetoin C4H8O2
+EX_ala_L_asp__L[e] 		 Ala L asp L C7H11N2O5
+EX_ala_L_glu__L[e] 		 Ala L glu L C8H13N2O5
+EX_alahis[e] 		 L alaninylhistidine
+EX_alaleu[e] 		 L alaninylleucine
+EX_alathr[e] 		 L alaninylthreonine
+EX_alatrp[e] 		 L alaninyltryptophan
+EX_creat[e] 		 Creatine cytosol
+EX_fe3pyovd_kt[e] 		 Ferrypyoverdine  P putida KT2440 specific
+EX_galman4[e] 		 Galactomannan(n=4 repeat units mannose, alpha-1,4 man)
+EX_galman6[e] 		 Galactomannan(n=6 repeat units mannose, alpha-1,4 man)
+EX_glcman4[e] 		 Glucomannan (n=4 repeat units, glc beta-1,4 man)
+EX_glcman6[e] 		 Glucomannan (n=6 repeat units, glc beta-1,4 man)
+EX_glucan4[e] 		 Beta-1,3/1,4-glucan (Barley, n=4, Glc beta1->3,4 Glc)
+EX_glucan6[e] 		 Beta-1,3/1,4-glucan (Barley, n=6, Glc beta1->3,4 Glc)
+EX_gly_asn__L[e] 		 Gly asn L C6H11N3O4
+EX_gly_asp__L[e] 		 Gly asp L C6H9N2O5
+EX_gly_glu__L[e] 		 Gly glu L C7H11N2O5
+EX_gly_pro__L[e] 		 Gly pro L C7H12N2O3
+EX_glygln[e] 		 L glycinylglutamine
+EX_glyglu[e] 		 L glycinylglutamate
+EX_glymet[e] 		 L Glycinylmethionine
+EX_glyphe[e] 		 Glycylphenylalanine
+EX_glyser[e] 		 L glycinylserine
+EX_hisgly[e] 		 L histidinylglycine
+EX_hishis[e] 		 L histidinylhistidine
+EX_istfrnA[e] 		 Iron bound extracellular staphyloferrin A
+EX_istfrnB[e] 		 Iron bound extracellular staphyloferrin B
+EX_leuleu[e] 		 Leucylleucine
+EX_manb[e] 		 Mannobiose (beta-1,4)
+EX_mantr[e] 		 Mannotriose (beta-1,4)
+EX_manttr[e] 		 Mannotetraose
+EX_met_L_ala__L[e] 		 Met L ala L C8H16N2O3S
+EX_prohisglu[e] 		 Proline-histidine-glutamine tripeptide
+EX_ptsla[e] 		 Petroselaidic acid
+EX_pyovd_kt[e] 		 Pyoverdine  P putida specific
+EX_salchs4[e] 		 Salmochelin-S4
+EX_salchs4fe[e] 		 Salmochelin-S4-Fe-III
+EX_serglugly[e] 		 Serine-glutamine-glycine tripeptide
+EX_xylan8[e] 		 Xylan 8
+EX_2hxmp[e] 		 2  Hydroxymethyl phenol C7H8O2
+EX_4hpro_LT[e] 		 Trans 4 Hydroxy L proline C5H9NO3
+EX_Larab[e] 		 Alpha L Arabinan C15H24O12
+EX_R_3hdd5ea[e] 		  3 Hydroxydodecanoic 5 en acid
+EX_R_3hpba[e] 		  3 Hydroxyphenylbutanoic acid
+EX_abg4[e] 		 4-aminobenzoate-glutamate
+EX_actn__R[e] 		  R  Acetoin C4H8O2
+EX_ala_L_asp__L[e] 		 Ala L asp L C7H11N2O5
+EX_ala_L_glu__L[e] 		 Ala L glu L C8H13N2O5
+EX_alahis[e] 		 L alaninylhistidine
+EX_alaleu[e] 		 L alaninylleucine
+EX_alathr[e] 		 L alaninylthreonine
+EX_alatrp[e] 		 L alaninyltryptophan
+EX_creat[e] 		 Creatine cytosol
+EX_fe3pyovd_kt[e] 		 Ferrypyoverdine  P putida KT2440 specific
+EX_galman4[e] 		 Galactomannan(n=4 repeat units mannose, alpha-1,4 man)
+EX_galman6[e] 		 Galactomannan(n=6 repeat units mannose, alpha-1,4 man)
+EX_glcman4[e] 		 Glucomannan (n=4 repeat units, glc beta-1,4 man)
+EX_glcman6[e] 		 Glucomannan (n=6 repeat units, glc beta-1,4 man)
+EX_glucan4[e] 		 Beta-1,3/1,4-glucan (Barley, n=4, Glc beta1->3,4 Glc)
+EX_glucan6[e] 		 Beta-1,3/1,4-glucan (Barley, n=6, Glc beta1->3,4 Glc)
+EX_gly_asn__L[e] 		 Gly asn L C6H11N3O4
+EX_gly_asp__L[e] 		 Gly asp L C6H9N2O5
+EX_gly_glu__L[e] 		 Gly glu L C7H11N2O5
+EX_gly_pro__L[e] 		 Gly pro L C7H12N2O3
+EX_glygln[e] 		 L glycinylglutamine
+EX_glyglu[e] 		 L glycinylglutamate
+EX_glymet[e] 		 L Glycinylmethionine
+EX_glyphe[e] 		 Glycylphenylalanine
+EX_glyser[e] 		 L glycinylserine
+EX_hisgly[e] 		 L histidinylglycine
+EX_hishis[e] 		 L histidinylhistidine
+EX_istfrnA[e] 		 Iron bound extracellular staphyloferrin A
+EX_istfrnB[e] 		 Iron bound extracellular staphyloferrin B
+EX_leuleu[e] 		 Leucylleucine
+EX_manb[e] 		 Mannobiose (beta-1,4)
+EX_mantr[e] 		 Mannotriose (beta-1,4)
+EX_manttr[e] 		 Mannotetraose
+EX_met_L_ala__L[e] 		 Met L ala L C8H16N2O3S
+EX_prohisglu[e] 		 Proline-histidine-glutamine tripeptide
+EX_ptsla[e] 		 Petroselaidic acid
+EX_pyovd_kt[e] 		 Pyoverdine  P putida specific
+EX_salchs4[e] 		 Salmochelin-S4
+EX_salchs4fe[e] 		 Salmochelin-S4-Fe-III
+EX_serglugly[e] 		 Serine-glutamine-glycine tripeptide
+EX_xylan8[e] 		 Xylan 8
+EX_2hxmp[e] 		 2  Hydroxymethyl phenol C7H8O2
+EX_4hpro_LT[e] 		 Trans 4 Hydroxy L proline C5H9NO3
+EX_Larab[e] 		 Alpha L Arabinan C15H24O12
+EX_R_3hdd5ea[e] 		  3 Hydroxydodecanoic 5 en acid
+EX_R_3hpba[e] 		  3 Hydroxyphenylbutanoic acid
+EX_abg4[e] 		 4-aminobenzoate-glutamate
+EX_actn__R[e] 		  R  Acetoin C4H8O2
+EX_ala_L_asp__L[e] 		 Ala L asp L C7H11N2O5
+EX_ala_L_glu__L[e] 		 Ala L glu L C8H13N2O5
+EX_alahis[e] 		 L alaninylhistidine
+EX_alaleu[e] 		 L alaninylleucine
+EX_alathr[e] 		 L alaninylthreonine
+EX_alatrp[e] 		 L alaninyltryptophan
+EX_creat[e] 		 Creatine cytosol
+EX_fe3pyovd_kt[e] 		 Ferrypyoverdine  P putida KT2440 specific
+EX_galman4[e] 		 Galactomannan(n=4 repeat units mannose, alpha-1,4 man)
+EX_galman6[e] 		 Galactomannan(n=6 repeat units mannose, alpha-1,4 man)
+EX_glcman4[e] 		 Glucomannan (n=4 repeat units, glc beta-1,4 man)
+EX_glcman6[e] 		 Glucomannan (n=6 repeat units, glc beta-1,4 man)
+EX_glucan4[e] 		 Beta-1,3/1,4-glucan (Barley, n=4, Glc beta1->3,4 Glc)
+EX_glucan6[e] 		 Beta-1,3/1,4-glucan (Barley, n=6, Glc beta1->3,4 Glc)
+EX_gly_asn__L[e] 		 Gly asn L C6H11N3O4
+EX_gly_asp__L[e] 		 Gly asp L C6H9N2O5
+EX_gly_glu__L[e] 		 Gly glu L C7H11N2O5
+EX_gly_pro__L[e] 		 Gly pro L C7H12N2O3
+EX_glygln[e] 		 L glycinylglutamine
+EX_glyglu[e] 		 L glycinylglutamate
+EX_glymet[e] 		 L Glycinylmethionine
+EX_glyphe[e] 		 Glycylphenylalanine
+EX_glyser[e] 		 L glycinylserine
+EX_hisgly[e] 		 L histidinylglycine
+EX_hishis[e] 		 L histidinylhistidine
+EX_istfrnA[e] 		 Iron bound extracellular staphyloferrin A
+EX_istfrnB[e] 		 Iron bound extracellular staphyloferrin B
+EX_leuleu[e] 		 Leucylleucine
+EX_manb[e] 		 Mannobiose (beta-1,4)
+EX_mantr[e] 		 Mannotriose (beta-1,4)
+EX_manttr[e] 		 Mannotetraose
+EX_met_L_ala__L[e] 		 Met L ala L C8H16N2O3S
+EX_prohisglu[e] 		 Proline-histidine-glutamine tripeptide
+EX_ptsla[e] 		 Petroselaidic acid
+EX_pyovd_kt[e] 		 Pyoverdine  P putida specific
+EX_salchs4[e] 		 Salmochelin-S4
+EX_salchs4fe[e] 		 Salmochelin-S4-Fe-III
+EX_serglugly[e] 		 Serine-glutamine-glycine tripeptide
+EX_xylan8[e] 		 Xylan 8
+EX_2hxmp[e] 		 2  Hydroxymethyl phenol C7H8O2
+EX_4hpro_LT[e] 		 Trans 4 Hydroxy L proline C5H9NO3
+EX_Larab[e] 		 Alpha L Arabinan C15H24O12
+EX_R_3hdd5ea[e] 		  3 Hydroxydodecanoic 5 en acid
+EX_R_3hpba[e] 		  3 Hydroxyphenylbutanoic acid
+EX_abg4[e] 		 4-aminobenzoate-glutamate
+EX_actn__R[e] 		  R  Acetoin C4H8O2
+EX_ala_L_asp__L[e] 		 Ala L asp L C7H11N2O5
+EX_ala_L_glu__L[e] 		 Ala L glu L C8H13N2O5
+EX_alahis[e] 		 L alaninylhistidine
+EX_alaleu[e] 		 L alaninylleucine
+EX_alathr[e] 		 L alaninylthreonine
+EX_alatrp[e] 		 L alaninyltryptophan
+EX_creat[e] 		 Creatine cytosol
+EX_fe3pyovd_kt[e] 		 Ferrypyoverdine  P putida KT2440 specific
+EX_galman4[e] 		 Galactomannan(n=4 repeat units mannose, alpha-1,4 man)
+EX_galman6[e] 		 Galactomannan(n=6 repeat units mannose, alpha-1,4 man)
+EX_glcman4[e] 		 Glucomannan (n=4 repeat units, glc beta-1,4 man)
+EX_glcman6[e] 		 Glucomannan (n=6 repeat units, glc beta-1,4 man)
+EX_glucan4[e] 		 Beta-1,3/1,4-glucan (Barley, n=4, Glc beta1->3,4 Glc)
+EX_glucan6[e] 		 Beta-1,3/1,4-glucan (Barley, n=6, Glc beta1->3,4 Glc)
+EX_gly_asn__L[e] 		 Gly asn L C6H11N3O4
+EX_gly_asp__L[e] 		 Gly asp L C6H9N2O5
+EX_gly_glu__L[e] 		 Gly glu L C7H11N2O5
+EX_gly_pro__L[e] 		 Gly pro L C7H12N2O3
+EX_glygln[e] 		 L glycinylglutamine
+EX_glyglu[e] 		 L glycinylglutamate
+EX_glymet[e] 		 L Glycinylmethionine
+EX_glyphe[e] 		 Glycylphenylalanine
+EX_glyser[e] 		 L glycinylserine
+EX_hisgly[e] 		 L histidinylglycine
+EX_hishis[e] 		 L histidinylhistidine
+EX_istfrnA[e] 		 Iron bound extracellular staphyloferrin A
+EX_istfrnB[e] 		 Iron bound extracellular staphyloferrin B
+EX_leuleu[e] 		 Leucylleucine
+EX_manb[e] 		 Mannobiose (beta-1,4)
+EX_mantr[e] 		 Mannotriose (beta-1,4)
+EX_manttr[e] 		 Mannotetraose
+EX_met_L_ala__L[e] 		 Met L ala L C8H16N2O3S
+EX_prohisglu[e] 		 Proline-histidine-glutamine tripeptide
+EX_ptsla[e] 		 Petroselaidic acid
+EX_pyovd_kt[e] 		 Pyoverdine  P putida specific
+EX_salchs4[e] 		 Salmochelin-S4
+EX_salchs4fe[e] 		 Salmochelin-S4-Fe-III
+EX_serglugly[e] 		 Serine-glutamine-glycine tripeptide
+EX_xylan8[e] 		 Xylan 8
+EX_2hxmp[e] 		 2  Hydroxymethyl phenol C7H8O2
+EX_4hpro_LT[e] 		 Trans 4 Hydroxy L proline C5H9NO3
+EX_Larab[e] 		 Alpha L Arabinan C15H24O12
+EX_R_3hdd5ea[e] 		  3 Hydroxydodecanoic 5 en acid
+EX_R_3hpba[e] 		  3 Hydroxyphenylbutanoic acid
+EX_abg4[e] 		 4-aminobenzoate-glutamate
+EX_actn__R[e] 		  R  Acetoin C4H8O2
+EX_ala_L_asp__L[e] 		 Ala L asp L C7H11N2O5
+EX_ala_L_glu__L[e] 		 Ala L glu L C8H13N2O5
+EX_alahis[e] 		 L alaninylhistidine
+EX_alaleu[e] 		 L alaninylleucine
+EX_alathr[e] 		 L alaninylthreonine
+EX_alatrp[e] 		 L alaninyltryptophan
+EX_creat[e] 		 Creatine cytosol
+EX_fe3pyovd_kt[e] 		 Ferrypyoverdine  P putida KT2440 specific
+EX_galman4[e] 		 Galactomannan(n=4 repeat units mannose, alpha-1,4 man)
+EX_galman6[e] 		 Galactomannan(n=6 repeat units mannose, alpha-1,4 man)
+EX_glcman4[e] 		 Glucomannan (n=4 repeat units, glc beta-1,4 man)
+EX_glcman6[e] 		 Glucomannan (n=6 repeat units, glc beta-1,4 man)
+EX_glucan4[e] 		 Beta-1,3/1,4-glucan (Barley, n=4, Glc beta1->3,4 Glc)
+EX_glucan6[e] 		 Beta-1,3/1,4-glucan (Barley, n=6, Glc beta1->3,4 Glc)
+EX_gly_asn__L[e] 		 Gly asn L C6H11N3O4
+EX_gly_asp__L[e] 		 Gly asp L C6H9N2O5
+EX_gly_glu__L[e] 		 Gly glu L C7H11N2O5
+EX_gly_pro__L[e] 		 Gly pro L C7H12N2O3
+EX_glygln[e] 		 L glycinylglutamine
+EX_glyglu[e] 		 L glycinylglutamate
+EX_glymet[e] 		 L Glycinylmethionine
+EX_glyphe[e] 		 Glycylphenylalanine
+EX_glyser[e] 		 L glycinylserine
+EX_hisgly[e] 		 L histidinylglycine
+EX_hishis[e] 		 L histidinylhistidine
+EX_istfrnA[e] 		 Iron bound extracellular staphyloferrin A
+EX_istfrnB[e] 		 Iron bound extracellular staphyloferrin B
+EX_leuleu[e] 		 Leucylleucine
+EX_manb[e] 		 Mannobiose (beta-1,4)
+EX_mantr[e] 		 Mannotriose (beta-1,4)
+EX_manttr[e] 		 Mannotetraose
+EX_met_L_ala__L[e] 		 Met L ala L C8H16N2O3S
+EX_prohisglu[e] 		 Proline-histidine-glutamine tripeptide
+EX_ptsla[e] 		 Petroselaidic acid
+EX_pyovd_kt[e] 		 Pyoverdine  P putida specific
+EX_salchs4[e] 		 Salmochelin-S4
+EX_salchs4fe[e] 		 Salmochelin-S4-Fe-III
+EX_serglugly[e] 		 Serine-glutamine-glycine tripeptide
+EX_xylan8[e] 		 Xylan 8
+EX_2hxmp[e] 		 2  Hydroxymethyl phenol C7H8O2
+EX_4hpro_LT[e] 		 Trans 4 Hydroxy L proline C5H9NO3
+EX_Larab[e] 		 Alpha L Arabinan C15H24O12
+EX_R_3hdd5ea[e] 		  3 Hydroxydodecanoic 5 en acid
+EX_R_3hpba[e] 		  3 Hydroxyphenylbutanoic acid
+EX_abg4[e] 		 4-aminobenzoate-glutamate
+EX_actn__R[e] 		  R  Acetoin C4H8O2
+EX_ala_L_asp__L[e] 		 Ala L asp L C7H11N2O5
+EX_ala_L_glu__L[e] 		 Ala L glu L C8H13N2O5
+EX_alahis[e] 		 L alaninylhistidine
+EX_alaleu[e] 		 L alaninylleucine
+EX_alathr[e] 		 L alaninylthreonine
+EX_alatrp[e] 		 L alaninyltryptophan
+EX_creat[e] 		 Creatine cytosol
+EX_fe3pyovd_kt[e] 		 Ferrypyoverdine  P putida KT2440 specific
+EX_galman4[e] 		 Galactomannan(n=4 repeat units mannose, alpha-1,4 man)
+EX_galman6[e] 		 Galactomannan(n=6 repeat units mannose, alpha-1,4 man)
+EX_glcman4[e] 		 Glucomannan (n=4 repeat units, glc beta-1,4 man)
+EX_glcman6[e] 		 Glucomannan (n=6 repeat units, glc beta-1,4 man)
+EX_glucan4[e] 		 Beta-1,3/1,4-glucan (Barley, n=4, Glc beta1->3,4 Glc)
+EX_glucan6[e] 		 Beta-1,3/1,4-glucan (Barley, n=6, Glc beta1->3,4 Glc)
+EX_gly_asn__L[e] 		 Gly asn L C6H11N3O4
+EX_gly_asp__L[e] 		 Gly asp L C6H9N2O5
+EX_gly_glu__L[e] 		 Gly glu L C7H11N2O5
+EX_gly_pro__L[e] 		 Gly pro L C7H12N2O3
+EX_glygln[e] 		 L glycinylglutamine
+EX_glyglu[e] 		 L glycinylglutamate
+EX_glymet[e] 		 L Glycinylmethionine
+EX_glyphe[e] 		 Glycylphenylalanine
+EX_glyser[e] 		 L glycinylserine
+EX_hisgly[e] 		 L histidinylglycine
+EX_hishis[e] 		 L histidinylhistidine
+EX_istfrnA[e] 		 Iron bound extracellular staphyloferrin A
+EX_istfrnB[e] 		 Iron bound extracellular staphyloferrin B
+EX_leuleu[e] 		 Leucylleucine
+EX_manb[e] 		 Mannobiose (beta-1,4)
+EX_mantr[e] 		 Mannotriose (beta-1,4)
+EX_manttr[e] 		 Mannotetraose
+EX_met_L_ala__L[e] 		 Met L ala L C8H16N2O3S
+EX_prohisglu[e] 		 Proline-histidine-glutamine tripeptide
+EX_ptsla[e] 		 Petroselaidic acid
+EX_pyovd_kt[e] 		 Pyoverdine  P putida specific
+EX_salchs4[e] 		 Salmochelin-S4
+EX_salchs4fe[e] 		 Salmochelin-S4-Fe-III
+EX_serglugly[e] 		 Serine-glutamine-glycine tripeptide
+EX_xylan8[e] 		 Xylan 8
+EX_2hxmp[e] 		 2  Hydroxymethyl phenol C7H8O2
+EX_4hpro_LT[e] 		 Trans 4 Hydroxy L proline C5H9NO3
+EX_Larab[e] 		 Alpha L Arabinan C15H24O12
+EX_R_3hdd5ea[e] 		  3 Hydroxydodecanoic 5 en acid
+EX_R_3hpba[e] 		  3 Hydroxyphenylbutanoic acid
+EX_abg4[e] 		 4-aminobenzoate-glutamate
+EX_actn__R[e] 		  R  Acetoin C4H8O2
+EX_ala_L_asp__L[e] 		 Ala L asp L C7H11N2O5
+EX_ala_L_glu__L[e] 		 Ala L glu L C8H13N2O5
+EX_alahis[e] 		 L alaninylhistidine
+EX_alaleu[e] 		 L alaninylleucine
+EX_alathr[e] 		 L alaninylthreonine
+EX_alatrp[e] 		 L alaninyltryptophan
+EX_creat[e] 		 Creatine cytosol
+EX_fe3pyovd_kt[e] 		 Ferrypyoverdine  P putida KT2440 specific
+EX_galman4[e] 		 Galactomannan(n=4 repeat units mannose, alpha-1,4 man)
+EX_galman6[e] 		 Galactomannan(n=6 repeat units mannose, alpha-1,4 man)
+EX_glcman4[e] 		 Glucomannan (n=4 repeat units, glc beta-1,4 man)
+EX_glcman6[e] 		 Glucomannan (n=6 repeat units, glc beta-1,4 man)
+EX_glucan4[e] 		 Beta-1,3/1,4-glucan (Barley, n=4, Glc beta1->3,4 Glc)
+EX_glucan6[e] 		 Beta-1,3/1,4-glucan (Barley, n=6, Glc beta1->3,4 Glc)
+EX_gly_asn__L[e] 		 Gly asn L C6H11N3O4
+EX_gly_asp__L[e] 		 Gly asp L C6H9N2O5
+EX_gly_glu__L[e] 		 Gly glu L C7H11N2O5
+EX_gly_pro__L[e] 		 Gly pro L C7H12N2O3
+EX_glygln[e] 		 L glycinylglutamine
+EX_glyglu[e] 		 L glycinylglutamate
+EX_glymet[e] 		 L Glycinylmethionine
+EX_glyphe[e] 		 Glycylphenylalanine
+EX_glyser[e] 		 L glycinylserine
+EX_hisgly[e] 		 L histidinylglycine
+EX_hishis[e] 		 L histidinylhistidine
+EX_istfrnA[e] 		 Iron bound extracellular staphyloferrin A
+EX_istfrnB[e] 		 Iron bound extracellular staphyloferrin B
+EX_leuleu[e] 		 Leucylleucine
+EX_manb[e] 		 Mannobiose (beta-1,4)
+EX_mantr[e] 		 Mannotriose (beta-1,4)
+EX_manttr[e] 		 Mannotetraose
+EX_met_L_ala__L[e] 		 Met L ala L C8H16N2O3S
+EX_prohisglu[e] 		 Proline-histidine-glutamine tripeptide
+EX_ptsla[e] 		 Petroselaidic acid
+EX_pyovd_kt[e] 		 Pyoverdine  P putida specific
+EX_salchs4[e] 		 Salmochelin-S4
+EX_salchs4fe[e] 		 Salmochelin-S4-Fe-III
+EX_serglugly[e] 		 Serine-glutamine-glycine tripeptide
+EX_xylan8[e] 		 Xylan 8
+EX_2hxmp[e] 		 2  Hydroxymethyl phenol C7H8O2
+EX_4hpro_LT[e] 		 Trans 4 Hydroxy L proline C5H9NO3
+EX_Larab[e] 		 Alpha L Arabinan C15H24O12
+EX_R_3hdd5ea[e] 		  3 Hydroxydodecanoic 5 en acid
+EX_R_3hpba[e] 		  3 Hydroxyphenylbutanoic acid
+EX_abg4[e] 		 4-aminobenzoate-glutamate
+EX_actn__R[e] 		  R  Acetoin C4H8O2
+EX_ala_L_asp__L[e] 		 Ala L asp L C7H11N2O5
+EX_ala_L_glu__L[e] 		 Ala L glu L C8H13N2O5
+EX_alahis[e] 		 L alaninylhistidine
+EX_alaleu[e] 		 L alaninylleucine
+EX_alathr[e] 		 L alaninylthreonine
+EX_alatrp[e] 		 L alaninyltryptophan
+EX_creat[e] 		 Creatine cytosol
+EX_fe3pyovd_kt[e] 		 Ferrypyoverdine  P putida KT2440 specific
+EX_galman4[e] 		 Galactomannan(n=4 repeat units mannose, alpha-1,4 man)
+EX_galman6[e] 		 Galactomannan(n=6 repeat units mannose, alpha-1,4 man)
+EX_glcman4[e] 		 Glucomannan (n=4 repeat units, glc beta-1,4 man)
+EX_glcman6[e] 		 Glucomannan (n=6 repeat units, glc beta-1,4 man)
+EX_glucan4[e] 		 Beta-1,3/1,4-glucan (Barley, n=4, Glc beta1->3,4 Glc)
+EX_glucan6[e] 		 Beta-1,3/1,4-glucan (Barley, n=6, Glc beta1->3,4 Glc)
+EX_gly_asn__L[e] 		 Gly asn L C6H11N3O4
+EX_gly_asp__L[e] 		 Gly asp L C6H9N2O5
+EX_gly_glu__L[e] 		 Gly glu L C7H11N2O5
+EX_gly_pro__L[e] 		 Gly pro L C7H12N2O3
+EX_glygln[e] 		 L glycinylglutamine
+EX_glyglu[e] 		 L glycinylglutamate
+EX_glymet[e] 		 L Glycinylmethionine
+EX_glyphe[e] 		 Glycylphenylalanine
+EX_glyser[e] 		 L glycinylserine
+EX_hisgly[e] 		 L histidinylglycine
+EX_hishis[e] 		 L histidinylhistidine
+EX_istfrnA[e] 		 Iron bound extracellular staphyloferrin A
+EX_istfrnB[e] 		 Iron bound extracellular staphyloferrin B
+EX_leuleu[e] 		 Leucylleucine
+EX_manb[e] 		 Mannobiose (beta-1,4)
+EX_mantr[e] 		 Mannotriose (beta-1,4)
+EX_manttr[e] 		 Mannotetraose
+EX_met_L_ala__L[e] 		 Met L ala L C8H16N2O3S
+EX_prohisglu[e] 		 Proline-histidine-glutamine tripeptide
+EX_ptsla[e] 		 Petroselaidic acid
+EX_pyovd_kt[e] 		 Pyoverdine  P putida specific
+EX_salchs4[e] 		 Salmochelin-S4
+EX_salchs4fe[e] 		 Salmochelin-S4-Fe-III
+EX_serglugly[e] 		 Serine-glutamine-glycine tripeptide
+EX_xylan8[e] 		 Xylan 8
+EX_2hxmp[e] 		 2  Hydroxymethyl phenol C7H8O2
+EX_4hpro_LT[e] 		 Trans 4 Hydroxy L proline C5H9NO3
+EX_Larab[e] 		 Alpha L Arabinan C15H24O12
+EX_R_3hdd5ea[e] 		  3 Hydroxydodecanoic 5 en acid
+EX_R_3hpba[e] 		  3 Hydroxyphenylbutanoic acid
+EX_abg4[e] 		 4-aminobenzoate-glutamate
+EX_actn__R[e] 		  R  Acetoin C4H8O2
+EX_ala_L_asp__L[e] 		 Ala L asp L C7H11N2O5
+EX_ala_L_glu__L[e] 		 Ala L glu L C8H13N2O5
+EX_alahis[e] 		 L alaninylhistidine
+EX_alaleu[e] 		 L alaninylleucine
+EX_alathr[e] 		 L alaninylthreonine
+EX_alatrp[e] 		 L alaninyltryptophan
+EX_creat[e] 		 Creatine cytosol
+EX_fe3pyovd_kt[e] 		 Ferrypyoverdine  P putida KT2440 specific
+EX_galman4[e] 		 Galactomannan(n=4 repeat units mannose, alpha-1,4 man)
+EX_galman6[e] 		 Galactomannan(n=6 repeat units mannose, alpha-1,4 man)
+EX_glcman4[e] 		 Glucomannan (n=4 repeat units, glc beta-1,4 man)
+EX_glcman6[e] 		 Glucomannan (n=6 repeat units, glc beta-1,4 man)
+EX_glucan4[e] 		 Beta-1,3/1,4-glucan (Barley, n=4, Glc beta1->3,4 Glc)
+EX_glucan6[e] 		 Beta-1,3/1,4-glucan (Barley, n=6, Glc beta1->3,4 Glc)
+EX_gly_asn__L[e] 		 Gly asn L C6H11N3O4
+EX_gly_asp__L[e] 		 Gly asp L C6H9N2O5
+EX_gly_glu__L[e] 		 Gly glu L C7H11N2O5
+EX_gly_pro__L[e] 		 Gly pro L C7H12N2O3
+EX_glygln[e] 		 L glycinylglutamine
+EX_glyglu[e] 		 L glycinylglutamate
+EX_glymet[e] 		 L Glycinylmethionine
+EX_glyphe[e] 		 Glycylphenylalanine
+EX_glyser[e] 		 L glycinylserine
+EX_hisgly[e] 		 L histidinylglycine
+EX_hishis[e] 		 L histidinylhistidine
+EX_istfrnA[e] 		 Iron bound extracellular staphyloferrin A
+EX_istfrnB[e] 		 Iron bound extracellular staphyloferrin B
+EX_leuleu[e] 		 Leucylleucine
+EX_manb[e] 		 Mannobiose (beta-1,4)
+EX_mantr[e] 		 Mannotriose (beta-1,4)
+EX_manttr[e] 		 Mannotetraose
+EX_met_L_ala__L[e] 		 Met L ala L C8H16N2O3S
+EX_prohisglu[e] 		 Proline-histidine-glutamine tripeptide
+EX_ptsla[e] 		 Petroselaidic acid
+EX_pyovd_kt[e] 		 Pyoverdine  P putida specific
+EX_salchs4[e] 		 Salmochelin-S4
+EX_salchs4fe[e] 		 Salmochelin-S4-Fe-III
+EX_serglugly[e] 		 Serine-glutamine-glycine tripeptide
+EX_xylan8[e] 		 Xylan 8
+EX_2hxmp[e] 		 2  Hydroxymethyl phenol C7H8O2
+EX_4hpro_LT[e] 		 Trans 4 Hydroxy L proline C5H9NO3
+EX_Larab[e] 		 Alpha L Arabinan C15H24O12
+EX_R_3hdd5ea[e] 		  3 Hydroxydodecanoic 5 en acid
+EX_R_3hpba[e] 		  3 Hydroxyphenylbutanoic acid
+EX_abg4[e] 		 4-aminobenzoate-glutamate
+EX_actn__R[e] 		  R  Acetoin C4H8O2
+EX_ala_L_asp__L[e] 		 Ala L asp L C7H11N2O5
+EX_ala_L_glu__L[e] 		 Ala L glu L C8H13N2O5
+EX_alahis[e] 		 L alaninylhistidine
+EX_alaleu[e] 		 L alaninylleucine
+EX_alathr[e] 		 L alaninylthreonine
+EX_alatrp[e] 		 L alaninyltryptophan
+EX_creat[e] 		 Creatine cytosol
+EX_fe3pyovd_kt[e] 		 Ferrypyoverdine  P putida KT2440 specific
+EX_galman4[e] 		 Galactomannan(n=4 repeat units mannose, alpha-1,4 man)
+ID		Name
+EX_galman6[e] 		 Galactomannan(n=6 repeat units mannose, alpha-1,4 man)
+EX_glcman4[e] 		 Glucomannan (n=4 repeat units, glc beta-1,4 man)
+EX_glcman6[e] 		 Glucomannan (n=6 repeat units, glc beta-1,4 man)
+EX_glucan4[e] 		 Beta-1,3/1,4-glucan (Barley, n=4, Glc beta1->3,4 Glc)
+EX_glucan6[e] 		 Beta-1,3/1,4-glucan (Barley, n=6, Glc beta1->3,4 Glc)
+EX_gly_asn__L[e] 		 Gly asn L C6H11N3O4
+EX_gly_asp__L[e] 		 Gly asp L C6H9N2O5
+EX_gly_glu__L[e] 		 Gly glu L C7H11N2O5
+EX_gly_pro__L[e] 		 Gly pro L C7H12N2O3
+EX_glygln[e] 		 L glycinylglutamine
+EX_glyglu[e] 		 L glycinylglutamate
+EX_glymet[e] 		 L Glycinylmethionine
+EX_glyphe[e] 		 Glycylphenylalanine
+EX_glyser[e] 		 L glycinylserine
+EX_hisgly[e] 		 L histidinylglycine
+EX_hishis[e] 		 L histidinylhistidine
+EX_istfrnA[e] 		 Iron bound extracellular staphyloferrin A
+EX_istfrnB[e] 		 Iron bound extracellular staphyloferrin B
+EX_leuleu[e] 		 Leucylleucine
+EX_manb[e] 		 Mannobiose (beta-1,4)
+EX_mantr[e] 		 Mannotriose (beta-1,4)
+EX_manttr[e] 		 Mannotetraose
+EX_met_L_ala__L[e] 		 Met L ala L C8H16N2O3S
+EX_prohisglu[e] 		 Proline-histidine-glutamine tripeptide
+EX_ptsla[e] 		 Petroselaidic acid
+EX_pyovd_kt[e] 		 Pyoverdine  P putida specific
+EX_salchs4[e] 		 Salmochelin-S4
+EX_salchs4fe[e] 		 Salmochelin-S4-Fe-III
+EX_serglugly[e] 		 Serine-glutamine-glycine tripeptide
+EX_xylan8[e] 		 Xylan 8

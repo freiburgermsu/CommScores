@@ -327,6 +327,14 @@ class GEMCompatibility:
 
     @staticmethod
     def _correct_met(model, met, reactions, standardize, printing):
+        # Check cross-references and annotations
+        if hasattr(met, "annotation"):
+            if any(["seed" in annotation for annotation in met.annotation.keys()]):
+                # change the metID to the captured MSID
+                pass
+
+
+
         # identify a matching metabolite name in the ModelSEED Database
         base_name = ''.join(met.name.split('-')[1:]).capitalize()
         # if hasattr(met, "compartment"):
@@ -366,6 +374,9 @@ class GEMCompatibility:
         new_met_id = original_id = met.id
         original_name = met.name 
         ## affirm the match with cross-references, where it is possible for ModelSEED compounds
+
+        # TODO check if the compounds have annotated mappings to cpdIDs and replace where extant
+
         if 'cpd' in met.id:  # TODO correct an anomaly where a valid MSID is repeated with itself
             logger.warning(f"IDWarning: The original ID {met.id} is a ModelSEED ID, and "
                            f"may not be desirably changed to {new_met_id}.")
