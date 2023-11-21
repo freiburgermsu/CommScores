@@ -21,6 +21,8 @@ with open(os.path.join(os.path.dirname(__file__), "..", "data", "compound_Xrefs.
     compounds_cross_references = json.load(cpdXRefs)
 with open(os.path.join(os.path.dirname(__file__), "..", "data", "compoundNames.json"), 'r') as cpdNames:
     compoundNames = json.load(cpdNames)
+with open(os.path.join(os.path.dirname(__file__), "..", "data", "MSDB_xRefs.json"), 'r') as dbXrefs:
+    databaseXrefs = json.load(dbXrefs)
 
 # define generic helper functions
 def _remove_prefix(string, prefix):
@@ -327,11 +329,19 @@ class GEMCompatibility:
 
     @staticmethod
     def _correct_met(model, met, reactions, standardize, printing):
-        # Check cross-references and annotations
+        # Check annotations and cross-references
         if hasattr(met, "annotation"):
-            if any(["seed" in annotation for annotation in met.annotation.keys()]):
-                # change the metID to the captured MSID
-                pass
+            for db, ID in met.annotation.keys():
+                db = db.lower()
+                if "seed" in db:
+                    met.id = ID
+                    pass  # TODO change all instances of the ID like the other changes.   This may be best accomplished through helper functions.
+                else:
+                    ID = ID.split(":")[1] if ":" in ID else ID
+                    if db in databaseXrefs and ID in databaseXrefs[db]:
+                        met.id = databaseXrefs[db][ID]
+                        pass  # TODO change all instances of the ID like the other changes.   This may be best accomplished through helper functions.
+
 
 
 
