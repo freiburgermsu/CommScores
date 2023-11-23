@@ -1,0 +1,2438 @@
+[
+   {
+      "original": {
+         "id": "2hxmp[e]",
+         "name": "2  Hydroxymethyl phenol C7H8O2"
+      },
+      "new": {
+         "id": "cpd01553_e0",
+         "name": "2  Hydroxymethyl phenol C7H8O2_e0"
+      },
+      "match": "inchikey annotation: CQRYARSYNCAZFO-UHFFFAOYSA-N",
+      "justification": "The 2hxmp[e] and cpd01553_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01553_e0 ID and 2  Hydroxymethyl phenol C7H8O2_e0 are used. The 2hxmp[e] ID is not a ModelSEED Database ID. The 2hxmp[e] and cpd01553_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "3amp[e]",
+         "name": "3  AMP C10H12N5O7P"
+      },
+      "new": {
+         "id": "cpd00988_e0",
+         "name": "3  AMP C10H12N5O7P_e0"
+      },
+      "match": "bigg annotation: 3amp",
+      "justification": "The 3amp[e] and cpd00988_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00988_e0 ID and 3  AMP C10H12N5O7P_e0 are used. The 3amp[e] ID is not a ModelSEED Database ID. The 3amp[e] and cpd00988_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "3cmp[e]",
+         "name": "3  CMP C9H12N3O8P"
+      },
+      "new": {
+         "id": "cpd03454_e0",
+         "name": "3  CMP C9H12N3O8P_e0"
+      },
+      "match": "bigg annotation: 3cmp",
+      "justification": "The 3cmp[e] and cpd03454_e0 distinction in M_Leaf8 is incompatible; hence, the cpd03454_e0 ID and 3  CMP C9H12N3O8P_e0 are used. The 3cmp[e] ID is not a ModelSEED Database ID. The 3cmp[e] and cpd03454_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "3gmp[e]",
+         "name": "Guanosine 3  phosphate C10H12N5O8P"
+      },
+      "new": {
+         "id": "cpd03701_e0",
+         "name": "Guanosine 3  phosphate C10H12N5O8P_e0"
+      },
+      "match": "bigg annotation: 3gmp",
+      "justification": "The 3gmp[e] and cpd03701_e0 distinction in M_Leaf8 is incompatible; hence, the cpd03701_e0 ID and Guanosine 3  phosphate C10H12N5O8P_e0 are used. The 3gmp[e] ID is not a ModelSEED Database ID. The 3gmp[e] and cpd03701_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "3ump[e]",
+         "name": "3  UMP C9H11N2O9P"
+      },
+      "new": {
+         "id": "cpd00989_e0",
+         "name": "3  UMP C9H11N2O9P_e0"
+      },
+      "match": "bigg annotation: 3ump",
+      "justification": "The 3ump[e] and cpd00989_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00989_e0 ID and 3  UMP C9H11N2O9P_e0 are used. The 3ump[e] ID is not a ModelSEED Database ID. The 3ump[e] and cpd00989_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "4abut[e]",
+         "name": "4-Aminobutanoate"
+      },
+      "new": {
+         "id": "cpd00281_e0",
+         "name": "4-Aminobutanoate_e0"
+      },
+      "match": "bigg annotation: 4abut",
+      "justification": "The 4abut[e] and cpd00281_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00281_e0 ID and 4-Aminobutanoate_e0 are used. The 4abut[e] ID is not a ModelSEED Database ID. The 4abut[e] and cpd00281_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "4hpro_LT[e]",
+         "name": "Trans 4 Hydroxy L proline C5H9NO3"
+      },
+      "new": {
+         "id": "cpd00851_e0",
+         "name": "Trans 4 Hydroxy L proline C5H9NO3_e0"
+      },
+      "match": "bigg annotation: 4hpro_LT",
+      "justification": "The 4hpro_LT[e] and cpd00851_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00851_e0 ID and Trans 4 Hydroxy L proline C5H9NO3_e0 are used. The 4hpro_LT[e] ID is not a ModelSEED Database ID. The 4hpro_LT[e] and cpd00851_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "5aptn[e]",
+         "name": "5-Aminopentanoate"
+      },
+      "new": {
+         "id": "cpd17076_e0",
+         "name": "5-Aminopentanoate_e0"
+      },
+      "match": "bigg annotation: 5aptn",
+      "justification": "The 5aptn[e] and cpd17076_e0 distinction in M_Leaf8 is incompatible; hence, the cpd17076_e0 ID and 5-Aminopentanoate_e0 are used. The 5aptn[e] ID is not a ModelSEED Database ID. The 5aptn[e] and cpd17076_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "5drib[e]",
+         "name": "5'-deoxyribose"
+      },
+      "new": {
+         "id": "cpd17002_e0",
+         "name": "5'-deoxyribose_e0"
+      },
+      "match": "bigg annotation: 5drib",
+      "justification": "The 5drib[e] and cpd17002_e0 distinction in M_Leaf8 is incompatible; hence, the cpd17002_e0 ID and 5'-deoxyribose_e0 are used. The 5drib[e] ID is not a ModelSEED Database ID. The 5drib[e] and cpd17002_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "LalaDgluMdapDala[e]",
+         "name": "L-alanine-D-glutamate-meso-2,6-diaminoheptanedioate-D-alanine"
+      },
+      "new": {
+         "id": "cpd15387_e0",
+         "name": "L-alanine-D-glutamate-meso-2,6-diaminoheptanedioate-D-alanine_e0"
+      },
+      "match": "bigg annotation: LalaDgluMdapDala",
+      "justification": "The LalaDgluMdapDala[e] and cpd15387_e0 distinction in M_Leaf8 is incompatible; hence, the cpd15387_e0 ID and L-alanine-D-glutamate-meso-2,6-diaminoheptanedioate-D-alanine_e0 are used. The LalaDgluMdapDala[e] ID is not a ModelSEED Database ID. The LalaDgluMdapDala[e] and cpd15387_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "LalaLglu[e]",
+         "name": "L-alanine-L-glutamate"
+      },
+      "new": {
+         "id": "cpd15388_e0",
+         "name": "L-alanine-L-glutamate_e0"
+      },
+      "match": "bigg annotation: LalaLglu",
+      "justification": "The LalaLglu[e] and cpd15388_e0 distinction in M_Leaf8 is incompatible; hence, the cpd15388_e0 ID and L-alanine-L-glutamate_e0 are used. The LalaLglu[e] ID is not a ModelSEED Database ID. The LalaLglu[e] and cpd15388_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "Larab[e]",
+         "name": "Alpha L Arabinan C15H24O12"
+      },
+      "new": {
+         "id": "cpd12115_e0",
+         "name": "Alpha L Arabinan C15H24O12_e0"
+      },
+      "match": "bigg annotation: Larab",
+      "justification": "The Larab[e] and cpd12115_e0 distinction in M_Leaf8 is incompatible; hence, the cpd12115_e0 ID and Alpha L Arabinan C15H24O12_e0 are used. The Larab[e] ID is not a ModelSEED Database ID. The Larab[e] and cpd12115_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "abt__L[e]",
+         "name": "L Arabinitol C5H12O5"
+      },
+      "new": {
+         "id": "cpd00417_e0",
+         "name": "L Arabinitol C5H12O5_e0"
+      },
+      "match": "bigg annotation: abt__L",
+      "justification": "The abt__L[e] and cpd00417_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00417_e0 ID and L Arabinitol C5H12O5_e0 are used. The abt__L[e] ID is not a ModelSEED Database ID. The abt__L[e] and cpd00417_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "acald[e]",
+         "name": "Acetaldehyde"
+      },
+      "new": {
+         "id": "cpd00071_e0",
+         "name": "Acetaldehyde_e0"
+      },
+      "match": "bigg annotation: acald",
+      "justification": "The acald[e] and cpd00071_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00071_e0 ID and Acetaldehyde_e0 are used. The acald[e] ID is not a ModelSEED Database ID. The acald[e] and cpd00071_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "acgam[e]",
+         "name": "N-Acetyl-D-glucosamine"
+      },
+      "new": {
+         "id": "cpd27608_e0",
+         "name": "N-Acetyl-D-glucosamine_e0"
+      },
+      "match": "bigg annotation: acgam",
+      "justification": "The acgam[e] and cpd27608_e0 distinction in M_Leaf8 is incompatible; hence, the cpd27608_e0 ID and N-Acetyl-D-glucosamine_e0 are used. The acgam[e] ID is not a ModelSEED Database ID. The acgam[e] and cpd27608_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "acmana[e]",
+         "name": "N-Acetyl-D-mannosamine"
+      },
+      "new": {
+         "id": "cpd27563_e0",
+         "name": "N-Acetyl-D-mannosamine_e0"
+      },
+      "match": "bigg annotation: acmana",
+      "justification": "The acmana[e] and cpd27563_e0 distinction in M_Leaf8 is incompatible; hence, the cpd27563_e0 ID and N-Acetyl-D-mannosamine_e0 are used. The acmana[e] ID is not a ModelSEED Database ID. The acmana[e] and cpd27563_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "acser[e]",
+         "name": "O-Acetyl-L-serine"
+      },
+      "new": {
+         "id": "cpd00722_e0",
+         "name": "O-Acetyl-L-serine_e0"
+      },
+      "match": "bigg annotation: acser",
+      "justification": "The acser[e] and cpd00722_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00722_e0 ID and O-Acetyl-L-serine_e0 are used. The acser[e] ID is not a ModelSEED Database ID. The acser[e] and cpd00722_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "actn__R[e]",
+         "name": " R  Acetoin C4H8O2"
+      },
+      "new": {
+         "id": "cpd19008_e0",
+         "name": " R  Acetoin C4H8O2_e0"
+      },
+      "match": "bigg annotation: actn__R",
+      "justification": "The actn__R[e] and cpd19008_e0 distinction in M_Leaf8 is incompatible; hence, the cpd19008_e0 ID and  R  Acetoin C4H8O2_e0 are used. The actn__R[e] ID is not a ModelSEED Database ID. The actn__R[e] and cpd19008_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "acysbmn[e]",
+         "name": "Acetyl-cystine-bimane"
+      },
+      "new": {
+         "id": "cpd15926_e0",
+         "name": "Acetyl-cystine-bimane_e0"
+      },
+      "match": "bigg annotation: acysbmn",
+      "justification": "The acysbmn[e] and cpd15926_e0 distinction in M_Leaf8 is incompatible; hence, the cpd15926_e0 ID and Acetyl-cystine-bimane_e0 are used. The acysbmn[e] ID is not a ModelSEED Database ID. The acysbmn[e] and cpd15926_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "ade[e]",
+         "name": "Adenine"
+      },
+      "new": {
+         "id": "cpd00128_e0",
+         "name": "Adenine_e0"
+      },
+      "match": "bigg annotation: ade",
+      "justification": "The ade[e] and cpd00128_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00128_e0 ID and Adenine_e0 are used. The ade[e] ID is not a ModelSEED Database ID. The ade[e] and cpd00128_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "ala__D[e]",
+         "name": "D-Alanine"
+      },
+      "new": {
+         "id": "cpd00117_e0",
+         "name": "D-Alanine_e0"
+      },
+      "match": "bigg annotation: ala__D",
+      "justification": "The ala__D[e] and cpd00117_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00117_e0 ID and D-Alanine_e0 are used. The ala__D[e] ID is not a ModelSEED Database ID. The ala__D[e] and cpd00117_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "ala__L[e]",
+         "name": "L-Alanine"
+      },
+      "new": {
+         "id": "cpd00035_e0",
+         "name": "L-Alanine_e0"
+      },
+      "match": "bigg annotation: ala__L",
+      "justification": "The ala__L[e] and cpd00035_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00035_e0 ID and L-Alanine_e0 are used. The ala__L[e] ID is not a ModelSEED Database ID. The ala__L[e] and cpd00035_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "alaala[e]",
+         "name": "D-Alanyl-D-alanine"
+      },
+      "new": {
+         "id": "cpd00731_e0",
+         "name": "D-Alanyl-D-alanine_e0"
+      },
+      "match": "bigg annotation: alaala",
+      "justification": "The alaala[e] and cpd00731_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00731_e0 ID and D-Alanyl-D-alanine_e0 are used. The alaala[e] ID is not a ModelSEED Database ID. The alaala[e] and cpd00731_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "amp[e]",
+         "name": "AMP C10H12N5O7P"
+      },
+      "new": {
+         "id": "cpd00018_e0",
+         "name": "AMP C10H12N5O7P_e0"
+      },
+      "match": "bigg annotation: amp",
+      "justification": "The amp[e] and cpd00018_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00018_e0 ID and AMP C10H12N5O7P_e0 are used. The amp[e] ID is not a ModelSEED Database ID. The amp[e] and cpd00018_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "anhgm[e]",
+         "name": "N-Acetyl-D-glucosamine(anhydrous)N-Acetylmuramic acid"
+      },
+      "new": {
+         "id": "cpd15396_e0",
+         "name": "N-Acetyl-D-glucosamine(anhydrous)N-Acetylmuramic acid_e0"
+      },
+      "match": "bigg annotation: anhgm",
+      "justification": "The anhgm[e] and cpd15396_e0 distinction in M_Leaf8 is incompatible; hence, the cpd15396_e0 ID and N-Acetyl-D-glucosamine(anhydrous)N-Acetylmuramic acid_e0 are used. The anhgm[e] ID is not a ModelSEED Database ID. The anhgm[e] and cpd15396_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "arab__L[e]",
+         "name": "L-Arabinose"
+      },
+      "new": {
+         "id": "cpd00224_e0",
+         "name": "L-Arabinose_e0"
+      },
+      "match": "bigg annotation: arab__L",
+      "justification": "The arab__L[e] and cpd00224_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00224_e0 ID and L-Arabinose_e0 are used. The arab__L[e] ID is not a ModelSEED Database ID. The arab__L[e] and cpd00224_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "arbt[e]",
+         "name": "Arbutin C12H16O7"
+      },
+      "new": {
+         "id": "cpd03696_e0",
+         "name": "Arbutin C12H16O7_e0"
+      },
+      "match": "bigg annotation: arbt",
+      "justification": "The arbt[e] and cpd03696_e0 distinction in M_Leaf8 is incompatible; hence, the cpd03696_e0 ID and Arbutin C12H16O7_e0 are used. The arbt[e] ID is not a ModelSEED Database ID. The arbt[e] and cpd03696_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "arg__L[e]",
+         "name": "L-Arginine"
+      },
+      "new": {
+         "id": "cpd00051_e0",
+         "name": "L-Arginine_e0"
+      },
+      "match": "bigg annotation: arg__L",
+      "justification": "The arg__L[e] and cpd00051_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00051_e0 ID and L-Arginine_e0 are used. The arg__L[e] ID is not a ModelSEED Database ID. The arg__L[e] and cpd00051_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "asn__L[e]",
+         "name": "L-Asparagine"
+      },
+      "new": {
+         "id": "cpd00132_e0",
+         "name": "L-Asparagine_e0"
+      },
+      "match": "bigg annotation: asn__L",
+      "justification": "The asn__L[e] and cpd00132_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00132_e0 ID and L-Asparagine_e0 are used. The asn__L[e] ID is not a ModelSEED Database ID. The asn__L[e] and cpd00132_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "asp__L[e]",
+         "name": "L-Aspartate"
+      },
+      "new": {
+         "id": "cpd00041_e0",
+         "name": "L-Aspartate_e0"
+      },
+      "match": "bigg annotation: asp__L",
+      "justification": "The asp__L[e] and cpd00041_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00041_e0 ID and L-Aspartate_e0 are used. The asp__L[e] ID is not a ModelSEED Database ID. The asp__L[e] and cpd00041_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "bmn[e]",
+         "name": "Bimane"
+      },
+      "new": {
+         "id": "cpd15933_e0",
+         "name": "Bimane_e0"
+      },
+      "match": "bigg annotation: bmn",
+      "justification": "The bmn[e] and cpd15933_e0 distinction in M_Leaf8 is incompatible; hence, the cpd15933_e0 ID and Bimane_e0 are used. The bmn[e] ID is not a ModelSEED Database ID. The bmn[e] and cpd15933_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "btn[e]",
+         "name": "Biotin"
+      },
+      "new": {
+         "id": "cpd00104_e0",
+         "name": "Biotin_e0"
+      },
+      "match": "bigg annotation: btn",
+      "justification": "The btn[e] and cpd00104_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00104_e0 ID and Biotin_e0 are used. The btn[e] ID is not a ModelSEED Database ID. The btn[e] and cpd00104_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "butso3[e]",
+         "name": "Butanesulfonate"
+      },
+      "new": {
+         "id": "cpd11596_e0",
+         "name": "Butanesulfonate_e0"
+      },
+      "match": "bigg annotation: butso3",
+      "justification": "The butso3[e] and cpd11596_e0 distinction in M_Leaf8 is incompatible; hence, the cpd11596_e0 ID and Butanesulfonate_e0 are used. The butso3[e] ID is not a ModelSEED Database ID. The butso3[e] and cpd11596_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "carn[e]",
+         "name": "L-Carnosine"
+      },
+      "new": {
+         "id": "cpd15836_e0",
+         "name": "L-Carnosine_e0"
+      },
+      "match": "bigg annotation: carn",
+      "justification": "The carn[e] and cpd15836_e0 distinction in M_Leaf8 is incompatible; hence, the cpd15836_e0 ID and L-Carnosine_e0 are used. The carn[e] ID is not a ModelSEED Database ID. The carn[e] and cpd15836_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "cellb[e]",
+         "name": "Cellobiose"
+      },
+      "new": {
+         "id": "cpd00158_e0",
+         "name": "Cellobiose_e0"
+      },
+      "match": "bigg annotation: cellb",
+      "justification": "The cellb[e] and cpd00158_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00158_e0 ID and Cellobiose_e0 are used. The cellb[e] ID is not a ModelSEED Database ID. The cellb[e] and cpd00158_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "cgly[e]",
+         "name": "Cys Gly C5H10N2O3S"
+      },
+      "new": {
+         "id": "cpd01017_e0",
+         "name": "Cys Gly C5H10N2O3S_e0"
+      },
+      "match": "bigg annotation: cgly",
+      "justification": "The cgly[e] and cpd01017_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01017_e0 ID and Cys Gly C5H10N2O3S_e0 are used. The cgly[e] ID is not a ModelSEED Database ID. The cgly[e] and cpd01017_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "chol[e]",
+         "name": "Choline C5H14NO"
+      },
+      "new": {
+         "id": "cpd00098_e0",
+         "name": "Choline C5H14NO_e0"
+      },
+      "match": "bigg annotation: chol",
+      "justification": "The chol[e] and cpd00098_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00098_e0 ID and Choline C5H14NO_e0 are used. The chol[e] ID is not a ModelSEED Database ID. The chol[e] and cpd00098_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "cit[e]",
+         "name": "Citrate"
+      },
+      "new": {
+         "id": "cpd00137_e0",
+         "name": "Citrate_e0"
+      },
+      "match": "bigg annotation: cit",
+      "justification": "The cit[e] and cpd00137_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00137_e0 ID and Citrate_e0 are used. The cit[e] ID is not a ModelSEED Database ID. The cit[e] and cpd00137_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "cmcbtt[e]",
+         "name": "Carboxymycobactin T (R=8 carbon, final carbon is carboxyl group)"
+      },
+      "new": {
+         "id": "cpd16945_e0",
+         "name": "Carboxymycobactin T (R=8 carbon, final carbon is carboxyl group)_e0"
+      },
+      "match": "bigg annotation: cmcbtt",
+      "justification": "The cmcbtt[e] and cpd16945_e0 distinction in M_Leaf8 is incompatible; hence, the cpd16945_e0 ID and Carboxymycobactin T (R=8 carbon, final carbon is carboxyl group)_e0 are used. The cmcbtt[e] ID is not a ModelSEED Database ID. The cmcbtt[e] and cpd16945_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "cmp[e]",
+         "name": "CMP C9H12N3O8P"
+      },
+      "new": {
+         "id": "cpd00046_e0",
+         "name": "CMP C9H12N3O8P_e0"
+      },
+      "match": "bigg annotation: cmp",
+      "justification": "The cmp[e] and cpd00046_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00046_e0 ID and CMP C9H12N3O8P_e0 are used. The cmp[e] ID is not a ModelSEED Database ID. The cmp[e] and cpd00046_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "crn[e]",
+         "name": "L-Carnitine"
+      },
+      "new": {
+         "id": "cpd00266_e0",
+         "name": "L-Carnitine_e0"
+      },
+      "match": "bigg annotation: crn",
+      "justification": "The crn[e] and cpd00266_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00266_e0 ID and L-Carnitine_e0 are used. The crn[e] ID is not a ModelSEED Database ID. The crn[e] and cpd00266_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "cyan[e]",
+         "name": "Hydrogen cyanide"
+      },
+      "new": {
+         "id": "cpd00150_e0",
+         "name": "Hydrogen cyanide_e0"
+      },
+      "match": "bigg annotation: cyan",
+      "justification": "The cyan[e] and cpd00150_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00150_e0 ID and Hydrogen cyanide_e0 are used. The cyan[e] ID is not a ModelSEED Database ID. The cyan[e] and cpd00150_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "cys__L[e]",
+         "name": "L-Cysteine"
+      },
+      "new": {
+         "id": "cpd00084_e0",
+         "name": "L-Cysteine_e0"
+      },
+      "match": "bigg annotation: cys__L",
+      "justification": "The cys__L[e] and cpd00084_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00084_e0 ID and L-Cysteine_e0 are used. The cys__L[e] ID is not a ModelSEED Database ID. The cys__L[e] and cpd00084_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "dad_2[e]",
+         "name": "Deoxyadenosine"
+      },
+      "new": {
+         "id": "cpd00438_e0",
+         "name": "Deoxyadenosine_e0"
+      },
+      "match": "bigg annotation: dad_2",
+      "justification": "The dad_2[e] and cpd00438_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00438_e0 ID and Deoxyadenosine_e0 are used. The dad_2[e] ID is not a ModelSEED Database ID. The dad_2[e] and cpd00438_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "damp[e]",
+         "name": "DAMP C10H12N5O6P"
+      },
+      "new": {
+         "id": "cpd00294_e0",
+         "name": "DAMP C10H12N5O6P_e0"
+      },
+      "match": "bigg annotation: damp",
+      "justification": "The damp[e] and cpd00294_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00294_e0 ID and DAMP C10H12N5O6P_e0 are used. The damp[e] ID is not a ModelSEED Database ID. The damp[e] and cpd00294_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "dca[e]",
+         "name": "Decanoate (n-C10:0)"
+      },
+      "new": {
+         "id": "cpd01107_e0",
+         "name": "Decanoate (n-C10:0)_e0"
+      },
+      "match": "bigg annotation: dca",
+      "justification": "The dca[e] and cpd01107_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01107_e0 ID and Decanoate (n-C10:0)_e0 are used. The dca[e] ID is not a ModelSEED Database ID. The dca[e] and cpd01107_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "dcmp[e]",
+         "name": "DCMP C9H12N3O7P"
+      },
+      "new": {
+         "id": "cpd00206_e0",
+         "name": "DCMP C9H12N3O7P_e0"
+      },
+      "match": "bigg annotation: dcmp",
+      "justification": "The dcmp[e] and cpd00206_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00206_e0 ID and DCMP C9H12N3O7P_e0 are used. The dcmp[e] ID is not a ModelSEED Database ID. The dcmp[e] and cpd00206_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "dcyt[e]",
+         "name": "Deoxycytidine"
+      },
+      "new": {
+         "id": "cpd00654_e0",
+         "name": "Deoxycytidine_e0"
+      },
+      "match": "bigg annotation: dcyt",
+      "justification": "The dcyt[e] and cpd00654_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00654_e0 ID and Deoxycytidine_e0 are used. The dcyt[e] ID is not a ModelSEED Database ID. The dcyt[e] and cpd00654_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "ddca[e]",
+         "name": "Dodecanoate (n-C12:0)"
+      },
+      "new": {
+         "id": "cpd01741_e0",
+         "name": "Dodecanoate (n-C12:0)_e0"
+      },
+      "match": "bigg annotation: ddca",
+      "justification": "The ddca[e] and cpd01741_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01741_e0 ID and Dodecanoate (n-C12:0)_e0 are used. The ddca[e] ID is not a ModelSEED Database ID. The ddca[e] and cpd01741_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "dextrin[e]",
+         "name": "Dextrin C12H20O10"
+      },
+      "new": {
+         "id": "cpd11594_e0",
+         "name": "Dextrin C12H20O10_e0"
+      },
+      "match": "bigg annotation: dextrin",
+      "justification": "The dextrin[e] and cpd11594_e0 distinction in M_Leaf8 is incompatible; hence, the cpd11594_e0 ID and Dextrin C12H20O10_e0 are used. The dextrin[e] ID is not a ModelSEED Database ID. The dextrin[e] and cpd11594_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "dgmp[e]",
+         "name": "DGMP C10H12N5O7P"
+      },
+      "new": {
+         "id": "cpd00296_e0",
+         "name": "DGMP C10H12N5O7P_e0"
+      },
+      "match": "bigg annotation: dgmp",
+      "justification": "The dgmp[e] and cpd00296_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00296_e0 ID and DGMP C10H12N5O7P_e0 are used. The dgmp[e] ID is not a ModelSEED Database ID. The dgmp[e] and cpd00296_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "dgsn[e]",
+         "name": "Deoxyguanosine"
+      },
+      "new": {
+         "id": "cpd00277_e0",
+         "name": "Deoxyguanosine_e0"
+      },
+      "match": "bigg annotation: dgsn",
+      "justification": "The dgsn[e] and cpd00277_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00277_e0 ID and Deoxyguanosine_e0 are used. The dgsn[e] ID is not a ModelSEED Database ID. The dgsn[e] and cpd00277_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "dhptd[e]",
+         "name": "4,5-dihydroxy-2,3-pentanedione"
+      },
+      "new": {
+         "id": "cpd08636_e0",
+         "name": "4,5-dihydroxy-2,3-pentanedione_e0"
+      },
+      "match": "bigg annotation: dhptd",
+      "justification": "The dhptd[e] and cpd08636_e0 distinction in M_Leaf8 is incompatible; hence, the cpd08636_e0 ID and 4,5-dihydroxy-2,3-pentanedione_e0 are used. The dhptd[e] ID is not a ModelSEED Database ID. The dhptd[e] and cpd08636_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "diact[e]",
+         "name": "Diacetyl C4H6O2"
+      },
+      "new": {
+         "id": "cpd00551_e0",
+         "name": "Diacetyl C4H6O2_e0"
+      },
+      "match": "bigg annotation: diact",
+      "justification": "The diact[e] and cpd00551_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00551_e0 ID and Diacetyl C4H6O2_e0 are used. The diact[e] ID is not a ModelSEED Database ID. The diact[e] and cpd00551_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "dimp[e]",
+         "name": "DIMP C10H12N4O7P"
+      },
+      "new": {
+         "id": "cpd03704_e0",
+         "name": "DIMP C10H12N4O7P_e0"
+      },
+      "match": "bigg annotation: dimp",
+      "justification": "The dimp[e] and cpd03704_e0 distinction in M_Leaf8 is incompatible; hence, the cpd03704_e0 ID and DIMP C10H12N4O7P_e0 are used. The dimp[e] ID is not a ModelSEED Database ID. The dimp[e] and cpd03704_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "din[e]",
+         "name": "Deoxyinosine"
+      },
+      "new": {
+         "id": "cpd03279_e0",
+         "name": "Deoxyinosine_e0"
+      },
+      "match": "bigg annotation: din",
+      "justification": "The din[e] and cpd03279_e0 distinction in M_Leaf8 is incompatible; hence, the cpd03279_e0 ID and Deoxyinosine_e0 are used. The din[e] ID is not a ModelSEED Database ID. The din[e] and cpd03279_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "drib[e]",
+         "name": "Deoxyribose C5H10O4"
+      },
+      "new": {
+         "id": "cpd01796_e0",
+         "name": "Deoxyribose C5H10O4_e0"
+      },
+      "match": "bigg annotation: drib",
+      "justification": "The drib[e] and cpd01796_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01796_e0 ID and Deoxyribose C5H10O4_e0 are used. The drib[e] ID is not a ModelSEED Database ID. The drib[e] and cpd01796_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "dtmp[e]",
+         "name": "DTMP C10H13N2O8P"
+      },
+      "new": {
+         "id": "cpd00298_e0",
+         "name": "DTMP C10H13N2O8P_e0"
+      },
+      "match": "bigg annotation: dtmp",
+      "justification": "The dtmp[e] and cpd00298_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00298_e0 ID and DTMP C10H13N2O8P_e0 are used. The dtmp[e] ID is not a ModelSEED Database ID. The dtmp[e] and cpd00298_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "dump[e]",
+         "name": "DUMP C9H11N2O8P"
+      },
+      "new": {
+         "id": "cpd00299_e0",
+         "name": "DUMP C9H11N2O8P_e0"
+      },
+      "match": "bigg annotation: dump",
+      "justification": "The dump[e] and cpd00299_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00299_e0 ID and DUMP C9H11N2O8P_e0 are used. The dump[e] ID is not a ModelSEED Database ID. The dump[e] and cpd00299_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "enter[e]",
+         "name": "Enterochelin"
+      },
+      "new": {
+         "id": "cpd03453_e0",
+         "name": "Enterochelin_e0"
+      },
+      "match": "bigg annotation: enter",
+      "justification": "The enter[e] and cpd03453_e0 distinction in M_Leaf8 is incompatible; hence, the cpd03453_e0 ID and Enterochelin_e0 are used. The enter[e] ID is not a ModelSEED Database ID. The enter[e] and cpd03453_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "etha[e]",
+         "name": "Ethanolamine"
+      },
+      "new": {
+         "id": "cpd00162_e0",
+         "name": "Ethanolamine_e0"
+      },
+      "match": "bigg annotation: etha",
+      "justification": "The etha[e] and cpd00162_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00162_e0 ID and Ethanolamine_e0 are used. The etha[e] ID is not a ModelSEED Database ID. The etha[e] and cpd00162_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "ethso3[e]",
+         "name": "Ethanesulfonate"
+      },
+      "new": {
+         "id": "cpd11579_e0",
+         "name": "Ethanesulfonate_e0"
+      },
+      "match": "inchikey annotation: CCIVGXIOQKPBKL-UHFFFAOYSA-M",
+      "justification": "The ethso3[e] and cpd11579_e0 distinction in M_Leaf8 is incompatible; hence, the cpd11579_e0 ID and Ethanesulfonate_e0 are used. The ethso3[e] ID is not a ModelSEED Database ID. The ethso3[e] and cpd11579_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "fald[e]",
+         "name": "Formaldehyde"
+      },
+      "new": {
+         "id": "cpd00055_e0",
+         "name": "Formaldehyde_e0"
+      },
+      "match": "bigg annotation: fald",
+      "justification": "The fald[e] and cpd00055_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00055_e0 ID and Formaldehyde_e0 are used. The fald[e] ID is not a ModelSEED Database ID. The fald[e] and cpd00055_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "feenter[e]",
+         "name": "Fe-enterobactin"
+      },
+      "new": {
+         "id": "cpd03726_e0",
+         "name": "Fe-enterobactin_e0"
+      },
+      "match": "bigg annotation: feenter",
+      "justification": "The feenter[e] and cpd03726_e0 distinction in M_Leaf8 is incompatible; hence, the cpd03726_e0 ID and Fe-enterobactin_e0 are used. The feenter[e] ID is not a ModelSEED Database ID. The feenter[e] and cpd03726_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "frmd[e]",
+         "name": "Formamide"
+      },
+      "new": {
+         "id": "cpd00378_e0",
+         "name": "Formamide_e0"
+      },
+      "match": "bigg annotation: frmd",
+      "justification": "The frmd[e] and cpd00378_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00378_e0 ID and Formamide_e0 are used. The frmd[e] ID is not a ModelSEED Database ID. The frmd[e] and cpd00378_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "fru[e]",
+         "name": "D-Fructose"
+      },
+      "new": {
+         "id": "cpd00082_e0",
+         "name": "D-Fructose_e0"
+      },
+      "match": "bigg annotation: fru",
+      "justification": "The fru[e] and cpd00082_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00082_e0 ID and D-Fructose_e0 are used. The fru[e] ID is not a ModelSEED Database ID. The fru[e] and cpd00082_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "fuc[e]",
+         "name": "L-fuculose"
+      },
+      "new": {
+         "id": "cpd01186_e0",
+         "name": "L-fuculose_e0"
+      },
+      "match": "ModelSEED annotation: cpd01186",
+      "justification": "The fuc[e] and cpd01186_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01186_e0 ID and L-fuculose_e0 are used. The fuc[e] ID is not a ModelSEED Database ID. The fuc[e] and cpd01186_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "fum[e]",
+         "name": "Fumarate"
+      },
+      "new": {
+         "id": "cpd00106_e0",
+         "name": "Fumarate_e0"
+      },
+      "match": "bigg annotation: fum",
+      "justification": "The fum[e] and cpd00106_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00106_e0 ID and Fumarate_e0 are used. The fum[e] ID is not a ModelSEED Database ID. The fum[e] and cpd00106_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "g3pc[e]",
+         "name": "Sn-Glycero-3-phosphocholine"
+      },
+      "new": {
+         "id": "cpd00507_e0",
+         "name": "Sn-Glycero-3-phosphocholine_e0"
+      },
+      "match": "bigg annotation: g3pc",
+      "justification": "The g3pc[e] and cpd00507_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00507_e0 ID and Sn-Glycero-3-phosphocholine_e0 are used. The g3pc[e] ID is not a ModelSEED Database ID. The g3pc[e] and cpd00507_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "g3pe[e]",
+         "name": "Sn-Glycero-3-phosphoethanolamine"
+      },
+      "new": {
+         "id": "cpd00908_e0",
+         "name": "Sn-Glycero-3-phosphoethanolamine_e0"
+      },
+      "match": "bigg annotation: g3pe",
+      "justification": "The g3pe[e] and cpd00908_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00908_e0 ID and Sn-Glycero-3-phosphoethanolamine_e0 are used. The g3pe[e] ID is not a ModelSEED Database ID. The g3pe[e] and cpd00908_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "g3pg[e]",
+         "name": "Glycerophosphoglycerol"
+      },
+      "new": {
+         "id": "cpd02090_e0",
+         "name": "Glycerophosphoglycerol_e0"
+      },
+      "match": "bigg annotation: g3pg",
+      "justification": "The g3pg[e] and cpd02090_e0 distinction in M_Leaf8 is incompatible; hence, the cpd02090_e0 ID and Glycerophosphoglycerol_e0 are used. The g3pg[e] ID is not a ModelSEED Database ID. The g3pg[e] and cpd02090_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "g3ps[e]",
+         "name": "Glycerophosphoserine"
+      },
+      "new": {
+         "id": "cpd15468_e0",
+         "name": "Glycerophosphoserine_e0"
+      },
+      "match": "bigg annotation: g3ps",
+      "justification": "The g3ps[e] and cpd15468_e0 distinction in M_Leaf8 is incompatible; hence, the cpd15468_e0 ID and Glycerophosphoserine_e0 are used. The g3ps[e] ID is not a ModelSEED Database ID. The g3ps[e] and cpd15468_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "gal_bD[e]",
+         "name": "Beta D-Galactose"
+      },
+      "new": {
+         "id": "cpd00709_e0",
+         "name": "Beta D-Galactose_e0"
+      },
+      "match": "bigg annotation: gal_bD",
+      "justification": "The gal_bD[e] and cpd00709_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00709_e0 ID and Beta D-Galactose_e0 are used. The gal_bD[e] ID is not a ModelSEED Database ID. The gal_bD[e] and cpd00709_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "gal[e]",
+         "name": "D-Galactose"
+      },
+      "new": {
+         "id": "cpd00108_e0",
+         "name": "D-Galactose_e0"
+      },
+      "match": "bigg annotation: gal",
+      "justification": "The gal[e] and cpd00108_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00108_e0 ID and D-Galactose_e0 are used. The gal[e] ID is not a ModelSEED Database ID. The gal[e] and cpd00108_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "gam[e]",
+         "name": "D-Glucosamine"
+      },
+      "new": {
+         "id": "cpd27103_e0",
+         "name": "D-Glucosamine_e0"
+      },
+      "match": "bigg annotation: gam",
+      "justification": "The gam[e] and cpd27103_e0 distinction in M_Leaf8 is incompatible; hence, the cpd27103_e0 ID and D-Glucosamine_e0 are used. The gam[e] ID is not a ModelSEED Database ID. The gam[e] and cpd27103_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "gcald[e]",
+         "name": "Glycolaldehyde"
+      },
+      "new": {
+         "id": "cpd00229_e0",
+         "name": "Glycolaldehyde_e0"
+      },
+      "match": "bigg annotation: gcald",
+      "justification": "The gcald[e] and cpd00229_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00229_e0 ID and Glycolaldehyde_e0 are used. The gcald[e] ID is not a ModelSEED Database ID. The gcald[e] and cpd00229_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "glc__D[e]",
+         "name": "D-Glucose"
+      },
+      "new": {
+         "id": "cpd00027_e0",
+         "name": "D-Glucose_e0"
+      },
+      "match": "bigg annotation: glc__D",
+      "justification": "The glc__D[e] and cpd00027_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00027_e0 ID and D-Glucose_e0 are used. The glc__D[e] ID is not a ModelSEED Database ID. The glc__D[e] and cpd00027_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "glc__aD[e]",
+         "name": "Alpha D-glucose"
+      },
+      "new": {
+         "id": "cpd19001_e0",
+         "name": "Alpha D-glucose_e0"
+      },
+      "match": "inchikey annotation: WQZGKKKJIJFFOK-DVKNGEFBSA-N",
+      "justification": "The glc__aD[e] and cpd19001_e0 distinction in M_Leaf8 is incompatible; hence, the cpd19001_e0 ID and Alpha D-glucose_e0 are used. The glc__aD[e] ID is not a ModelSEED Database ID. The glc__aD[e] and cpd19001_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "gln__L[e]",
+         "name": "L-Glutamine"
+      },
+      "new": {
+         "id": "cpd00053_e0",
+         "name": "L-Glutamine_e0"
+      },
+      "match": "bigg annotation: gln__L",
+      "justification": "The gln__L[e] and cpd00053_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00053_e0 ID and L-Glutamine_e0 are used. The gln__L[e] ID is not a ModelSEED Database ID. The gln__L[e] and cpd00053_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "glu__L[e]",
+         "name": "L-Glutamate"
+      },
+      "new": {
+         "id": "cpd00023_e0",
+         "name": "L-Glutamate_e0"
+      },
+      "match": "bigg annotation: glu__L",
+      "justification": "The glu__L[e] and cpd00023_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00023_e0 ID and L-Glutamate_e0 are used. The glu__L[e] ID is not a ModelSEED Database ID. The glu__L[e] and cpd00023_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "gly[e]",
+         "name": "Glycine"
+      },
+      "new": {
+         "id": "cpd00033_e0",
+         "name": "Glycine_e0"
+      },
+      "match": "bigg annotation: gly",
+      "justification": "The gly[e] and cpd00033_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00033_e0 ID and Glycine_e0 are used. The gly[e] ID is not a ModelSEED Database ID. The gly[e] and cpd00033_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "glyb[e]",
+         "name": "Glycine betaine"
+      },
+      "new": {
+         "id": "cpd00540_e0",
+         "name": "Glycine betaine_e0"
+      },
+      "match": "bigg annotation: glyb",
+      "justification": "The glyb[e] and cpd00540_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00540_e0 ID and Glycine betaine_e0 are used. The glyb[e] ID is not a ModelSEED Database ID. The glyb[e] and cpd00540_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "glyc2p[e]",
+         "name": "Glycerol 2-phosphate"
+      },
+      "new": {
+         "id": "cpd01908_e0",
+         "name": "Glycerol 2-phosphate_e0"
+      },
+      "match": "bigg annotation: glyc2p",
+      "justification": "The glyc2p[e] and cpd01908_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01908_e0 ID and Glycerol 2-phosphate_e0 are used. The glyc2p[e] ID is not a ModelSEED Database ID. The glyc2p[e] and cpd01908_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "glyc3p[e]",
+         "name": "Glycerol 3-phosphate"
+      },
+      "new": {
+         "id": "cpd00080_e0",
+         "name": "Glycerol 3-phosphate_e0"
+      },
+      "match": "bigg annotation: glyc3p",
+      "justification": "The glyc3p[e] and cpd00080_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00080_e0 ID and Glycerol 3-phosphate_e0 are used. The glyc3p[e] ID is not a ModelSEED Database ID. The glyc3p[e] and cpd00080_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "glyc[e]",
+         "name": "Glycerol"
+      },
+      "new": {
+         "id": "cpd00100_e0",
+         "name": "Glycerol_e0"
+      },
+      "match": "bigg annotation: glyc",
+      "justification": "The glyc[e] and cpd00100_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00100_e0 ID and Glycerol_e0 are used. The glyc[e] ID is not a ModelSEED Database ID. The glyc[e] and cpd00100_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "glygly[e]",
+         "name": "Glycylglycine C4H8N2O3"
+      },
+      "new": {
+         "id": "cpd01391_e0",
+         "name": "Glycylglycine C4H8N2O3_e0"
+      },
+      "match": "bigg annotation: glygly",
+      "justification": "The glygly[e] and cpd01391_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01391_e0 ID and Glycylglycine C4H8N2O3_e0 are used. The glygly[e] ID is not a ModelSEED Database ID. The glygly[e] and cpd01391_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "glyphe[e]",
+         "name": "Glycylphenylalanine"
+      },
+      "new": {
+         "id": "cpd35679_e0",
+         "name": "Glycylphenylalanine_e0"
+      },
+      "match": "inchikey annotation: JBCLFWXMTIKCCB-VIFPVBQESA-N",
+      "justification": "The glyphe[e] and cpd35679_e0 distinction in M_Leaf8 is incompatible; hence, the cpd35679_e0 ID and Glycylphenylalanine_e0 are used. The glyphe[e] ID is not a ModelSEED Database ID. The glyphe[e] and cpd35679_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "gmp[e]",
+         "name": "GMP C10H12N5O8P"
+      },
+      "new": {
+         "id": "cpd00126_e0",
+         "name": "GMP C10H12N5O8P_e0"
+      },
+      "match": "bigg annotation: gmp",
+      "justification": "The gmp[e] and cpd00126_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00126_e0 ID and GMP C10H12N5O8P_e0 are used. The gmp[e] ID is not a ModelSEED Database ID. The gmp[e] and cpd00126_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "gthrd[e]",
+         "name": "Reduced glutathione"
+      },
+      "new": {
+         "id": "cpd00042_e0",
+         "name": "Reduced glutathione_e0"
+      },
+      "match": "bigg annotation: gthrd",
+      "justification": "The gthrd[e] and cpd00042_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00042_e0 ID and Reduced glutathione_e0 are used. The gthrd[e] ID is not a ModelSEED Database ID. The gthrd[e] and cpd00042_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "gua[e]",
+         "name": "Guanine"
+      },
+      "new": {
+         "id": "cpd00207_e0",
+         "name": "Guanine_e0"
+      },
+      "match": "bigg annotation: gua",
+      "justification": "The gua[e] and cpd00207_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00207_e0 ID and Guanine_e0 are used. The gua[e] ID is not a ModelSEED Database ID. The gua[e] and cpd00207_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "h2[e]",
+         "name": "Hydrogen"
+      },
+      "new": {
+         "id": "cpd11640_e0",
+         "name": "Hydrogen_e0"
+      },
+      "match": "bigg annotation: h2",
+      "justification": "The h2[e] and cpd11640_e0 distinction in M_Leaf8 is incompatible; hence, the cpd11640_e0 ID and Hydrogen_e0 are used. The h2[e] ID is not a ModelSEED Database ID. The h2[e] and cpd11640_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "h2o[e]",
+         "name": "H_2O"
+      },
+      "new": {
+         "id": "cpd00001_e0",
+         "name": "H_2O_e0"
+      },
+      "match": "inchikey annotation: XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+      "justification": "The h2o[e] and cpd00001_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00001_e0 ID and H_2O_e0 are used. The h2o[e] ID is not a ModelSEED Database ID. The h2o[e] and cpd00001_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "his__L[e]",
+         "name": "L-Histidine"
+      },
+      "new": {
+         "id": "cpd00119_e0",
+         "name": "L-Histidine_e0"
+      },
+      "match": "bigg annotation: his__L",
+      "justification": "The his__L[e] and cpd00119_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00119_e0 ID and L-Histidine_e0 are used. The his__L[e] ID is not a ModelSEED Database ID. The his__L[e] and cpd00119_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "hqn[e]",
+         "name": "Hydroquinone"
+      },
+      "new": {
+         "id": "cpd00415_e0",
+         "name": "Hydroquinone_e0"
+      },
+      "match": "bigg annotation: hqn",
+      "justification": "The hqn[e] and cpd00415_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00415_e0 ID and Hydroquinone_e0 are used. The hqn[e] ID is not a ModelSEED Database ID. The hqn[e] and cpd00415_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "hxa[e]",
+         "name": "Hexanoate (n-C6:0)"
+      },
+      "new": {
+         "id": "cpd01113_e0",
+         "name": "Hexanoate (n-C6:0)_e0"
+      },
+      "match": "inchikey annotation: FUZZWVXGSFPDMH-UHFFFAOYSA-M",
+      "justification": "The hxa[e] and cpd01113_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01113_e0 ID and Hexanoate (n-C6:0)_e0 are used. The hxa[e] ID is not a ModelSEED Database ID. The hxa[e] and cpd01113_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "hxan[e]",
+         "name": "Hypoxanthine"
+      },
+      "new": {
+         "id": "cpd00226_e0",
+         "name": "Hypoxanthine_e0"
+      },
+      "match": "bigg annotation: hxan",
+      "justification": "The hxan[e] and cpd00226_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00226_e0 ID and Hypoxanthine_e0 are used. The hxan[e] ID is not a ModelSEED Database ID. The hxan[e] and cpd00226_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "icit[e]",
+         "name": "Isocitrate"
+      },
+      "new": {
+         "id": "cpd00353_e0",
+         "name": "Isocitrate_e0"
+      },
+      "match": "bigg annotation: icit",
+      "justification": "The icit[e] and cpd00353_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00353_e0 ID and Isocitrate_e0 are used. The icit[e] ID is not a ModelSEED Database ID. The icit[e] and cpd00353_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "ile__L[e]",
+         "name": "L-Isoleucine"
+      },
+      "new": {
+         "id": "cpd00322_e0",
+         "name": "L-Isoleucine_e0"
+      },
+      "match": "bigg annotation: ile__L",
+      "justification": "The ile__L[e] and cpd00322_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00322_e0 ID and L-Isoleucine_e0 are used. The ile__L[e] ID is not a ModelSEED Database ID. The ile__L[e] and cpd00322_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "imp[e]",
+         "name": "IMP C10H11N4O8P"
+      },
+      "new": {
+         "id": "cpd00114_e0",
+         "name": "IMP C10H11N4O8P_e0"
+      },
+      "match": "bigg annotation: imp",
+      "justification": "The imp[e] and cpd00114_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00114_e0 ID and IMP C10H11N4O8P_e0 are used. The imp[e] ID is not a ModelSEED Database ID. The imp[e] and cpd00114_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "ind3ac[e]",
+         "name": "Indole 3 acetate C10H8NO2"
+      },
+      "new": {
+         "id": "cpd00703_e0",
+         "name": "Indole 3 acetate C10H8NO2_e0"
+      },
+      "match": "bigg annotation: ind3ac",
+      "justification": "The ind3ac[e] and cpd00703_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00703_e0 ID and Indole 3 acetate C10H8NO2_e0 are used. The ind3ac[e] ID is not a ModelSEED Database ID. The ind3ac[e] and cpd00703_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "inost[e]",
+         "name": "Myo-Inositol"
+      },
+      "new": {
+         "id": "cpd00121_e0",
+         "name": "Myo-Inositol_e0"
+      },
+      "match": "bigg annotation: inost",
+      "justification": "The inost[e] and cpd00121_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00121_e0 ID and Myo-Inositol_e0 are used. The inost[e] ID is not a ModelSEED Database ID. The inost[e] and cpd00121_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "ins[e]",
+         "name": "Inosine"
+      },
+      "new": {
+         "id": "cpd00246_e0",
+         "name": "Inosine_e0"
+      },
+      "match": "bigg annotation: ins",
+      "justification": "The ins[e] and cpd00246_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00246_e0 ID and Inosine_e0 are used. The ins[e] ID is not a ModelSEED Database ID. The ins[e] and cpd00246_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "isetac[e]",
+         "name": "Isethionic acid"
+      },
+      "new": {
+         "id": "cpd03048_e0",
+         "name": "Isethionic acid_e0"
+      },
+      "match": "bigg annotation: isetac",
+      "justification": "The isetac[e] and cpd03048_e0 distinction in M_Leaf8 is incompatible; hence, the cpd03048_e0 ID and Isethionic acid_e0 are used. The isetac[e] ID is not a ModelSEED Database ID. The isetac[e] and cpd03048_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "lac__L[e]",
+         "name": "L-Lactate"
+      },
+      "new": {
+         "id": "cpd00159_e0",
+         "name": "L-Lactate_e0"
+      },
+      "match": "bigg annotation: lac__L",
+      "justification": "The lac__L[e] and cpd00159_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00159_e0 ID and L-Lactate_e0 are used. The lac__L[e] ID is not a ModelSEED Database ID. The lac__L[e] and cpd00159_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "lcts[e]",
+         "name": "Lactose C12H22O11"
+      },
+      "new": {
+         "id": "cpd00208_e0",
+         "name": "Lactose C12H22O11_e0"
+      },
+      "match": "bigg annotation: lcts",
+      "justification": "The lcts[e] and cpd00208_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00208_e0 ID and Lactose C12H22O11_e0 are used. The lcts[e] ID is not a ModelSEED Database ID. The lcts[e] and cpd00208_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "leu__L[e]",
+         "name": "L-Leucine"
+      },
+      "new": {
+         "id": "cpd00107_e0",
+         "name": "L-Leucine_e0"
+      },
+      "match": "bigg annotation: leu__L",
+      "justification": "The leu__L[e] and cpd00107_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00107_e0 ID and L-Leucine_e0 are used. The leu__L[e] ID is not a ModelSEED Database ID. The leu__L[e] and cpd00107_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "lipoate[e]",
+         "name": "Lipoate"
+      },
+      "new": {
+         "id": "cpd00541_e0",
+         "name": "Lipoate_e0"
+      },
+      "match": "bigg annotation: lipoate",
+      "justification": "The lipoate[e] and cpd00541_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00541_e0 ID and Lipoate_e0 are used. The lipoate[e] ID is not a ModelSEED Database ID. The lipoate[e] and cpd00541_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "lmn2[e]",
+         "name": "Laminaribiose"
+      },
+      "new": {
+         "id": "cpd01397_e0",
+         "name": "Laminaribiose_e0"
+      },
+      "match": "bigg annotation: lmn2",
+      "justification": "The lmn2[e] and cpd01397_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01397_e0 ID and Laminaribiose_e0 are used. The lmn2[e] ID is not a ModelSEED Database ID. The lmn2[e] and cpd01397_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "lnlc[e]",
+         "name": "Linoleic acid (all cis C18:2) n-6"
+      },
+      "new": {
+         "id": "cpd01122_e0",
+         "name": "Linoleic acid (all cis C18:2) n-6_e0"
+      },
+      "match": "inchikey annotation: OYHQOLUKZRVURQ-HZJYTTRNSA-M",
+      "justification": "The lnlc[e] and cpd01122_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01122_e0 ID and Linoleic acid (all cis C18:2) n-6_e0 are used. The lnlc[e] ID is not a ModelSEED Database ID. The lnlc[e] and cpd01122_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "lys__L[e]",
+         "name": "L-Lysine"
+      },
+      "new": {
+         "id": "cpd00039_e0",
+         "name": "L-Lysine_e0"
+      },
+      "match": "bigg annotation: lys__L",
+      "justification": "The lys__L[e] and cpd00039_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00039_e0 ID and L-Lysine_e0 are used. The lys__L[e] ID is not a ModelSEED Database ID. The lys__L[e] and cpd00039_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "mal__L[e]",
+         "name": "L-Malate"
+      },
+      "new": {
+         "id": "cpd00130_e0",
+         "name": "L-Malate_e0"
+      },
+      "match": "bigg annotation: mal__L",
+      "justification": "The mal__L[e] and cpd00130_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00130_e0 ID and L-Malate_e0 are used. The mal__L[e] ID is not a ModelSEED Database ID. The mal__L[e] and cpd00130_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "malt[e]",
+         "name": "Maltose C12H22O11"
+      },
+      "new": {
+         "id": "cpd01355_e0",
+         "name": "Maltose C12H22O11_e0"
+      },
+      "match": "bigg annotation: malt",
+      "justification": "The malt[e] and cpd01355_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01355_e0 ID and Maltose C12H22O11_e0 are used. The malt[e] ID is not a ModelSEED Database ID. The malt[e] and cpd01355_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "malthp[e]",
+         "name": "Maltoheptaose"
+      },
+      "new": {
+         "id": "cpd03718_e0",
+         "name": "Maltoheptaose_e0"
+      },
+      "match": "bigg annotation: malthp",
+      "justification": "The malthp[e] and cpd03718_e0 distinction in M_Leaf8 is incompatible; hence, the cpd03718_e0 ID and Maltoheptaose_e0 are used. The malthp[e] ID is not a ModelSEED Database ID. The malthp[e] and cpd03718_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "malthx[e]",
+         "name": "Maltohexaose"
+      },
+      "new": {
+         "id": "cpd01329_e0",
+         "name": "Maltohexaose_e0"
+      },
+      "match": "ModelSEED annotation: cpd01329",
+      "justification": "The malthx[e] and cpd01329_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01329_e0 ID and Maltohexaose_e0 are used. The malthx[e] ID is not a ModelSEED Database ID. The malthx[e] and cpd01329_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "malttr[e]",
+         "name": "Maltotriose C18H32O16"
+      },
+      "new": {
+         "id": "cpd01262_e0",
+         "name": "Maltotriose C18H32O16_e0"
+      },
+      "match": "bigg annotation: malttr",
+      "justification": "The malttr[e] and cpd01262_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01262_e0 ID and Maltotriose C18H32O16_e0 are used. The malttr[e] ID is not a ModelSEED Database ID. The malttr[e] and cpd01262_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "man[e]",
+         "name": "D-Mannose"
+      },
+      "new": {
+         "id": "cpd00138_e0",
+         "name": "D-Mannose_e0"
+      },
+      "match": "bigg annotation: man",
+      "justification": "The man[e] and cpd00138_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00138_e0 ID and D-Mannose_e0 are used. The man[e] ID is not a ModelSEED Database ID. The man[e] and cpd00138_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "melib[e]",
+         "name": "Melibiose C12H22O11"
+      },
+      "new": {
+         "id": "cpd03198_e0",
+         "name": "Melibiose C12H22O11_e0"
+      },
+      "match": "bigg annotation: melib",
+      "justification": "The melib[e] and cpd03198_e0 distinction in M_Leaf8 is incompatible; hence, the cpd03198_e0 ID and Melibiose C12H22O11_e0 are used. The melib[e] ID is not a ModelSEED Database ID. The melib[e] and cpd03198_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "meoh[e]",
+         "name": "Methanol"
+      },
+      "new": {
+         "id": "cpd00116_e0",
+         "name": "Methanol_e0"
+      },
+      "match": "bigg annotation: meoh",
+      "justification": "The meoh[e] and cpd00116_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00116_e0 ID and Methanol_e0 are used. The meoh[e] ID is not a ModelSEED Database ID. The meoh[e] and cpd00116_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "met__D[e]",
+         "name": "D-Methionine"
+      },
+      "new": {
+         "id": "cpd00637_e0",
+         "name": "D-Methionine_e0"
+      },
+      "match": "bigg annotation: met__D",
+      "justification": "The met__D[e] and cpd00637_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00637_e0 ID and D-Methionine_e0 are used. The met__D[e] ID is not a ModelSEED Database ID. The met__D[e] and cpd00637_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "met__L[e]",
+         "name": "L-Methionine"
+      },
+      "new": {
+         "id": "cpd00060_e0",
+         "name": "L-Methionine_e0"
+      },
+      "match": "bigg annotation: met__L",
+      "justification": "The met__L[e] and cpd00060_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00060_e0 ID and L-Methionine_e0 are used. The met__L[e] ID is not a ModelSEED Database ID. The met__L[e] and cpd00060_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "metox[e]",
+         "name": "L Methionine S oxide C5H11NO3S"
+      },
+      "new": {
+         "id": "cpd01914_e0",
+         "name": "L Methionine S oxide C5H11NO3S_e0"
+      },
+      "match": "inchikey annotation: QEFRNWWLZKMPFJ-YGVKFDHGSA-N",
+      "justification": "The metox[e] and cpd01914_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01914_e0 ID and L Methionine S oxide C5H11NO3S_e0 are used. The metox[e] ID is not a ModelSEED Database ID. The metox[e] and cpd01914_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "metsox_R__L[e]",
+         "name": "L-methionine-R-sulfoxide"
+      },
+      "new": {
+         "id": "cpd15497_e0",
+         "name": "L-methionine-R-sulfoxide_e0"
+      },
+      "match": "bigg annotation: metsox_R__L",
+      "justification": "The metsox_R__L[e] and cpd15497_e0 distinction in M_Leaf8 is incompatible; hence, the cpd15497_e0 ID and L-methionine-R-sulfoxide_e0 are used. The metsox_R__L[e] ID is not a ModelSEED Database ID. The metsox_R__L[e] and cpd15497_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "mobd[e]",
+         "name": "Molybdate"
+      },
+      "new": {
+         "id": "cpd11574_e0",
+         "name": "Molybdate_e0"
+      },
+      "match": "bigg annotation: mobd",
+      "justification": "The mobd[e] and cpd11574_e0 distinction in M_Leaf8 is incompatible; hence, the cpd11574_e0 ID and Molybdate_e0 are used. The mobd[e] ID is not a ModelSEED Database ID. The mobd[e] and cpd11574_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "mso3[e]",
+         "name": "Methanesulfonate"
+      },
+      "new": {
+         "id": "cpd08023_e0",
+         "name": "Methanesulfonate_e0"
+      },
+      "match": "bigg annotation: mso3",
+      "justification": "The mso3[e] and cpd08023_e0 distinction in M_Leaf8 is incompatible; hence, the cpd08023_e0 ID and Methanesulfonate_e0 are used. The mso3[e] ID is not a ModelSEED Database ID. The mso3[e] and cpd08023_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "n2o[e]",
+         "name": "Nitrous oxide"
+      },
+      "new": {
+         "id": "cpd00659_e0",
+         "name": "Nitrous oxide_e0"
+      },
+      "match": "bigg annotation: n2o",
+      "justification": "The n2o[e] and cpd00659_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00659_e0 ID and Nitrous oxide_e0 are used. The n2o[e] ID is not a ModelSEED Database ID. The n2o[e] and cpd00659_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "no2[e]",
+         "name": "Nitrite"
+      },
+      "new": {
+         "id": "cpd00075_e0",
+         "name": "Nitrite_e0"
+      },
+      "match": "bigg annotation: no2",
+      "justification": "The no2[e] and cpd00075_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00075_e0 ID and Nitrite_e0 are used. The no2[e] ID is not a ModelSEED Database ID. The no2[e] and cpd00075_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "no3[e]",
+         "name": "Nitrate"
+      },
+      "new": {
+         "id": "cpd00209_e0",
+         "name": "Nitrate_e0"
+      },
+      "match": "bigg annotation: no3",
+      "justification": "The no3[e] and cpd00209_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00209_e0 ID and Nitrate_e0 are used. The no3[e] ID is not a ModelSEED Database ID. The no3[e] and cpd00209_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "no[e]",
+         "name": "Nitric oxide"
+      },
+      "new": {
+         "id": "cpd00418_e0",
+         "name": "Nitric oxide_e0"
+      },
+      "match": "bigg annotation: no",
+      "justification": "The no[e] and cpd00418_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00418_e0 ID and Nitric oxide_e0 are used. The no[e] ID is not a ModelSEED Database ID. The no[e] and cpd00418_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "o2s[e]",
+         "name": "Superoxide anion"
+      },
+      "new": {
+         "id": "cpd00532_e0",
+         "name": "Superoxide anion_e0"
+      },
+      "match": "bigg annotation: o2s",
+      "justification": "The o2s[e] and cpd00532_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00532_e0 ID and Superoxide anion_e0 are used. The o2s[e] ID is not a ModelSEED Database ID. The o2s[e] and cpd00532_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "ocdcea[e]",
+         "name": "Octadecenoate (n-C18:1)"
+      },
+      "new": {
+         "id": "cpd00536_e0",
+         "name": "Octadecenoate (n-C18:1)_e0"
+      },
+      "match": "bigg annotation: ocdcea",
+      "justification": "The ocdcea[e] and cpd00536_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00536_e0 ID and Octadecenoate (n-C18:1)_e0 are used. The ocdcea[e] ID is not a ModelSEED Database ID. The ocdcea[e] and cpd00536_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "octa[e]",
+         "name": "Octanoate (n-C8:0)"
+      },
+      "new": {
+         "id": "cpd03846_e0",
+         "name": "Octanoate (n-C8:0)_e0"
+      },
+      "match": "bigg annotation: octa",
+      "justification": "The octa[e] and cpd03846_e0 distinction in M_Leaf8 is incompatible; hence, the cpd03846_e0 ID and Octanoate (n-C8:0)_e0 are used. The octa[e] ID is not a ModelSEED Database ID. The octa[e] and cpd03846_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "orn[e]",
+         "name": "Ornithine"
+      },
+      "new": {
+         "id": "cpd00064_e0",
+         "name": "Ornithine_e0"
+      },
+      "match": "inchikey annotation: AHLPHDHHMVZTML-BYPYZUCNSA-O",
+      "justification": "The orn[e] and cpd00064_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00064_e0 ID and Ornithine_e0 are used. The orn[e] ID is not a ModelSEED Database ID. The orn[e] and cpd00064_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "pea[e]",
+         "name": "Phenylethyl alcohol"
+      },
+      "new": {
+         "id": "cpd03481_e0",
+         "name": "Phenylethyl alcohol_e0"
+      },
+      "match": "name",
+      "justification": "The pea[e] and cpd03481_e0 distinction in M_Leaf8 is incompatible; hence, the cpd03481_e0 ID and Phenylethyl alcohol_e0 are used. The pea[e] ID is not a ModelSEED Database ID. The pea[e] and cpd03481_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "phe__L[e]",
+         "name": "L-Phenylalanine"
+      },
+      "new": {
+         "id": "cpd00066_e0",
+         "name": "L-Phenylalanine_e0"
+      },
+      "match": "bigg annotation: phe__L",
+      "justification": "The phe__L[e] and cpd00066_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00066_e0 ID and L-Phenylalanine_e0 are used. The phe__L[e] ID is not a ModelSEED Database ID. The phe__L[e] and cpd00066_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "pheme[e]",
+         "name": "Protoheme C34H30FeN4O4"
+      },
+      "new": {
+         "id": "cpd00028_e0",
+         "name": "Protoheme C34H30FeN4O4_e0"
+      },
+      "match": "bigg annotation: pheme",
+      "justification": "The pheme[e] and cpd00028_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00028_e0 ID and Protoheme C34H30FeN4O4_e0 are used. The pheme[e] ID is not a ModelSEED Database ID. The pheme[e] and cpd00028_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "ppt[e]",
+         "name": "Phosphonate"
+      },
+      "new": {
+         "id": "cpd04099_e0",
+         "name": "Phosphonate_e0"
+      },
+      "match": "bigg annotation: ppt",
+      "justification": "The ppt[e] and cpd04099_e0 distinction in M_Leaf8 is incompatible; hence, the cpd04099_e0 ID and Phosphonate_e0 are used. The ppt[e] ID is not a ModelSEED Database ID. The ppt[e] and cpd04099_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "pro__L[e]",
+         "name": "L-Proline"
+      },
+      "new": {
+         "id": "cpd00129_e0",
+         "name": "L-Proline_e0"
+      },
+      "match": "bigg annotation: pro__L",
+      "justification": "The pro__L[e] and cpd00129_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00129_e0 ID and L-Proline_e0 are used. The pro__L[e] ID is not a ModelSEED Database ID. The pro__L[e] and cpd00129_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "progly[e]",
+         "name": "L-Prolinylglycine"
+      },
+      "new": {
+         "id": "cpd15551_e0",
+         "name": "L-Prolinylglycine_e0"
+      },
+      "match": "bigg annotation: progly",
+      "justification": "The progly[e] and cpd15551_e0 distinction in M_Leaf8 is incompatible; hence, the cpd15551_e0 ID and L-Prolinylglycine_e0 are used. The progly[e] ID is not a ModelSEED Database ID. The progly[e] and cpd15551_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "pser__L[e]",
+         "name": "O-Phospho-L-serine"
+      },
+      "new": {
+         "id": "cpd00738_e0",
+         "name": "O-Phospho-L-serine_e0"
+      },
+      "match": "bigg annotation: pser__L",
+      "justification": "The pser__L[e] and cpd00738_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00738_e0 ID and O-Phospho-L-serine_e0 are used. The pser__L[e] ID is not a ModelSEED Database ID. The pser__L[e] and cpd00738_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "ptrc[e]",
+         "name": "Putrescine"
+      },
+      "new": {
+         "id": "cpd00118_e0",
+         "name": "Putrescine_e0"
+      },
+      "match": "bigg annotation: ptrc",
+      "justification": "The ptrc[e] and cpd00118_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00118_e0 ID and Putrescine_e0 are used. The ptrc[e] ID is not a ModelSEED Database ID. The ptrc[e] and cpd00118_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "r5p[e]",
+         "name": "Alpha-D-Ribose 5-phosphate"
+      },
+      "new": {
+         "id": "cpd00101_e0",
+         "name": "Alpha-D-Ribose 5-phosphate_e0"
+      },
+      "match": "bigg annotation: r5p",
+      "justification": "The r5p[e] and cpd00101_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00101_e0 ID and Alpha-D-Ribose 5-phosphate_e0 are used. The r5p[e] ID is not a ModelSEED Database ID. The r5p[e] and cpd00101_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "raffin[e]",
+         "name": "Raffinose C18H32O16"
+      },
+      "new": {
+         "id": "cpd00382_e0",
+         "name": "Raffinose C18H32O16_e0"
+      },
+      "match": "bigg annotation: raffin",
+      "justification": "The raffin[e] and cpd00382_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00382_e0 ID and Raffinose C18H32O16_e0 are used. The raffin[e] ID is not a ModelSEED Database ID. The raffin[e] and cpd00382_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "rib__D[e]",
+         "name": "D-Ribose"
+      },
+      "new": {
+         "id": "cpd00105_e0",
+         "name": "D-Ribose_e0"
+      },
+      "match": "bigg annotation: rib__D",
+      "justification": "The rib__D[e] and cpd00105_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00105_e0 ID and D-Ribose_e0 are used. The rib__D[e] ID is not a ModelSEED Database ID. The rib__D[e] and cpd00105_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "rmn[e]",
+         "name": "L-Rhamnose"
+      },
+      "new": {
+         "id": "cpd27379_e0",
+         "name": "L-Rhamnose_e0"
+      },
+      "match": "bigg annotation: rmn",
+      "justification": "The rmn[e] and cpd27379_e0 distinction in M_Leaf8 is incompatible; hence, the cpd27379_e0 ID and L-Rhamnose_e0 are used. The rmn[e] ID is not a ModelSEED Database ID. The rmn[e] and cpd27379_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "salc[e]",
+         "name": "Salicylate"
+      },
+      "new": {
+         "id": "cpd00599_e0",
+         "name": "Salicylate_e0"
+      },
+      "match": "bigg annotation: salc",
+      "justification": "The salc[e] and cpd00599_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00599_e0 ID and Salicylate_e0 are used. The salc[e] ID is not a ModelSEED Database ID. The salc[e] and cpd00599_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "salcn[e]",
+         "name": "Salicin C13H18O7"
+      },
+      "new": {
+         "id": "cpd01030_e0",
+         "name": "Salicin C13H18O7_e0"
+      },
+      "match": "bigg annotation: salcn",
+      "justification": "The salcn[e] and cpd01030_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01030_e0 ID and Salicin C13H18O7_e0 are used. The salcn[e] ID is not a ModelSEED Database ID. The salcn[e] and cpd01030_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "sbt__D[e]",
+         "name": "D-Sorbitol"
+      },
+      "new": {
+         "id": "cpd00588_e0",
+         "name": "D-Sorbitol_e0"
+      },
+      "match": "bigg annotation: sbt__D",
+      "justification": "The sbt__D[e] and cpd00588_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00588_e0 ID and D-Sorbitol_e0 are used. The sbt__D[e] ID is not a ModelSEED Database ID. The sbt__D[e] and cpd00588_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "sel[e]",
+         "name": "Selenate"
+      },
+      "new": {
+         "id": "cpd03396_e0",
+         "name": "Selenate_e0"
+      },
+      "match": "bigg annotation: sel",
+      "justification": "The sel[e] and cpd03396_e0 distinction in M_Leaf8 is incompatible; hence, the cpd03396_e0 ID and Selenate_e0 are used. The sel[e] ID is not a ModelSEED Database ID. The sel[e] and cpd03396_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "ser__L[e]",
+         "name": "L-Serine"
+      },
+      "new": {
+         "id": "cpd00054_e0",
+         "name": "L-Serine_e0"
+      },
+      "match": "bigg annotation: ser__L",
+      "justification": "The ser__L[e] and cpd00054_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00054_e0 ID and L-Serine_e0 are used. The ser__L[e] ID is not a ModelSEED Database ID. The ser__L[e] and cpd00054_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "skm[e]",
+         "name": "Shikimate"
+      },
+      "new": {
+         "id": "cpd00383_e0",
+         "name": "Shikimate_e0"
+      },
+      "match": "bigg annotation: skm",
+      "justification": "The skm[e] and cpd00383_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00383_e0 ID and Shikimate_e0 are used. The skm[e] ID is not a ModelSEED Database ID. The skm[e] and cpd00383_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "slnt[e]",
+         "name": "Selenite"
+      },
+      "new": {
+         "id": "cpd03387_e0",
+         "name": "Selenite_e0"
+      },
+      "match": "bigg annotation: slnt",
+      "justification": "The slnt[e] and cpd03387_e0 distinction in M_Leaf8 is incompatible; hence, the cpd03387_e0 ID and Selenite_e0 are used. The slnt[e] ID is not a ModelSEED Database ID. The slnt[e] and cpd03387_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "so3[e]",
+         "name": "Sulfite"
+      },
+      "new": {
+         "id": "cpd00081_e0",
+         "name": "Sulfite_e0"
+      },
+      "match": "bigg annotation: so3",
+      "justification": "The so3[e] and cpd00081_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00081_e0 ID and Sulfite_e0 are used. The so3[e] ID is not a ModelSEED Database ID. The so3[e] and cpd00081_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "spmd[e]",
+         "name": "Spermidine"
+      },
+      "new": {
+         "id": "cpd00264_e0",
+         "name": "Spermidine_e0"
+      },
+      "match": "bigg annotation: spmd",
+      "justification": "The spmd[e] and cpd00264_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00264_e0 ID and Spermidine_e0 are used. The spmd[e] ID is not a ModelSEED Database ID. The spmd[e] and cpd00264_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "stfrnB[e]",
+         "name": "Staphyloferrin B"
+      },
+      "new": {
+         "id": "cpd23485_e0",
+         "name": "staphyloferrin B_e0"
+      },
+      "match": "name",
+      "justification": "The stfrnB[e] and cpd23485_e0 distinction in M_Leaf8 is incompatible; hence, the cpd23485_e0 ID and staphyloferrin B_e0 are used. The stfrnB[e] ID is not a ModelSEED Database ID. The stfrnB[e] and cpd23485_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "succ[e]",
+         "name": "Succinate"
+      },
+      "new": {
+         "id": "cpd00036_e0",
+         "name": "Succinate_e0"
+      },
+      "match": "bigg annotation: succ",
+      "justification": "The succ[e] and cpd00036_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00036_e0 ID and Succinate_e0 are used. The succ[e] ID is not a ModelSEED Database ID. The succ[e] and cpd00036_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "sucr[e]",
+         "name": "Sucrose"
+      },
+      "new": {
+         "id": "cpd00076_e0",
+         "name": "Sucrose_e0"
+      },
+      "match": "bigg annotation: sucr",
+      "justification": "The sucr[e] and cpd00076_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00076_e0 ID and Sucrose_e0 are used. The sucr[e] ID is not a ModelSEED Database ID. The sucr[e] and cpd00076_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "sulfac[e]",
+         "name": "Sulfoacetate"
+      },
+      "new": {
+         "id": "cpd09878_e0",
+         "name": "Sulfoacetate_e0"
+      },
+      "match": "inchikey annotation: AGGIJOLULBJGTQ-UHFFFAOYSA-L",
+      "justification": "The sulfac[e] and cpd09878_e0 distinction in M_Leaf8 is incompatible; hence, the cpd09878_e0 ID and Sulfoacetate_e0 are used. The sulfac[e] ID is not a ModelSEED Database ID. The sulfac[e] and cpd09878_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "taur[e]",
+         "name": "Taurine C2H7NO3S"
+      },
+      "new": {
+         "id": "cpd00210_e0",
+         "name": "Taurine C2H7NO3S_e0"
+      },
+      "match": "bigg annotation: taur",
+      "justification": "The taur[e] and cpd00210_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00210_e0 ID and Taurine C2H7NO3S_e0 are used. The taur[e] ID is not a ModelSEED Database ID. The taur[e] and cpd00210_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "tcynt[e]",
+         "name": "Thiocyanate"
+      },
+      "new": {
+         "id": "cpd01211_e0",
+         "name": "Thiocyanate_e0"
+      },
+      "match": "bigg annotation: tcynt",
+      "justification": "The tcynt[e] and cpd01211_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01211_e0 ID and Thiocyanate_e0 are used. The tcynt[e] ID is not a ModelSEED Database ID. The tcynt[e] and cpd01211_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "tet[e]",
+         "name": "Tetrathionate"
+      },
+      "new": {
+         "id": "cpd01414_e0",
+         "name": "Tetrathionate_e0"
+      },
+      "match": "bigg annotation: tet",
+      "justification": "The tet[e] and cpd01414_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01414_e0 ID and Tetrathionate_e0 are used. The tet[e] ID is not a ModelSEED Database ID. The tet[e] and cpd01414_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "thr__L[e]",
+         "name": "L-Threonine"
+      },
+      "new": {
+         "id": "cpd00161_e0",
+         "name": "L-Threonine_e0"
+      },
+      "match": "bigg annotation: thr__L",
+      "justification": "The thr__L[e] and cpd00161_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00161_e0 ID and L-Threonine_e0 are used. The thr__L[e] ID is not a ModelSEED Database ID. The thr__L[e] and cpd00161_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "thrp[e]",
+         "name": "L-Threonine O-3-phosphate"
+      },
+      "new": {
+         "id": "cpd08928_e0",
+         "name": "L-Threonine O-3-phosphate_e0"
+      },
+      "match": "bigg annotation: thrp",
+      "justification": "The thrp[e] and cpd08928_e0 distinction in M_Leaf8 is incompatible; hence, the cpd08928_e0 ID and L-Threonine O-3-phosphate_e0 are used. The thrp[e] ID is not a ModelSEED Database ID. The thrp[e] and cpd08928_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "thymd[e]",
+         "name": "Thymidine C10H14N2O5"
+      },
+      "new": {
+         "id": "cpd00184_e0",
+         "name": "Thymidine C10H14N2O5_e0"
+      },
+      "match": "bigg annotation: thymd",
+      "justification": "The thymd[e] and cpd00184_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00184_e0 ID and Thymidine C10H14N2O5_e0 are used. The thymd[e] ID is not a ModelSEED Database ID. The thymd[e] and cpd00184_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "tnt[e]",
+         "name": "2 4 6 Trinitrotoluene"
+      },
+      "new": {
+         "id": "cpd15097_e0",
+         "name": "2 4 6 Trinitrotoluene_e0"
+      },
+      "match": "ModelSEED annotation: cpd15097",
+      "justification": "The tnt[e] and cpd15097_e0 distinction in M_Leaf8 is incompatible; hence, the cpd15097_e0 ID and 2 4 6 Trinitrotoluene_e0 are used. The tnt[e] ID is not a ModelSEED Database ID. The tnt[e] and cpd15097_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "tre[e]",
+         "name": "Trehalose"
+      },
+      "new": {
+         "id": "cpd00794_e0",
+         "name": "Trehalose_e0"
+      },
+      "match": "bigg annotation: tre",
+      "justification": "The tre[e] and cpd00794_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00794_e0 ID and Trehalose_e0 are used. The tre[e] ID is not a ModelSEED Database ID. The tre[e] and cpd00794_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "trp__L[e]",
+         "name": "L-Tryptophan"
+      },
+      "new": {
+         "id": "cpd00065_e0",
+         "name": "L-Tryptophan_e0"
+      },
+      "match": "bigg annotation: trp__L",
+      "justification": "The trp__L[e] and cpd00065_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00065_e0 ID and L-Tryptophan_e0 are used. The trp__L[e] ID is not a ModelSEED Database ID. The trp__L[e] and cpd00065_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "tsul[e]",
+         "name": "Thiosulfate"
+      },
+      "new": {
+         "id": "cpd00268_e0",
+         "name": "Thiosulfate_e0"
+      },
+      "match": "inchikey annotation: DHCDFWKWKRSZHF-UHFFFAOYSA-M",
+      "justification": "The tsul[e] and cpd00268_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00268_e0 ID and Thiosulfate_e0 are used. The tsul[e] ID is not a ModelSEED Database ID. The tsul[e] and cpd00268_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "tyr__L[e]",
+         "name": "L-Tyrosine"
+      },
+      "new": {
+         "id": "cpd00069_e0",
+         "name": "L-Tyrosine_e0"
+      },
+      "match": "bigg annotation: tyr__L",
+      "justification": "The tyr__L[e] and cpd00069_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00069_e0 ID and L-Tyrosine_e0 are used. The tyr__L[e] ID is not a ModelSEED Database ID. The tyr__L[e] and cpd00069_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "udpg[e]",
+         "name": "UDPglucose"
+      },
+      "new": {
+         "id": "cpd00026_e0",
+         "name": "UDPglucose_e0"
+      },
+      "match": "bigg annotation: udpg",
+      "justification": "The udpg[e] and cpd00026_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00026_e0 ID and UDPglucose_e0 are used. The udpg[e] ID is not a ModelSEED Database ID. The udpg[e] and cpd00026_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "ura[e]",
+         "name": "Uracil"
+      },
+      "new": {
+         "id": "cpd00092_e0",
+         "name": "Uracil_e0"
+      },
+      "match": "bigg annotation: ura",
+      "justification": "The ura[e] and cpd00092_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00092_e0 ID and Uracil_e0 are used. The ura[e] ID is not a ModelSEED Database ID. The ura[e] and cpd00092_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "urea[e]",
+         "name": "Urea CH4N2O"
+      },
+      "new": {
+         "id": "cpd00073_e0",
+         "name": "Urea CH4N2O_e0"
+      },
+      "match": "bigg annotation: urea",
+      "justification": "The urea[e] and cpd00073_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00073_e0 ID and Urea CH4N2O_e0 are used. The urea[e] ID is not a ModelSEED Database ID. The urea[e] and cpd00073_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "val__L[e]",
+         "name": "L-Valine"
+      },
+      "new": {
+         "id": "cpd00156_e0",
+         "name": "L-Valine_e0"
+      },
+      "match": "bigg annotation: val__L",
+      "justification": "The val__L[e] and cpd00156_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00156_e0 ID and L-Valine_e0 are used. The val__L[e] ID is not a ModelSEED Database ID. The val__L[e] and cpd00156_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "xan[e]",
+         "name": "Xanthine"
+      },
+      "new": {
+         "id": "cpd00309_e0",
+         "name": "Xanthine_e0"
+      },
+      "match": "bigg annotation: xan",
+      "justification": "The xan[e] and cpd00309_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00309_e0 ID and Xanthine_e0 are used. The xan[e] ID is not a ModelSEED Database ID. The xan[e] and cpd00309_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "xmp[e]",
+         "name": "Xanthosine 5'-phosphate"
+      },
+      "new": {
+         "id": "cpd00497_e0",
+         "name": "Xanthosine 5'-phosphate_e0"
+      },
+      "match": "bigg annotation: xmp",
+      "justification": "The xmp[e] and cpd00497_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00497_e0 ID and Xanthosine 5'-phosphate_e0 are used. The xmp[e] ID is not a ModelSEED Database ID. The xmp[e] and cpd00497_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "xtsn[e]",
+         "name": "Xanthosine"
+      },
+      "new": {
+         "id": "cpd01217_e0",
+         "name": "Xanthosine_e0"
+      },
+      "match": "bigg annotation: xtsn",
+      "justification": "The xtsn[e] and cpd01217_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01217_e0 ID and Xanthosine_e0 are used. The xtsn[e] ID is not a ModelSEED Database ID. The xtsn[e] and cpd01217_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "xyl3[e]",
+         "name": "Xylotriose"
+      },
+      "new": {
+         "id": "cpd23780_e0",
+         "name": "Xylotriose_e0"
+      },
+      "match": "inchikey annotation: JCSJTDYCNQHPRJ-MMDFAQQLSA-N",
+      "justification": "The xyl3[e] and cpd23780_e0 distinction in M_Leaf8 is incompatible; hence, the cpd23780_e0 ID and Xylotriose_e0 are used. The xyl3[e] ID is not a ModelSEED Database ID. The xyl3[e] and cpd23780_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "xyl__D[e]",
+         "name": "D-Xylose"
+      },
+      "new": {
+         "id": "cpd26831_e0",
+         "name": "D-Xylose_e0"
+      },
+      "match": "bigg annotation: xyl__D",
+      "justification": "The xyl__D[e] and cpd26831_e0 distinction in M_Leaf8 is incompatible; hence, the cpd26831_e0 ID and D-Xylose_e0 are used. The xyl__D[e] ID is not a ModelSEED Database ID. The xyl__D[e] and cpd26831_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "xylan4[e]",
+         "name": "Xylan"
+      },
+      "new": {
+         "id": "cpd11732_e0",
+         "name": "Xylan_e0"
+      },
+      "match": "name",
+      "justification": "The xylan4[e] and cpd11732_e0 distinction in M_Leaf8 is incompatible; hence, the cpd11732_e0 ID and Xylan_e0 are used. The xylan4[e] ID is not a ModelSEED Database ID. The xylan4[e] and cpd11732_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "xylb[e]",
+         "name": "Xylobiose"
+      },
+      "new": {
+         "id": "cpd01144_e0",
+         "name": "Xylobiose_e0"
+      },
+      "match": "bigg annotation: xylb",
+      "justification": "The xylb[e] and cpd01144_e0 distinction in M_Leaf8 is incompatible; hence, the cpd01144_e0 ID and Xylobiose_e0 are used. The xylb[e] ID is not a ModelSEED Database ID. The xylb[e] and cpd01144_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "glcn[e]",
+         "name": "D-Gluconate"
+      },
+      "new": {
+         "id": "cpd00222_e0",
+         "name": "D-Gluconate_e0"
+      },
+      "match": "ModelSEED annotation: cpd00222",
+      "justification": "The glcn[e] and cpd00222_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00222_e0 ID and D-Gluconate_e0 are used. The glcn[e] ID is not a ModelSEED Database ID. The glcn[e] and cpd00222_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "na1[e]",
+         "name": "Sodium"
+      },
+      "new": {
+         "id": "cpd00971_e0",
+         "name": "Sodium_e0"
+      },
+      "match": "bigg annotation: na1",
+      "justification": "The na1[e] and cpd00971_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00971_e0 ID and Sodium_e0 are used. The na1[e] ID is not a ModelSEED Database ID. The na1[e] and cpd00971_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "ni2[e]",
+         "name": "Nickel"
+      },
+      "new": {
+         "id": "cpd20862_e0",
+         "name": "Nickel_e0"
+      },
+      "match": "bigg annotation: ni2",
+      "justification": "The ni2[e] and cpd20862_e0 distinction in M_Leaf8 is incompatible; hence, the cpd20862_e0 ID and Nickel_e0 are used. The ni2[e] ID is not a ModelSEED Database ID. The ni2[e] and cpd20862_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "ca2[e]",
+         "name": "Calcium"
+      },
+      "new": {
+         "id": "cpd00063_e0",
+         "name": "Calcium_e0"
+      },
+      "match": "bigg annotation: ca2",
+      "justification": "The ca2[e] and cpd00063_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00063_e0 ID and Calcium_e0 are used. The ca2[e] ID is not a ModelSEED Database ID. The ca2[e] and cpd00063_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "cl[e]",
+         "name": "Chloride"
+      },
+      "new": {
+         "id": "cpd00099_e0",
+         "name": "Chloride_e0"
+      },
+      "match": "bigg annotation: cl",
+      "justification": "The cl[e] and cpd00099_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00099_e0 ID and Chloride_e0 are used. The cl[e] ID is not a ModelSEED Database ID. The cl[e] and cpd00099_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "co2[e]",
+         "name": "CO2"
+      },
+      "new": {
+         "id": "cpd00011_e0",
+         "name": "CO2_e0"
+      },
+      "match": "bigg annotation: co2",
+      "justification": "The co2[e] and cpd00011_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00011_e0 ID and CO2_e0 are used. The co2[e] ID is not a ModelSEED Database ID. The co2[e] and cpd00011_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "cobalt2[e]",
+         "name": "Cobalt"
+      },
+      "new": {
+         "id": "cpd00149_e0",
+         "name": "Cobalt_e0"
+      },
+      "match": "bigg annotation: cobalt2",
+      "justification": "The cobalt2[e] and cpd00149_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00149_e0 ID and Cobalt_e0 are used. The cobalt2[e] ID is not a ModelSEED Database ID. The cobalt2[e] and cpd00149_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "cu2[e]",
+         "name": "Copper"
+      },
+      "new": {
+         "id": "cpd00058_e0",
+         "name": "Copper_e0"
+      },
+      "match": "bigg annotation: cu2",
+      "justification": "The cu2[e] and cpd00058_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00058_e0 ID and Copper_e0 are used. The cu2[e] ID is not a ModelSEED Database ID. The cu2[e] and cpd00058_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "fe2[e]",
+         "name": "Iron (II)"
+      },
+      "new": {
+         "id": "cpd10515_e0",
+         "name": "Iron (II)_e0"
+      },
+      "match": "bigg annotation: fe2",
+      "justification": "The fe2[e] and cpd10515_e0 distinction in M_Leaf8 is incompatible; hence, the cpd10515_e0 ID and Iron (II)_e0 are used. The fe2[e] ID is not a ModelSEED Database ID. The fe2[e] and cpd10515_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "fe3[e]",
+         "name": "Iron (III)"
+      },
+      "new": {
+         "id": "cpd10516_e0",
+         "name": "Iron (III)_e0"
+      },
+      "match": "bigg annotation: fe3",
+      "justification": "The fe3[e] and cpd10516_e0 distinction in M_Leaf8 is incompatible; hence, the cpd10516_e0 ID and Iron (III)_e0 are used. The fe3[e] ID is not a ModelSEED Database ID. The fe3[e] and cpd10516_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "fol[e]",
+         "name": "fol[e]"
+      },
+      "new": {
+         "id": "cpd00393_e0",
+         "name": "fol[e]_e0"
+      },
+      "match": "bigg annotation: fol",
+      "justification": "The fol[e] and cpd00393_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00393_e0 ID and fol[e]_e0 are used. The fol[e] ID is not a ModelSEED Database ID. The fol[e] and cpd00393_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "h[e]",
+         "name": "H+"
+      },
+      "new": {
+         "id": "cpd00067_e0",
+         "name": "H+_e0"
+      },
+      "match": "bigg annotation: h",
+      "justification": "The h[e] and cpd00067_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00067_e0 ID and H+_e0 are used. The h[e] ID is not a ModelSEED Database ID. The h[e] and cpd00067_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "k[e]",
+         "name": "Potassium"
+      },
+      "new": {
+         "id": "cpd00205_e0",
+         "name": "Potassium_e0"
+      },
+      "match": "bigg annotation: k",
+      "justification": "The k[e] and cpd00205_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00205_e0 ID and Potassium_e0 are used. The k[e] ID is not a ModelSEED Database ID. The k[e] and cpd00205_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "mg2[e]",
+         "name": "Magnesium"
+      },
+      "new": {
+         "id": "cpd00254_e0",
+         "name": "Magnesium_e0"
+      },
+      "match": "bigg annotation: mg2",
+      "justification": "The mg2[e] and cpd00254_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00254_e0 ID and Magnesium_e0 are used. The mg2[e] ID is not a ModelSEED Database ID. The mg2[e] and cpd00254_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "mn2[e]",
+         "name": "Manganese"
+      },
+      "new": {
+         "id": "cpd20863_e0",
+         "name": "Manganese_e0"
+      },
+      "match": "bigg annotation: mn2",
+      "justification": "The mn2[e] and cpd20863_e0 distinction in M_Leaf8 is incompatible; hence, the cpd20863_e0 ID and Manganese_e0 are used. The mn2[e] ID is not a ModelSEED Database ID. The mn2[e] and cpd20863_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "mnl[e]",
+         "name": "D-Mannitol"
+      },
+      "new": {
+         "id": "cpd00314_e0",
+         "name": "D-Mannitol_e0"
+      },
+      "match": "bigg annotation: mnl",
+      "justification": "The mnl[e] and cpd00314_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00314_e0 ID and D-Mannitol_e0 are used. The mnl[e] ID is not a ModelSEED Database ID. The mnl[e] and cpd00314_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "nh4[e]",
+         "name": "Ammonium"
+      },
+      "new": {
+         "id": "cpd00013_e0",
+         "name": "Ammonium_e0"
+      },
+      "match": "bigg annotation: nh3",
+      "justification": "The nh4[e] and cpd00013_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00013_e0 ID and Ammonium_e0 are used. The nh4[e] ID is not a ModelSEED Database ID. The nh4[e] and cpd00013_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "o2[e]",
+         "name": "O2"
+      },
+      "new": {
+         "id": "cpd00007_e0",
+         "name": "O2_e0"
+      },
+      "match": "bigg annotation: o2",
+      "justification": "The o2[e] and cpd00007_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00007_e0 ID and O2_e0 are used. The o2[e] ID is not a ModelSEED Database ID. The o2[e] and cpd00007_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "pi[e]",
+         "name": "Phosphate"
+      },
+      "new": {
+         "id": "cpd00009_e0",
+         "name": "Phosphate_e0"
+      },
+      "match": "bigg annotation: pi",
+      "justification": "The pi[e] and cpd00009_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00009_e0 ID and Phosphate_e0 are used. The pi[e] ID is not a ModelSEED Database ID. The pi[e] and cpd00009_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "pnto__R[e]",
+         "name": "(R)-Pantothenate"
+      },
+      "new": {
+         "id": "cpd00644_e0",
+         "name": "(R)-Pantothenate_e0"
+      },
+      "match": "bigg annotation: pnto__R",
+      "justification": "The pnto__R[e] and cpd00644_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00644_e0 ID and (R)-Pantothenate_e0 are used. The pnto__R[e] ID is not a ModelSEED Database ID. The pnto__R[e] and cpd00644_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "ribflv[e]",
+         "name": "ribflv[e]"
+      },
+      "new": {
+         "id": "cpd00220_e0",
+         "name": "ribflv[e]_e0"
+      },
+      "match": "bigg annotation: ribflv",
+      "justification": "The ribflv[e] and cpd00220_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00220_e0 ID and ribflv[e]_e0 are used. The ribflv[e] ID is not a ModelSEED Database ID. The ribflv[e] and cpd00220_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "so4[e]",
+         "name": "Sulfate"
+      },
+      "new": {
+         "id": "cpd00048_e0",
+         "name": "Sulfate_e0"
+      },
+      "match": "bigg annotation: so4",
+      "justification": "The so4[e] and cpd00048_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00048_e0 ID and Sulfate_e0 are used. The so4[e] ID is not a ModelSEED Database ID. The so4[e] and cpd00048_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "thm[e]",
+         "name": "Thiamin"
+      },
+      "new": {
+         "id": "cpd00305_e0",
+         "name": "Thiamin_e0"
+      },
+      "match": "bigg annotation: thm",
+      "justification": "The thm[e] and cpd00305_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00305_e0 ID and Thiamin_e0 are used. The thm[e] ID is not a ModelSEED Database ID. The thm[e] and cpd00305_e0 metabolites were matched via their name."
+   },
+   {
+      "original": {
+         "id": "zn2[e]",
+         "name": "Zinc"
+      },
+      "new": {
+         "id": "cpd00034_e0",
+         "name": "Zinc_e0"
+      },
+      "match": "inchikey annotation: PTFCDOFLOPIGGS-UHFFFAOYSA-N",
+      "justification": "The zn2[e] and cpd00034_e0 distinction in M_Leaf8 is incompatible; hence, the cpd00034_e0 ID and Zinc_e0 are used. The zn2[e] ID is not a ModelSEED Database ID. The zn2[e] and cpd00034_e0 metabolites were matched via their name."
+   }
+]

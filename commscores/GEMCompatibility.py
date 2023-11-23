@@ -333,23 +333,28 @@ class GEMCompatibility:
         change_comp = comp != re.compile("(_\w\d+$)")
         if change_comp:  compartment = re.sub('(\[|\])', '', compartment) + "0"
 
+        # define original content
+        original_id = met.id  ;  original_name = met.name  ;  name_match = False
+        changed_mets, changed_rxns, matches = [], [], []
+
         # Check annotations and cross-references
         if hasattr(met, "annotation"):
-            for db, ID in met.annotation.keys():
+            for db, ID in met.annotation.items():
                 db = db.lower()
+                ID = ID[0] if isinstance(ID, list) else ID
+                ID = ID.split(":")[1] if ":" in ID else ID
                 if "seed" in db:
                     new_met_id = ID+compartment if not change_comp else f"{ID}_{compartment}"
                     met_name = met.name
-                    matches = f"{ID} in ModelSEED"
+                    matches = f"ModelSEED annotation: {ID}"
                     break
                 else:
-                    ID = ID.split(":")[1] if ":" in ID else ID
                     if db in databaseXrefs and ID in databaseXrefs[db]:
                         new_met_id = databaseXrefs[db][ID]+compartment if not change_comp else f"{databaseXrefs[db][ID]}_{compartment}"
                         met_name = met.name
-                        matches = f"{ID} in {db}"
+                        matches = f"{db} annotation: {ID}"
                         break
-        else:
+        if matches == []:
             # identify a matching metabolite name in the ModelSEED Database
             base_name = ''.join(met.name.split('-')[1:]).capitalize()
             # if hasattr(met, "compartment"):
@@ -361,9 +366,9 @@ class GEMCompatibility:
             for possible_name in [met.name, met.name.capitalize(), met.name.lower(),
                                 general_name, general_name.replace(" ", "-"), general_name.replace("_", ""), general_name.replace("Iron ", "Fe"), 
                                 general_name.capitalize(), general_name[:1].lower()+general_name[1:], general_name.upper(), general_name.lower(), base_name]:
-                print(possible_name)
+                # print(possible_name)
                 if possible_name in compoundNames:
-                    met_name = possible_name  ;  break
+                    met_name = possible_name  ;  name_match = True  ;  break
             if not met_name:
                 metabolite_desc = " | ".join([x for x in [met.id, met.name, base_name, general_name] if x != ""])
                 logger.warning(f"ModelSEEDError: The metabolite ({metabolite_desc}) is not recognized by the ModelSEED Database")
@@ -371,15 +376,7 @@ class GEMCompatibility:
             # if change_comp:  met.id = f"{general_met}_{compartment}"
             # if the compound is already the correct cpdID
             if general_met == compoundNames[met_name]:  return model, met, reactions, resultsTup(met.id, None, [], [])
-
-            # correct the metabolite whose name matches a metabolite in the ModelSEED Database but whose ID deviates
-            changed_mets, changed_rxns, matches = [], [], []
-            new_met_id = original_id = met.id
-            original_name = met.name 
-            ## affirm the match with cross-references, where it is possible for ModelSEED compounds
-
-            # TODO check if the compounds have annotated mappings to cpdIDs and replace where extant
-
+            new_met_id = met.id
             if 'cpd' in met.id:  # TODO correct an anomaly where a valid MSID is repeated with itself
                 logger.warning(f"IDWarning: The original ID {met.id} is a ModelSEED ID, and "
                             f"may not be desirably changed to {new_met_id}.")
@@ -400,9 +397,10 @@ class GEMCompatibility:
                 if org_rxn.id == 'EX_'+new_met_id:
                     change = {'original': {'reaction': original_reaction},
                               'new': "-- Deleted --",
+                              "match": "name" if name_match else matches,
                               'justification': f"A {new_met_id} exchange reaction already exists in model {model.id},"
                               f" thus this reaction ({org_rxn.id}) must be deleted to permit its replacement."}
-                    if matches:  change['justification'] += f' The ID match was verified with the {matches} cross-reference(s).'
+                    if matches and name_match:  change['justification'] += f' The ID match was verified with the {matches} cross-reference(s).'
                     model.remove_reactions([org_rxn])
                     changed_rxns.append(change)
                     if printing:  _print_changes(change)
@@ -437,9 +435,10 @@ class GEMCompatibility:
                         new_rxn.add_metabolites(reaction_dict)
                         change = {'original': {'reaction': original_reaction},
                                   'new': {'reaction': new_rxn.reaction},
+                                  "match": "name" if name_match else matches,
                                   'justification': f"The new {new_met_id} ID for {met.id} already exists in model"
                                                    f" {model.id}, so each reaction (here {rxn.id}) must be replaced."}
-                        if matches:  change['justification'] += f' The ID match was verified with the {matches} cross-reference(s).'
+                        if matches and name_match:  change['justification'] += f' The ID match was verified with the {matches} cross-reference(s).'
                         changed_rxns.append(change)
                         if printing:  _print_changes(change)
                         reactions[org_rxn.id] = new_rxn
@@ -457,12 +456,13 @@ class GEMCompatibility:
             met.id = new_met_id
             change = {'original': {'id': original_id, 'name': original_name},
                       'new': {'id': met.id, 'name': met.name},
+                      "match": "name" if name_match else matches,
                       'justification': f'The {original_id} and {met.id} distinction in {model.id} is incompatible; '
                                        f'hence, the {met.id} ID and {met.name} are used.'}
             if 'cpd' not in original_id:  change['justification'] += f' The {original_id} ID is not a ModelSEED Database ID.'
             if standardize:  change['justification'] += f' The {original_id} and {met.id} metabolites were matched via their name.'
-            if matches:  change['justification'] += f' The ID match was verified with the {matches} cross-reference(s).'
+            if matches and name_match:  change['justification'] += f' The ID match was verified with the {matches} cross-reference(s).'
             changed_mets.append(change)
             if printing:   _print_changes(change)
-                    
+
         return model, met, reactions, resultsTup(new_met_id, None, changed_mets, changed_rxns)
