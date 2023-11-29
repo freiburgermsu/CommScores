@@ -63,6 +63,13 @@ def add_custom_reaction(model, stoichiometry, direction=">", rxnID="rxn42", rxnN
     model.add_reaction(new_rxn.rxn_obj)
 
 
+def IDRxnMets(rxn):
+    if not isinstance(rxn, dict):
+        return {met.id: stoich for met, stoich in rxn.metabolites.items()}
+    else:
+        return {met.id: stoich for met, stoich in rxn.items()}
+
+
 # define a results object
 resultsTup = namedtuple("resultsTup", ("new_met_id", "unknown_met_id", "changed_mets", "changed_rxns"))
         
@@ -102,7 +109,7 @@ class GEMCompatibility:
             model_exchanges = [rxn for rxn in model.reactions if "EX_" in rxn.id]
             ex_mets_map = {ex_rxn: [met.id for met in ex_rxn.metabolites] for ex_rxn in model_exchanges}
             mets_ex_map = {metID: ex for ex, mets in ex_mets_map.items() for metID in mets}
-            ex_mets = set(chain.from_iterable(list(ex_mets_map.values())))
+            model.exchange_mets = set(chain.from_iterable(list(ex_mets_map.values())))
             reactions = {}
             # standardize metabolites
             if not metabolites:
@@ -122,10 +129,11 @@ class GEMCompatibility:
                 ### correct each metabolite in each exchange reaction
                 for ex_rxn in model_exchanges:
                     for met in ex_rxn.metabolites:
+                        print(met.id)
                         model, met, reactions, results = GEMCompatibility._correct_met(
                             model, met, reactions, True, printing)
                         new_rxn_id = 'EX_'+results.new_met_id
-                        if all(['cpd' not in met.id, results.new_met_id not in ex_mets, results.unknown_met_id]):
+                        if all(['cpd' not in met.id, results.new_met_id not in model.exchange_mets, results.unknown_met_id]):
                             unknown_mets.append(met.id)
                             logger.warning(f'CodeError: The metabolite {met.id} | {met.name} was not corrected to a ModelSEED metabolite.')
 
@@ -138,7 +146,7 @@ class GEMCompatibility:
                 model_mets = [met.id for rxn in model.reactions for met in rxn.metabolites]
                 for met in model.metabolites:
                     model, met, reactions, results = GEMCompatibility._correct_met(model, met, reactions, True, printing)
-                    if met.id in ex_mets:  mets_ex_map[met.id].id = "EX_"+results.new_met_id
+                    if met.id in model.exchange_mets:  mets_ex_map[met.id].id = "EX_"+results.new_met_id
                     if all(['cpd' not in met.id, results.new_met_id not in model_mets, results.unknown_met_id]):
                         unknown_mets.append(met.id)
                         logger.warning(f'CodeError: The metabolite {met.id} | {met.name} was not corrected to a ModelSEED metabolite.')
@@ -334,10 +342,11 @@ class GEMCompatibility:
         if change_comp:  compartment = re.sub('(\[|\])', '', compartment) + "0"
 
         # define original content
-        original_id = met.id  ;  original_name = met.name  ;  name_match = False
+        original_id = new_met_id = met.id  ;  original_name = met.name  ;  name_match = False
         changed_mets, changed_rxns, matches = [], [], []
 
         # Check annotations and cross-references
+        # print(original_id)
         if hasattr(met, "annotation"):
             for db, ID in met.annotation.items():
                 db = db.lower()
@@ -347,12 +356,14 @@ class GEMCompatibility:
                     new_met_id = ID+compartment if not change_comp else f"{ID}_{compartment}"
                     met_name = met.name
                     matches = f"ModelSEED annotation: {ID}"
+                    print(matches)
                     break
                 else:
                     if db in databaseXrefs and ID in databaseXrefs[db]:
                         new_met_id = databaseXrefs[db][ID]+compartment if not change_comp else f"{databaseXrefs[db][ID]}_{compartment}"
                         met_name = met.name
                         matches = f"{db} annotation: {ID}"
+                        print(matches)
                         break
         if matches == []:
             # identify a matching metabolite name in the ModelSEED Database
@@ -361,6 +372,7 @@ class GEMCompatibility:
             #     comp = re.compile(met.compartment)
             #     compartment = met.compartment
             # else:
+            # print(original_id)
             general_name = comp.sub("", met.name).replace(met.formula, "").strip()  ;  general_met = comp.sub("", met.id)
             met_name = None
             for possible_name in [met.name, met.name.capitalize(), met.name.lower(),
@@ -389,6 +401,7 @@ class GEMCompatibility:
             new_met_id = compoundNames[met_name]+compartment if not change_comp else f"{compoundNames[met_name]}_{compartment}"
         print(new_met_id)
         if new_met_id in model.metabolites:
+            print("replace old ID")
             ## replace the undesirable compound in each of its reactions, since the new compound ID already exists
             for org_rxn in met.reactions:
                 original_reaction = org_rxn.reaction
@@ -444,12 +457,13 @@ class GEMCompatibility:
                         reactions[org_rxn.id] = new_rxn
                     else:
                         ##### print the discrepancy in the reagents from the original reaction
-                        rxn_diff = DeepDiff(FBAHelper.IDRxnMets(org_rxn), FBAHelper.IDRxnMets(reaction_dict))
+                        rxn_diff = DeepDiff(IDRxnMets(org_rxn), IDRxnMets(reaction_dict))
                         logger.error(f"CodeError: The new reaction of {rxn.id} with"
                                      f" {new_reactants} reactants | {new_products} products"
                                      f" differs from the original reaction with "
                                      f"{len(rxn.reactants)} reactants | {len(rxn.products)} products,"
                                      f" {rxn_diff} and is therefore skipped.")
+            model.remove_metabolites    # model, mets = cobra.manipulation.prune_unused_metabolites(model: cobra.Model)
         else:
             ## rename the undesirable compound
             met.name = f"{met_name}_{compartment}"
@@ -465,4 +479,5 @@ class GEMCompatibility:
             changed_mets.append(change)
             if printing:   _print_changes(change)
 
+        print(original_id, met.id)
         return model, met, reactions, resultsTup(new_met_id, None, changed_mets, changed_rxns)
