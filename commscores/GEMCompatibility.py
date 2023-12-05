@@ -117,11 +117,8 @@ class GEMCompatibility:
                 break
             if "bio1" not in rxnIDs:
                 for rxn in model.reactions:
-                    if "biomass" in rxn.name:
-                        rxn.id = "bio1"  ;  break
-            ## standardize exchanges
-            for rxn in model.reactions:
-                if "biomass" in rxn.name:  rxn.id = "bio1"  ;  break
+                    if re.search("biomass", rxn.name, re.IGNORECASE):
+                        print(rxn.name)  ;   rxn.id = "bio1"  ;  break
             if exchanges:
                 if printing:
                     message = f"\n\n\nStandardize exchange reactions in {model.id}"
