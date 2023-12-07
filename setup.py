@@ -18,10 +18,10 @@ setup(
     author_email="andrewfreiburger@gmail.com",
     url="https://github.com/freiburgermsu/CommScores",
     license=license,
-    package_data={"data": ["raw/at_leaf/*"],   # strangely neither of these directories are captured by the sdist
-                  "notebooks": ["at_leaf/*"]},
-    # package_dir = {'CommScores':'commscores'},
-    packages=["commscores"],
+    package_data={"commscores": ["data/*", "data/categories/*", "data/raw/at_leaf/*"]},   # strangely neither of these directories are captured by the sdist
+                  #"notebooks": ["at_leaf/*"]},
+    # package_dir = {'':'commscores'},
+    packages= find_packages(), # ["commscores"],
     classifiers=[
         "Topic :: Scientific/Engineering :: Bio-Informatics",
         "Intended Audience :: Science/Research",

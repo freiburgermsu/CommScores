@@ -1,10 +1,10 @@
 from collections import OrderedDict, namedtuple
 from cobra.io.json import save_json_model
+from cobra import Reaction, Metabolite
 from zipfile import ZipFile, ZIP_LZMA
 from deepdiff import DeepDiff
 from typing import Iterable
 from itertools import chain
-from cobra import Reaction
 from math import isclose
 # from icecream import ic
 from pprint import pprint
@@ -17,11 +17,11 @@ logger = logging.getLogger(__name__)
 
 
 # open the parsed ModelSEED Database reactions and compounds content
-with open(os.path.join(os.path.dirname(__file__), "..", "data", "compound_Xrefs.json"), 'r') as cpdXRefs:
+with open(os.path.join(os.path.dirname(__file__), "data", "compound_Xrefs.json"), 'r') as cpdXRefs:
     compounds_cross_references = json.load(cpdXRefs)
-with open(os.path.join(os.path.dirname(__file__), "..", "data", "compoundNames.json"), 'r') as cpdNames:
+with open(os.path.join(os.path.dirname(__file__), "data", "compoundNames.json"), 'r') as cpdNames:
     compoundNames = json.load(cpdNames)
-with open(os.path.join(os.path.dirname(__file__), "..", "data", "MSDB_xRefs.json"), 'r') as dbXrefs:
+with open(os.path.join(os.path.dirname(__file__), "data", "MSDB_xRefs.json"), 'r') as dbXrefs:
     databaseXrefs = json.load(dbXrefs)
 
 # define generic helper functions
@@ -118,7 +118,12 @@ class GEMCompatibility:
             if "bio1" not in rxnIDs:
                 for rxn in model.reactions:
                     if re.search("biomass", rxn.name, re.IGNORECASE):
-                        print(rxn.name)  ;   rxn.id = "bio1"  ;  break
+                        print(rxn.name)
+                        rxn.id = "bio1"
+                        rxn_stoich = rxn.metabolites
+                        rxn_stoich.update({Metabolite("cpd11416_c0", name="biomass cpd", compartment="c"): 1})
+                        rxn.add_metabolites(rxn_stoich)
+                        break
             if exchanges:
                 if printing:
                     message = f"\n\n\nStandardize exchange reactions in {model.id}"

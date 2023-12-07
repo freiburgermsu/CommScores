@@ -9,12 +9,12 @@ from numpy import array, unique, ndarray, where, sort, array_split, nan, load
 from itertools import combinations, permutations, chain
 from optlang import Variable, Constraint, Objective
 from multiprocess import current_process
+from commscores import GEMCompatibility
 from typing import Iterable, Union
 from numpy.random import shuffle
 from collections import Counter
 from deepdiff import DeepDiff  # (old, new)
 from pprint import pprint
-import GEMCompatibility
 from math import inf
 import sigfig
 # from icecream import ic
@@ -37,7 +37,7 @@ def convert_to_int(element):
     return element
 
 
-package_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), "..")
+package_dir = os.path.abspath(os.path.dirname(__file__))
 categories_dir = os.path.join(package_dir, "data", "categories")
 sugars, aminoacids = load(os.path.join(categories_dir, "sugars.npy")), load(os.path.join(categories_dir, "aminoAcids.npy"))
 vitamins, minerals = load(os.path.join(categories_dir, "vitamins.npy")), load(os.path.join(categories_dir, "minerals.npy"))
@@ -45,6 +45,7 @@ energy_compounds = load(os.path.join(categories_dir, "energy_compounds.npy"))
 sugars_dic, aminoacids_dic = dict(zip(sugars[:,0], sugars[:,1])), dict(zip(aminoacids[:,0], aminoacids[:,1]))
 vitamins_dic, minerals_dic = dict(zip(vitamins[:,0], vitamins[:,1])), dict(zip(minerals[:,0], minerals[:,1]))
 energy_compounds_dic = dict(zip(energy_compounds[:,0], energy_compounds[:,1]))
+
 def _categorize_mets(metIDs):
     met_sugars, met_aminoAcids, met_vitamins, met_minerals, met_energy, met_other = [], [], [], [], [], []
     for metID in metIDs:
@@ -55,6 +56,7 @@ def _categorize_mets(metIDs):
         elif metID in energy_compounds[:, 0]:  met_energy.append(f"{energy_compounds_dic[metID]} ({metID})")
         else:  met_other.append(metID)
     return met_sugars, met_aminoAcids, met_vitamins, met_minerals, met_energy, met_other
+
 
 def _process_mets(metIDs):
     return [", ".join(lst) for lst in _categorize_mets(metIDs)]
