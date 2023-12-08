@@ -9,7 +9,7 @@ from numpy import array, unique, ndarray, where, sort, array_split, nan, load
 from itertools import combinations, permutations, chain
 from optlang import Variable, Constraint, Objective
 from multiprocess import current_process
-from commscores import GEMCompatibility
+# from commscores import GEMCompatibility
 from typing import Iterable, Union
 from numpy.random import shuffle
 from collections import Counter
