@@ -120,9 +120,12 @@ class GEMCompatibility:
                     if re.search("biomass", rxn.name, re.IGNORECASE):
                         print(rxn.name)
                         rxn.id = "bio1"
-                        rxn_stoich = rxn.metabolites
-                        rxn_stoich.update({Metabolite("cpd11416_c0", name="biomass cpd", compartment="c"): 1})
-                        rxn.add_metabolites(rxn_stoich)
+                        biomass_cpd = Metabolite("cpd11416_c0", name="biomass cpd", compartment="c")
+                        rxn.add_metabolites({biomass_cpd: 1})
+                        print(rxn.reaction)
+                        sink_rxn = Reaction("SK_cpd11416_c0","biomass sink", "", 0, 1000)
+                        sink_rxn.add_metabolites({biomass_cpd: -1})
+                        model.add_reactions([sink_rxn])
                         break
             if exchanges:
                 if printing:
