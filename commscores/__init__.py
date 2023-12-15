@@ -1,1 +1,1 @@
-from commscores.commscores import CommScores
+from commscores.scores import CommScores

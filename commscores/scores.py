@@ -14,8 +14,8 @@ from typing import Iterable, Union
 from numpy.random import shuffle
 from collections import Counter
 from deepdiff import DeepDiff  # (old, new)
+from math import inf, isclose
 from pprint import pprint
-from math import inf
 import sigfig
 # from icecream import ic
 import os, re
@@ -295,12 +295,14 @@ class CommScores:
     @staticmethod
     def _check_model(model_util, media, model_str, skip_bad_media):
         default_media = model_util.model.medium
+        # print("test")
         if media is not None:  model_util.add_medium(media)
         obj_val = model_util.model.slim_optimize()
-        if obj_val == 0 or not FBAHelper.isnumber(obj_val):
-            print(f"The {model_str} model input does not yield an operational model, and will therefore be gapfilled.")
-            # if not skip_bad_media:  return MSGapfill.gapfill(model_util.model, media)
-        model_util.add_medium(default_media)
+        print(model_util.model.id, obj_val)
+        if isclose(obj_val, 0, abs_tol=1E-6) or not FBAHelper.isnumber(obj_val):
+            print(f"The {model_str} model is not operational, and will therefore be gapfilled.")
+            if not skip_bad_media:  return MSGapfill.gapfill(model_util.model, media)
+            model_util.add_medium(default_media)
         return model_util.model
 
     @staticmethod
@@ -352,7 +354,7 @@ class CommScores:
                 comm_model = build_from_species_models(grouping)
                 community = MSCommunity(comm_model, ids=modelIDs)
                 comm_sol = comm_model.optimize()
-                print(f"{pid}~~{count}\t{modelIDs}")
+                print(f"{pid}~~{count}\t{modelIDs}\t{comm_sol.objective_value}")
                 for environName, environ in environments.items():
                     if print_progress:  print(f"\tEnvironment\t{environName}", end="\t")
                     if not anme_comm:
