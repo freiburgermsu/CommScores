@@ -1,0 +1,4 @@
+include LICENSE
+Include commscores/config.cfg
+recursive-include commscores/data *
+graft data
