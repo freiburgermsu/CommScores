@@ -12,7 +12,7 @@ import platform, logging, json, re, os #, lzma
 
 # ic.configureOutput(includeContext=True, contextAbsPath=False)
 
-logging.basicConfig(filename="mscompatability.log", format='%(asctime)s %(message)s', filemode='w')
+# logging.basicConfig(filename="mscompatability.log", format='%(asctime)s %(message)s', filemode='w')
 logger = logging.getLogger(__name__)
 
 
