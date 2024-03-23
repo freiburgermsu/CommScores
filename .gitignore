@@ -163,3 +163,6 @@ data/processed/kchip/sequences/
 
 .DS_Store/*
 .DS_Store
+
+# Models
+data/models/arpacheco_models/
