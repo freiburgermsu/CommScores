@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "A python package for quantifying microbial interactions"
 authors = ["Andrew Freiburger <andrewfreiburger@gmail.com>, Dileep Kishore <kishored@ornl.gov>"]
 license = "MIT"
-readme = "README.md"
+readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.11,<3.13"
