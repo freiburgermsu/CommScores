@@ -37,7 +37,7 @@ setup(
     # dependency_links = ['https://github.com/freiburgermsu/ModelSEEDpy/tarball/master#egg=modelseedpy-0.3.2'],
     install_requires=[
         "modelseedpy_freiburgermsu >= 0.3.1.4",
-        "optlang", "numpy", "deepdiff", "sigfig"
+        "optlang", "numpy==1.24.4", "deepdiff", "sigfig"
     ],
     project_urls={
         "Documentation": "https://commscores.readthedocs.io/en/latest/",
