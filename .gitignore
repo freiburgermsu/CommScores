@@ -166,3 +166,7 @@ data/processed/kchip/sequences/
 
 # Models
 data/models/arpacheco_models/
+
+# devenv
+.devenv/
+.direnv/
