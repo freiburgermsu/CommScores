@@ -1,6 +1,5 @@
 {
-  # TODO: Add a description
-  description = "Description of project";
+  description = "CommScores";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
