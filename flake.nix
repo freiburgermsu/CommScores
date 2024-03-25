@@ -44,10 +44,6 @@
 
             scripts.hello.exec = "echo $GREET";
 
-            enterShell = ''
-              hello
-            '';
-
             languages.python = {
               package = pkgs.python311;
               enable = true;
@@ -69,6 +65,12 @@
             };
 
             dotenv.enable = true;
+
+            env.LD_LIBRARY_PATH = with pkgs;
+              lib.makeLibraryPath [
+                stdenv.cc.cc.lib
+                zlib
+              ];
           }
         ];
       };
