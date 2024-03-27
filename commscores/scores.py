@@ -163,7 +163,7 @@ class CommScores:
             member_models, self.community.model, minimal_media_method,
             min_growth, self.environment, True, n_solutions, printing)
 
-    def all_scores(self, mp_score=True, kbase_obj=None, cobrakbase_path:str=None,
+    def all_scores(self, mp_score=True, kbase_obj=None, token_string:str=None,
                    kbase_token_path:str=None, annotated_genomes:dict=None):
         mro = self.mro_score()
         mip = self.mip_score(interacting_media=self.media)
@@ -172,7 +172,7 @@ class CommScores:
         sc = None # self.sc_score()
         smetana = None # self.smetana_score()
         gyd = self.gyd_score()
-        fs = self.fs_score() if any([kbase_obj is not None, annotated_genomes != [], cobrakbase_path is not None
+        fs = self.fs_score() if any([kbase_obj is not None, annotated_genomes != [], token_string is not None
                                        and kbase_token_path is not None]) else None
         return {"mro": mro, "mip": mip, "mp": mp, "mu": mu, "sc": sc, "smetana": smetana,
                 "gyd":gyd, "fs":fs}
@@ -212,8 +212,8 @@ class CommScores:
                   f" is {score} times greater than the growth of the slower member.")
         return self.gyd
 
-    def fs_score(self, kbase_obj=None, cobrakbase_path:str=None, kbase_token_path:str=None, annotated_genomes:dict=None):
-        self.fs_val = CommScores.fs(self.models, kbase_obj, cobrakbase_path, kbase_token_path, annotated_genomes)
+    def fs_score(self, kbase_obj=None, token_string:str=None, kbase_token_path:str=None, annotated_genomes:dict=None):
+        self.fs_val = CommScores.fs(self.models, kbase_obj, token_string, kbase_token_path, annotated_genomes)
         if not self.printing:  return self.fs
         for pair, score in self.fs_val.items():
             print(f"\nFS Score: The similarity of RAST functional SSO ontology "
@@ -293,15 +293,15 @@ class CommScores:
     ###### STATIC METHODS OF THE SMETANA SCORES, WHICH ARE APPLIED IN THE ABOVE CLASS OBJECT ######
 
     @staticmethod
-    def _check_model(model_util, media, model_str, skip_bad_media):
+    def _check_model(model_util, media, model_str, skip_bad_media=True):
         default_media = model_util.model.medium
         # print("test")
         if media is not None:  model_util.add_medium(media)
         obj_val = model_util.model.slim_optimize()
         print(model_util.model.id, obj_val)
         if isclose(obj_val, 0, abs_tol=1E-6) or not FBAHelper.isnumber(obj_val):
-            print(f"The {model_str} model is not operational, and will therefore be gapfilled.")
-            if not skip_bad_media:  return MSGapfill.gapfill(model_util.model, media)
+            print(f"The {model_str} model is not operational")
+            if not skip_bad_media:  print(" and will be gapfilled.")  ;  return MSGapfill.gapfill(model_util.model, media)
             model_util.add_medium(default_media)
         return model_util.model
 
@@ -319,7 +319,7 @@ class CommScores:
 
     @staticmethod
     def calculate_scores(pairs, models_media=None, environments=None, annotated_genomes=True, lazy_load=False,
-                         kbase_obj=None, cip_score=True, costless=True, skip_bad_media=False, anme_comm=False,
+                         kbase_obj=None, cip_score=True, costless=True, skip_bad_media=False, check_models=True,
                          print_progress=False):
         from pandas import Series
 
@@ -357,7 +357,7 @@ class CommScores:
                 print(f"{pid}~~{count}\t{modelIDs}\t{comm_sol.objective_value}")
                 for environName, environ in environments.items():
                     if print_progress:  print(f"\tEnvironment\t{environName}", end="\t")
-                    if not anme_comm:
+                    if not check_models:
                         model1 = CommScores._check_model(model_utils[model1.id], environ, model1_str, skip_bad_media)
                         model2 = CommScores._check_model(model_utils[model2.id], environ, model2_str, skip_bad_media)
                     # initiate the KBase output
@@ -416,12 +416,13 @@ class CommScores:
                     if print_progress:  print("PC  done\tBIT done", end="\t")
                     # print([mem.slim_optimize() for mem in grouping])
                     # define the GYD content
-                    print(list(CommScores.gyd(grouping, grouping_utils, environ, False, community, anme_comm).values()))
-                    gyd1, gyd2, g1, g2 = list(CommScores.gyd(grouping, grouping_utils, environ, False, community, anme_comm).values())[0]
+                    print(list(CommScores.gyd(grouping, grouping_utils, environ, False, community, check_models).values()))
+                    gyd1, gyd2, g1, g2 = list(CommScores.gyd(grouping, grouping_utils, environ, False, community, check_models).values())[0]
                     report_dic.update({"GYD1": _sigfig_check(gyd1, 5, ""), "GYD2": _sigfig_check(gyd2, 5, "")})
                     if print_progress:  print("GYD done\t\t", end="\t" if annotated_genomes else "\n")
                     # define the FS content
-                    if kbase_obj is not None and annotated_genomes and not anme_comm:
+
+                    if kbase_obj is not None and annotated_genomes:
                         fs_values = list(CommScores.fs(grouping, kbase_obj, annotated_genomes=annotated_genomes).values())[0]
                         print(len(fs_values[0]) if fs_values[0] is not None else "NaN", fs_values[1])
                         report_dic.update({"FS": sigfig.round(fs_values[1], 5)})
@@ -497,7 +498,7 @@ class CommScores:
             series = chain.from_iterable([ele[0] for ele in output])
             mets = chain.from_iterable([ele[1] for ele in output])
         else:  series, mets = CommScores.calculate_scores(pairs, models_media, environments, annotated_genomes, lazy_load,
-                                                          kbase_obj, cip_score, costless, skip_bad_media, anme_comm, print_progress)
+                                                          kbase_obj, cip_score, costless, skip_bad_media, check_models, print_progress)
         return concat(series, axis=1).T, mets
 
     @staticmethod
@@ -735,13 +736,15 @@ class CommScores:
 
     @staticmethod
     def gyd(member_models:Iterable=None, model_utils:Iterable=None, environment=None, coculture_growth=False,
-            community=None, anme_comm=False):
+            community=None, check_models=True):
         gyds = {}
         for combination in combinations(model_utils or member_models, 2):
             if model_utils is None:
                 model1_util = MSModelUtil(combination[0], True) ; model2_util = MSModelUtil(combination[1], True)
                 print(f"{model1_util.model.id} ++ {model2_util.model.id}", model1_util.model.slim_optimize(), model2_util.model.slim_optimize())
-                if environment and not anme_comm:  model1_util.add_medium(environment); model2_util.add_medium(environment)
+                if environment and check_models:
+                    model1_util = CommScores._check_model(model1_util, environment)
+                    model2_util = CommScores._check_model(model2_util, environment)
             else:  model1_util = combination[0] ; model2_util = combination[1]
             if not coculture_growth:
                 G_m1, G_m2 = CommScores._determine_growths([model1_util, model2_util])
@@ -819,7 +822,6 @@ class CommScores:
     def mqs():
         pass
 
-
     @staticmethod
     def _calculate_jaccard_score(set1, set2):
         if set1 == set2:  print(f"The sets are identical, with a length of {len(set1)}.")
@@ -847,12 +849,14 @@ class CommScores:
                 for genome_name in genome_names}
 
     @staticmethod
-    def fs(models:Iterable=None, kbase_object=None, cobrakbase_repo_path:str=None,
+    def fs(models:Iterable=None, kbase_object=None, token_string:str=None,
            kbase_token_path:str=None, annotated_genomes:dict=None, printing=False):
         if not isinstance(annotated_genomes, dict):
             if not kbase_object:
-                import os ; os.environ["HOME"] = cobrakbase_repo_path ; import cobrakbase
-                with open(kbase_token_path) as token_file:  kbase_object = cobrakbase.KBaseAPI(token_file.readline())
+                import os  ;  import cobrakbase # ; os.environ["HOME"] = cobrakbase_repo_path ; import cobrakbase
+                if token_string is not None:   kbase_object = cobrakbase.KBaseAPI(token_string)
+                else:
+                    with open(kbase_token_path) as token_file:  kbase_object = cobrakbase.KBaseAPI(token_file.readline())
             annotated_genomes = {model.id: kbase_object.get_from_ws(model.genome_ref)
                                  for model in models if hasattr(model, "genome_ref")}
         elif isinstance(annotated_genomes, list):  annotated_genomes = dict(zip([model.id for model in models], annotated_genomes))
@@ -957,6 +961,7 @@ class CommScores:
                              "MIP_model2": heatmap_df["MIP_model2 (costless)"].apply(remove_metadata)}.items():
                 heatmap_df[col] = to_numeric(lis, errors='coerce')
         for col in ["MRO_model1", "MRO_model2", "BSS_model1", "BSS_model2", "PC_model1", "PC_model2", "FS", "GYD"]:
+            if col not in heatmap_df:   print(f"The {col} is not computed")  ;  continue
             heatmap_df[col] = to_numeric(heatmap_df[col].apply(remove_metadata), errors='coerce')
         del heatmap_df["BIT"], heatmap_df["MIP_model1 (costless)"], heatmap_df[
             "MIP_model2 (costless)"]  # TODO colorize the BIT entries as well
