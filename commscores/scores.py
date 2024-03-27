@@ -926,7 +926,11 @@ class CommScores:
                     if "msdb" not in locals().keys():
                         from modelseedpy_freiburgermsu.biochem import from_local
                         msdb = from_local(msdb_path)
-                    name = msdb.compounds.get_by_id(metID).name
+                    name = msdb.compounds.get(metID, None)
+                    if name is None:
+                        name = metID
+                    else:
+                        name = name["name"]
                     update_cpdNames[metID] = name
                 else:
                     name = cpdNames[metID]
