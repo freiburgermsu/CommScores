@@ -980,7 +980,7 @@ class CommScores:
         mro_mets, mro_mets_names, mip_model1_mets, mip_model1_mets_names = [], [], [], []
         mip_model2_mets, mip_model2_mets_names, cip_mets, cip_mets_names = [], [], [], []
         from json import load, dump
-        cpdNames_path = os.path.join(package_dir, "data", "cpdNames.json")
+        cpdNames_path = os.path.join(package_dir, "data", "compoundNames.json")
         with open(cpdNames_path, "r") as jsonIn:
             cpdNames = load(jsonIn)
         update_cpdNames = {}
