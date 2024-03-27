@@ -439,7 +439,7 @@ class CommScores:
                           exclude_pairs:list=None, kbase_obj=None, annotated_genomes:dict=True,  # True triggers internal acquisition of the genomes, where None skips
                           see_media=True, environments:iter=None,  # a collection of environment dicts or KBase media objects
                           pool_size:int=None, cip_score=True, costless=True, skip_bad_media=False, anme_comm=False,
-                          print_progress=False):
+                          print_progress=False, check_models=True):
         from pandas import concat
 
         if pairs:  model_pairs = unique([{model1, model2} for model1, models in pairs.items() for model2 in models])
