@@ -25,6 +25,11 @@ import os, re
 import warnings
 warnings.simplefilter("ignore", category=DeprecationWarning)
 
+import logging
+logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.ERROR)
+logger = logging.getLogger(__name__)
+
+
 rm_comp = FBAHelper.remove_compartment
 rm_costless = re.compile("(\s\(.+\))")
 def remove_metadata(element):
@@ -313,8 +318,12 @@ class CommScores:
         return model, model_str
 
     @staticmethod
-    def _determine_growths(modelUtils):
-        return [util.model.slim_optimize() for util in modelUtils]
+    def _determine_growths(modelUtils, environ):
+        obj_vals = []
+        for util in modelUtils:
+            util.add_medium(environ)
+            obj_vals.append(util.model.slim_optimize())
+        return obj_vals
 
 
     @staticmethod
@@ -357,16 +366,17 @@ class CommScores:
                 print(f"{pid}~~{count}\t{modelIDs}\t{comm_sol.objective_value}")
                 for environName, environ in environments.items():
                     if print_progress:  print(f"\tEnvironment\t{environName}", end="\t")
-                    if not check_models:
-                        model1 = CommScores._check_model(model_utils[model1.id], environ, model1_str, skip_bad_media)
-                        model2 = CommScores._check_model(model_utils[model2.id], environ, model2_str, skip_bad_media)
+                    if check_models:    # check that the models grow in the environment
+                        CommScores._check_model(model_utils[model1.id], environ, model1_str, skip_bad_media)
+                        CommScores._check_model(model_utils[model2.id], environ, model2_str, skip_bad_media)
                     # initiate the KBase output
                     report_dic = {f"model{i+1}": modelID for i,modelID in enumerate(modelIDs)}
-                    g1, g2, comm = CommScores._determine_growths([model_utils[model1.id], model_utils[model2.id], community.util])
-                    g1, g2, comm = _sigfig_check(g1, 5, ""), _sigfig_check(g2, 5, ""), _sigfig_check(comm, 5, "")
+                    # the model growths are determined and the environmental media is parameterized for each of the members
+                    g1, g2, comm = [_sigfig_check(val, 5, "") for val in CommScores._determine_growths(
+                        [model_utils[model1.id], model_utils[model2.id], community.util], environ)]
                     report_dic.update({"media": environName, "model1 growth": g1, "model2 growth": g2, "community growth": comm})
                     coculture_growths = {mem.id: comm_sol.fluxes[mem.primary_biomass.id] for mem in community.members}
-                    report_dic.update({f"coculture growth model{modelIDs.index(memID)}": growth for memID, growth in coculture_growths.items()})
+                    report_dic.update({f"coculture growth model{modelIDs.index(memID)+1}": growth for memID, growth in coculture_growths.items()})
                     # define the MRO content
                     mro_values = CommScores.mro(grouping, models_media, raw_content=True, environment=environ)
                     report_dic.update({f"MRO_model{modelIDs.index(models_string.split('--')[0])+1}":
@@ -416,7 +426,7 @@ class CommScores:
                     if print_progress:  print("PC  done\tBIT done", end="\t")
                     # print([mem.slim_optimize() for mem in grouping])
                     # define the GYD content
-                    print(list(CommScores.gyd(grouping, grouping_utils, environ, False, community, check_models).values()))
+                    logger.debug(list(CommScores.gyd(grouping, grouping_utils, environ, False, community, check_models).values()))
                     gyd1, gyd2, g1, g2 = list(CommScores.gyd(grouping, grouping_utils, environ, False, community, check_models).values())[0]
                     report_dic.update({"GYD1": _sigfig_check(gyd1, 5, ""), "GYD2": _sigfig_check(gyd2, 5, "")})
                     if print_progress:  print("GYD done\t\t", end="\t" if annotated_genomes else "\n")
@@ -483,7 +493,7 @@ class CommScores:
                     missing_models.add(model)
                     missing_modelID.append(model if not hasattr(model, "id") else model.id)
             if missing_models != set():
-                print(f"Media of the {missing_modelID} models are not defined, and will be calculated separately.")
+                logger.error(f"Media of the {missing_modelID} models are not defined, and will be calculated separately.")
                 models_media.update(_get_media(model_s_=missing_models), skip_bad_media=skip_bad_media)
         if see_media:  print(f"The minimal media of all members:\n{models_media}")
         print(f"\nExamining the {len(list(model_pairs))} model pairs")
@@ -741,12 +751,12 @@ class CommScores:
             if model_utils is None:
                 model1_util = MSModelUtil(combination[0], True) ; model2_util = MSModelUtil(combination[1], True)
                 print(f"{model1_util.model.id} ++ {model2_util.model.id}", model1_util.model.slim_optimize(), model2_util.model.slim_optimize())
-                if environment and check_models:
+                if check_models:
                     model1_util = CommScores._check_model(model1_util, environment)
                     model2_util = CommScores._check_model(model2_util, environment)
             else:  model1_util = combination[0] ; model2_util = combination[1]
             if not coculture_growth:
-                G_m1, G_m2 = CommScores._determine_growths([model1_util, model2_util])
+                G_m1, G_m2 = CommScores._determine_growths([model1_util, model2_util], environment)
                 G_m1, G_m2 = G_m1 if FBAHelper.isnumber(str(G_m1)) else 0, G_m2 if FBAHelper.isnumber(str(G_m2)) else 0
             else:
                 community = community or MSCommunity(member_models=[model1_util.model, model2_util.model],
