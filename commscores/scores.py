@@ -374,9 +374,10 @@ class CommScores:
                     # the model growths are determined and the environmental media is parameterized for each of the members
                     g1, g2, comm = [_sigfig_check(val, 5, "") for val in CommScores._determine_growths(
                         [model_utils[model1.id], model_utils[model2.id], community.util], environ)]
-                    report_dic.update({"media": environName, "model1 growth": g1, "model2 growth": g2, "community growth": comm})
                     coculture_growths = {mem.id: comm_sol.fluxes[mem.primary_biomass.id] for mem in community.members}
+                    report_dic.update({"media": environName, "monoculture growth model1": g1, "monoculture growth model2": g2})
                     report_dic.update({f"coculture growth model{modelIDs.index(memID)+1}": growth for memID, growth in coculture_growths.items()})
+                    report_dic.update({"community growth": comm})
                     # define the MRO content
                     mro_values = CommScores.mro(grouping, models_media, raw_content=True, environment=environ)
                     report_dic.update({f"MRO_model{modelIDs.index(models_string.split('--')[0])+1}":
@@ -419,9 +420,9 @@ class CommScores:
                     if print_progress:  print("BSS done", end="\t")
                     # define the PC content
                     pc_values = CommScores.pc(grouping, grouping_utils, comm_model, None, comm_sol, environ, True, community)
-                    report_dic.update({"PC_comm": _sigfig_check(pc_values[0], 5, ""),
-                                       "PC_model1": _sigfig_check(list(pc_values[1].values())[0], 5, ""),
+                    report_dic.update({"PC_model1": _sigfig_check(list(pc_values[1].values())[0], 5, ""),
                                        "PC_model2": _sigfig_check(list(pc_values[1].values())[1], 5, ""),
+                                       "PC_comm": _sigfig_check(pc_values[0], 5, ""),
                                        "BIT": pc_values[3]})
                     if print_progress:  print("PC  done\tBIT done", end="\t")
                     # print([mem.slim_optimize() for mem in grouping])
