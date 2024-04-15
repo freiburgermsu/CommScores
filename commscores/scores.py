@@ -374,7 +374,7 @@ class CommScores:
                     # the model growths are determined and the environmental media is parameterized for each of the members
                     g1, g2, comm = [_sigfig_check(val, 5, "") for val in CommScores._determine_growths(
                         [model_utils[model1.id], model_utils[model2.id], community.util], environ)]
-                    coculture_growths = {mem.id: comm_sol.fluxes[mem.primary_biomass.id] for mem in community.members}
+                    coculture_growths = {memID: abundance*comm for memID, abundance in community.predict_abundances().items()}
                     report_dic.update({"media": environName, "monoculture growth model1": g1, "monoculture growth model2": g2})
                     report_dic.update({f"coculture growth model{modelIDs.index(memID)+1}": growth for memID, growth in coculture_growths.items()})
                     report_dic.update({"community growth": comm})
