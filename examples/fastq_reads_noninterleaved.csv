@@ -1,0 +1,4 @@
+Data type: fastq_reads_noninterleaved; Columns: 8; Version: 1,,,,,,,
+fastq_fwd_staging_file_name,fastq_rev_staging_file_name,sequencing_tech,name,single_genome,read_orientation_outward,insert_size_std_dev,insert_size_mean
+Forward/left FASTQ file path,Reverse/right FASTQ file path,Sequencing technology,Reads object name,Single genome,Reads orientation outward,St. dev. of insert size,Mean insert size
+240412_Gupta_Hanke_fastqs/PR2_S17_R1_001.fastq.gz,240412_Gupta_Hanke_fastqs/PR2_S17_R2_001.fastq.gz,r,PR2_S17,1,0,,

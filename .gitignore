@@ -161,6 +161,9 @@ cython_debug/
 
 # data
 data/processed/kchip/sequences/
+examples/240412_Gupta_Hanke_fastqs 2/*
+Examples/240412_Gupta_Hanke_fastqs/*
+*/*.zip
 
 .DS_Store/*
 .DS_Store
