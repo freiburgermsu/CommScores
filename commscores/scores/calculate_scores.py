@@ -1,10 +1,28 @@
+import sigfig
 from modelseedpy.community.commhelper import build_from_species_models
 from modelseedpy.community.mscommunity import MSCommunity
 from modelseedpy.core.fbahelper import FBAHelper
 from modelseedpy.core.msmodelutl import MSModelUtil
 from multiprocess import current_process
 
+from ..logger import logger
 from ..utils import _get_media, _sigfig_check
+from .bss import bss
+from .cip import cip
+from .fs import fs
+from .gyd import _check_model, _determine_growths, gyd
+from .mip import mip
+from .mro import mro
+from .pc import pc
+
+
+def _load(model, kbase_obj):
+    model_str = model
+    if len(model) == 2:
+        model = kbase_obj.get_from_ws(*model)
+    else:
+        model = kbase_obj.get_from_ws(model)
+    return model, model_str
 
 
 def calculate_scores(
@@ -47,7 +65,7 @@ def calculate_scores(
         if model1.id == "":
             model1.id = "model1"
         if lazy_load:
-            model1, model1_str = CommScores._load(model1, kbase_obj)
+            model1, model1_str = _load(model1, kbase_obj)
         else:
             model1_str = model1.id
         if model1.id not in models_media:
@@ -63,7 +81,7 @@ def calculate_scores(
             if model2.id == "":
                 model2.id = "model2"
             if lazy_load:
-                model2, model2_str = CommScores._load(model2, kbase_obj)
+                model2, model2_str = _load(model2, kbase_obj)
             else:
                 model2_str = model2.id
             if model2.id not in models_media:
@@ -85,10 +103,10 @@ def calculate_scores(
                 if print_progress:
                     print(f"\tEnvironment\t{environName}", end="\t")
                 if check_models:  # check that the models grow in the environment
-                    CommScores._check_model(
+                    _check_model(
                         model_utils[model1.id], environ, model1_str, skip_bad_media
                     )
-                    CommScores._check_model(
+                    _check_model(
                         model_utils[model2.id], environ, model2_str, skip_bad_media
                     )
                 # initiate the KBase output
@@ -98,7 +116,7 @@ def calculate_scores(
                 # the model growths are determined and the environmental media is parameterized for each of the members
                 g1, g2, comm = [
                     _sigfig_check(val, 5, "")
-                    for val in CommScores._determine_growths(
+                    for val in _determine_growths(
                         [
                             model_utils[model1.id],
                             model_utils[model2.id],
@@ -126,7 +144,7 @@ def calculate_scores(
                 )
                 report_dic.update({"community growth": comm})
                 # define the MRO content
-                mro_values = CommScores.mro(
+                mro_values = mro(
                     grouping, models_media, raw_content=True, environment=environ
                 )
                 report_dic.update(
@@ -143,7 +161,7 @@ def calculate_scores(
                     print("MRO done", end="\t")
                 # define the CIP content
                 if cip_score:
-                    cip_values = CommScores.cip(
+                    cip_values = cip(
                         modelutils=[model_utils[mem.id] for mem in grouping]
                     )
                     report_dic.update({"CIP": cip_values[1]})
@@ -151,7 +169,7 @@ def calculate_scores(
                     if print_progress:
                         print("CIP done", end="\t")
                 # define the MIP content
-                mip_values = CommScores.mip(
+                mip_values = mip(
                     grouping,
                     comm_model,
                     0.1,
@@ -204,7 +222,7 @@ def calculate_scores(
                 if print_progress:
                     print("MIP done", end="\t")
                 # define the BSS content
-                bss_values = CommScores.bss(
+                bss_values = bss(
                     grouping,
                     grouping_utils,
                     environments,
@@ -231,7 +249,7 @@ def calculate_scores(
                 if print_progress:
                     print("BSS done", end="\t")
                 # define the PC content
-                pc_values = CommScores.pc(
+                pc_values = pc(
                     grouping,
                     grouping_utils,
                     comm_model,
@@ -259,7 +277,7 @@ def calculate_scores(
                 # define the GYD content
                 logger.debug(
                     list(
-                        CommScores.gyd(
+                        gyd(
                             grouping,
                             grouping_utils,
                             environ,
@@ -270,7 +288,7 @@ def calculate_scores(
                     )
                 )
                 gyd1, gyd2, g1, g2 = list(
-                    CommScores.gyd(
+                    gyd(
                         grouping,
                         grouping_utils,
                         environ,
@@ -291,7 +309,7 @@ def calculate_scores(
 
                 if kbase_obj is not None and annotated_genomes:
                     fs_values = list(
-                        CommScores.fs(
+                        fs(
                             grouping, kbase_obj, annotated_genomes=annotated_genomes
                         ).values()
                     )[0]
