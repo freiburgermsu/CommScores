@@ -3,7 +3,7 @@
   description = "Description of project";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/6a4308091a8c40f538a3a5a773df311ccdb2b748";
     systems.url = "github:nix-systems/default";
     devenv.url = "github:cachix/devenv";
   };
