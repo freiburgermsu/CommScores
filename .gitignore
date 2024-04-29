@@ -170,3 +170,7 @@ Examples/240412_Gupta_Hanke_fastqs/*
 
 # Models
 data/models/arpacheco_models/
+
+# nix
+.direnv/
+.devenv/
