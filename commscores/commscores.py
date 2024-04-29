@@ -8,8 +8,6 @@ from collections import Counter
 from itertools import chain, combinations, permutations
 from math import isclose
 from pprint import pprint
-
-# from commscores import GEMCompatibility
 from typing import Iterable
 
 import sigfig
@@ -109,13 +107,7 @@ def _process_mets(metIDs):
 
 
 def _compatibilize(member_models: Iterable, printing=False):
-    # return member_models
-    models = GEMCompatibility.standardize(
-        member_models, conflicts_file_name="exchanges_conflicts.json", printing=printing
-    )
-    if not isinstance(member_models, (set, list, tuple)):
-        return models[0]
-    return models
+    return member_models
 
 
 def _load_models(
