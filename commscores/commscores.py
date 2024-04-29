@@ -1,8 +1,6 @@
 # from icecream import ic
 import os
 import re
-
-# silence deprecation warnings from DeepDiff parsing the syntrophy
 import warnings
 from collections import Counter
 from itertools import chain, combinations, permutations
@@ -10,21 +8,22 @@ from math import isclose
 from pprint import pprint
 from typing import Iterable
 
-import sigfig
 from deepdiff import DeepDiff  # (old, new)
 from modelseedpy.community.commhelper import build_from_species_models
-from modelseedpy.community.mscommunity import MSCommunity
 from modelseedpy.core.exceptions import ObjectiveError, ParameterError
 from modelseedpy.core.fbahelper import FBAHelper
-from modelseedpy.core.msgapfill import MSGapfill
 from modelseedpy.core.msminimalmedia import MSMinimalMedia
 from modelseedpy.core.msmodelutl import MSModelUtil
-from optlang import Constraint, Objective, Variable
+
+# silence deprecation warnings from DeepDiff parsing the syntrophy
+from numpy import array
 
 from .logger import logger
+from .scores import antiSMASH, bss, cip, fs, gyd, mip, mp, mro, mu, pc, sc, smetana
 
 warnings.simplefilter("ignore", category=DeprecationWarning)
 
+package_dir = os.path.abspath(os.path.dirname(__file__))
 
 rm_comp = FBAHelper.remove_compartment
 
@@ -144,7 +143,7 @@ class CommScores:
         }
 
     def mro_score(self):
-        self.mro_val = CommScores.mro(
+        self.mro_val = mro(
             self.models,
             self.media["members"],
             self.min_growth,
@@ -177,7 +176,7 @@ class CommScores:
         self, interacting_media: dict = None, noninteracting_media: dict = None
     ):
         interacting_media = interacting_media or self.media or None
-        diff, self.mip_val = CommScores.mip(
+        diff, self.mip_val = mip(
             self.models,
             self.community.model,
             self.min_growth,
@@ -197,7 +196,7 @@ class CommScores:
         return self.mip_val
 
     def gyd_score(self, coculture_growth=False):
-        self.gyd_val = CommScores.gyd(
+        self.gyd_val = gyd(
             self.models, environment=self.environment, coculture_growth=coculture_growth
         )
         if not self.printing:
@@ -217,21 +216,21 @@ class CommScores:
         kbase_token_path: str = None,
         annotated_genomes: dict = None,
     ):
-        self.fs_val = CommScores.fs(
+        self.fs_val = fs(
             self.models, kbase_obj, token_string, kbase_token_path, annotated_genomes
         )
         if not self.printing:
-            return self.fs
+            return fs
         for pair, score in self.fs_val.items():
             print(
                 f"\nFS Score: The similarity of RAST functional SSO ontology "
                 f"terms between the {pair} members is {score}."
             )
-        return self.fs
+        return fs
 
     def mp_score(self):
         print("executing MP")
-        self.mp_val = CommScores.mp(
+        self.mp_val = mp(
             self.models,
             self.environment,
             self.community.model,
@@ -256,7 +255,7 @@ class CommScores:
 
     def mu_score(self):
         member_excreta = self.mp_score() if not hasattr(self, "mp_val") else self.mp_val
-        self.mu_val = CommScores.mu(
+        self.mu_val = mu(
             self.models,
             self.environment,
             member_excreta,
@@ -275,7 +274,7 @@ class CommScores:
         return self.mu_val
 
     def sc_score(self):
-        self.sc_val = CommScores.sc(
+        self.sc_val = sc(
             self.models,
             self.community.model,
             self.min_growth,
@@ -295,13 +294,13 @@ class CommScores:
     def smetana_score(self):
         if not hasattr(self, "sc_val"):
             self.sc_val = self.sc_score()
-        sc_coupling = all(array(list(self.sc.values())) is not None)
+        sc_coupling = all(array(list(sc.values())) is not None)
         if not hasattr(self, "mu_val"):
             self.mu_val = self.mu_score()
         if not hasattr(self, "mp_val"):
             self.mp_val = self.mp_score()
 
-        self.smetana = CommScores.smetana(
+        self.smetana = smetana(
             self.models,
             self.community.model,
             self.min_growth,
@@ -318,9 +317,7 @@ class CommScores:
         return self.smetana
 
     def antiSMASH_scores(self, antismash_json_path=None):
-        self.antismash = CommScores.antiSMASH(
-            antismash_json_path or self.antismash_json_path
-        )
+        self.antismash = antiSMASH(antismash_json_path or self.antismash_json_path)
         if not self.printing:
             return self.antismash
         if self.raw_content:
@@ -355,689 +352,8 @@ class CommScores:
     ###### STATIC METHODS OF THE SMETANA SCORES, WHICH ARE APPLIED IN THE ABOVE CLASS OBJECT ######
 
     @staticmethod
-    def _check_model(model_util, media, model_str, skip_bad_media=True):
-        default_media = model_util.model.medium
-        # print("test")
-        if media is not None:
-            model_util.add_medium(media)
-        obj_val = model_util.model.slim_optimize()
-        print(model_util.model.id, obj_val)
-        if isclose(obj_val, 0, abs_tol=1e-6) or not FBAHelper.isnumber(obj_val):
-            print(f"The {model_str} model is not operational")
-            if not skip_bad_media:
-                print(" and will be gapfilled.")
-                return MSGapfill.gapfill(model_util.model, media)
-            model_util.add_medium(default_media)
-        return model_util.model
-
-    @staticmethod
-    def _load(model, kbase_obj):
-        model_str = model
-        if len(model) == 2:
-            model = kbase_obj.get_from_ws(*model)
-        else:
-            model = kbase_obj.get_from_ws(model)
-        return model, model_str
-
-    @staticmethod
-    def _determine_growths(modelUtils, environ):
-        obj_vals = []
-        for util in modelUtils:
-            util.add_medium(environ)
-            obj_vals.append(util.model.slim_optimize())
-        return obj_vals
-
-    @staticmethod
-    def mro(
-        member_models: Iterable = None,
-        mem_media: dict = None,
-        min_growth=0.1,
-        media_dict=None,
-        raw_content=False,
-        environment=None,
-        skip_bad_media=False,
-        printing=False,
-        compatibilized=False,
-    ):
-        """Determine the overlap of nutritional requirements (minimal media) between member organisms."""
-        # determine the member minimal media if they are not parameterized
-        if not mem_media:
-            if not member_models:
-                raise ParameterError(
-                    "The either member_models or minimal_media parameter must be defined."
-                )
-            member_models = (
-                member_models
-                if compatibilized
-                else _compatibilize(member_models, printing)
-            )
-            mem_media = _get_media(
-                media_dict,
-                None,
-                member_models,
-                min_growth,
-                environment,
-                printing=printing,
-                skip_bad_media=skip_bad_media,
-            )
-            if "community_media" in mem_media:
-                mem_media = mem_media["members"]
-        # MROs = array(list(map(len, pairs.values()))) / array(list(map(len, mem_media.values())))
-        mro_values = {}
-        for model1, model2 in combinations(member_models, 2):
-            intersection = set(mem_media[model1.id]["media"].keys()) & set(
-                mem_media[model2.id]["media"].keys()
-            )
-            inter = [ex.replace("EX_", "").replace("_e0", "") for ex in intersection]
-            m1_media = mem_media[model1.id]["media"]
-            m2_media = mem_media[model2.id]["media"]
-            if raw_content:
-                mro_values.update(
-                    {
-                        f"{model1.id}---{model2.id})": (inter, m1_media),
-                        f"{model2.id}---{model1.id})": (inter, m2_media),
-                    }
-                )
-            else:
-                mro_values.update(
-                    {
-                        f"{model1.id}---{model2.id})": 100
-                        * (len(inter) / len(m1_media), len(inter), len(m1_media)),
-                        f"{model2.id}---{model1.id})": 100
-                        * (len(inter) / len(m2_media), len(inter), len(m2_media)),
-                        "mets": inter,
-                    }
-                )
-        return mro_values
-        # return mean(list(map(len, pairs.values()))) / mean(list(map(len, mem_media.values())))
-
-    @staticmethod
-    def mip(
-        member_models: Iterable,
-        com_model=None,
-        min_growth=0.1,
-        interacting_media_dict=None,
-        noninteracting_media_dict=None,
-        environment=None,
-        printing=False,
-        compatibilized=False,
-        costless=False,
-        multi_output=False,
-        skip_bad_media=False,
-    ):
-        """Determine the quantity of nutrients that can be potentially sourced through syntrophy"""
-        member_models, community = _load_models(
-            member_models, com_model, not compatibilized, printing=printing
-        )
-        # determine the interacting and non-interacting media for the specified community  .util.model
-        noninteracting_medium, noninteracting_sol = _get_media(
-            noninteracting_media_dict,
-            community,
-            None,
-            min_growth,
-            environment,
-            False,
-            skip_bad_media=skip_bad_media,
-        )
-        if noninteracting_medium is None:
-            return None
-        if "community_media" in noninteracting_medium:
-            noninteracting_medium = noninteracting_medium["community_media"]
-        interacting_medium, interacting_sol = _get_media(
-            interacting_media_dict,
-            community,
-            None,
-            min_growth,
-            environment,
-            True,
-            skip_bad_media=skip_bad_media,
-        )
-        if interacting_medium is None:
-            return None
-        if "community_media" in interacting_medium:
-            interacting_medium = interacting_medium["community_media"]
-        interact_diff = DeepDiff(noninteracting_medium, interacting_medium)
-        if "dictionary_item_removed" not in interact_diff:
-            return None
-        cross_fed_exIDs = [
-            re.sub("(root\['|'\])", "", x)
-            for x in interact_diff["dictionary_item_removed"]
-        ]
-        # Determine each direction of the MIP score interactions
-        comm_util = MSModelUtil(community)
-        cross_fed_metIDs = [
-            ex.replace("EX_", "").replace("_e0", "") for ex in cross_fed_exIDs
-        ]
-        cross_fed_copy = cross_fed_metIDs[:]
-        directionalMIP = {mem.id: [] for mem in member_models}
-        for rxn in comm_util.transport_list():
-            # print(rxn.reaction, "\t", [met.id for met in rxn.metabolites if "_e0" in met.id])
-            metIDs = list(
-                set([met.id.split("_")[0] for met in rxn.reactants]).intersection(
-                    set([met.id.split("_")[0] for met in rxn.products])
-                )
-            )
-            if len(metIDs) == 1:
-                metID = metIDs[0]
-            else:
-                if "cpd00067" in metIDs:
-                    metIDs.remove("cpd00067")
-                metID = metIDs[0]
-            if metID not in cross_fed_metIDs:
-                continue
-            rxn_index = FBAHelper.compartment_index(rxn.id.split("_")[-1])
-            if rxn_index == 0:
-                continue
-            mets = [met for met in rxn.metabolites if met.id == f"{metID}_c{rxn_index}"]
-            if mets == []:
-                print(f"The {metID}_c{rxn_index} is missing in {rxn.reaction}.")
-                continue
-            rxn_model = member_models[rxn_index - 1]
-            # comm_trans[metID] = comm_trans.get(f"{metID}_c{rxn_index}", {})
-            if (
-                rxn.metabolites[mets[0]] > 0
-                and interacting_sol.fluxes[rxn.id] > 0
-                or rxn.metabolites[mets[0]] < 0
-                and interacting_sol.fluxes[rxn.id] < 0
-            ):  # donor
-                directionalMIP[rxn_model.id].append(metID)
-                if metID in cross_fed_copy:
-                    cross_fed_copy.remove(metID)
-                    continue
-            # if printing:  print(f"{mets[0]} in {rxn.id} ({rxn.reaction}) is not assigned a receiving member.")
-        if cross_fed_copy != [] and printing:
-            print(f"Missing directions for the {cross_fed_copy} cross-fed metabolites")
-        outputs = [directionalMIP]
-        # TODO categorize all of the cross-fed substrates to examine potential associations of specific compounds
-        if costless:
-            costless_mets, numExs = CommScores.cip(member_models=member_models)
-            # print(list(directionalMIP.values()), costless_mets)
-            costlessDirectionalMIP = {
-                member_name: set(receive_mets).intersection(costless_mets)
-                for member_name, receive_mets in directionalMIP.items()
-            }
-            if not multi_output:
-                return costlessDirectionalMIP
-            outputs.append(costlessDirectionalMIP)
-        return outputs
-
-    @staticmethod
-    def cip(modelutils=None, member_models=None):  # costless interaction potential
-        if not modelutils:
-            modelutils = {MSModelUtil(model) for model in member_models}
-        costless_mets = set(
-            chain.from_iterable(
-                [modelutil.costless_excreta() for modelutil in modelutils]
-            )
-        )
-        return costless_mets, len(costless_mets)
-
-    @staticmethod
-    def contributions(org_possible_contributions, scores, model_util, abstol):
-        # identify and log excreta from the solution
-        model_util.add_objective(
-            sum(ex_rxn.flux_expression for ex_rxn in org_possible_contributions)
-        )
-        sol = model_util.model.optimize()
-        if sol.status != "optimal":
-            # exit the while loop by returning the original possible_contributions,
-            ## hence DeepDiff == {} and the while loop terminates
-            return scores, org_possible_contributions
-        # identify and log excreta from the solution
-        possible_contributions = org_possible_contributions[:]
-        for ex in org_possible_contributions:
-            if ex.id in sol.fluxes.keys() and sol.fluxes[ex.id] >= abstol:
-                possible_contributions.remove(ex)
-                scores[model_util.model.id].update([met.id for met in ex.metabolites])
-        return scores, possible_contributions
-
-    @staticmethod
-    def mp(
-        member_models: Iterable,
-        environment,
-        com_model=None,
-        minimal_media=None,
-        abstol=1e-3,
-        printing=False,
-    ):
-        """Discover the metabolites that each species can contribute to a community"""
-        community = (
-            _compatibilize(com_model)
-            if com_model
-            else build_from_species_models(member_models, standardize=True)
-        )
-        community.medium = minimal_media or MSMinimalMedia.minimize_flux(community)
-        scores = {}
-        for org_model in (
-            member_models
-        ):  # TODO support parsing the individual members through the MSCommunity object
-            model_util = MSModelUtil(org_model)
-            model_util.compatibilize(printing=printing)
-            if environment:
-                model_util.add_medium(environment)
-            scores[model_util.model.id] = set()
-            # determines possible member contributions in the community environment, where the excretion of media compounds is irrelevant
-            org_possible_contr = [
-                ex_rxn
-                for ex_rxn in model_util.exchange_list()
-                if (ex_rxn.id not in community.medium and ex_rxn.upper_bound > 0)
-            ]
-            # ic(org_possible_contributions, len(model_util.exchange_list()), len(community.medium))
-            scores, possible_contr = CommScores.contributions(
-                org_possible_contr, scores, model_util, abstol
-            )
-            while DeepDiff(org_possible_contr, possible_contr):
-                print("remaining possible_contributions", len(possible_contr), end="\r")
-                ## optimize the sum of the remaining exchanges that have not surpassed the abstol
-                org_possible_contr = possible_contr[:]
-                scores, possible_contr = CommScores.contributions(
-                    org_possible_contr, scores, model_util, abstol
-                )
-
-            ## individually checks the remaining possible contributions
-            for ex_rxn in possible_contr:
-                model_util.model.objective = Objective(ex_rxn.flux_expression)
-                sol = model_util.model.optimize()
-                if sol.status == "optimal" or sol.objective_value > abstol:
-                    for met in ex_rxn.metabolites:
-                        if met.id in scores[model_util.model.id]:
-                            scores[model_util.model.id].remove(met.id)
-                            print("removing", met.id)
-        return scores
-
-    @staticmethod
-    def mu(
-        member_models: Iterable,
-        environment=None,
-        member_excreta=None,
-        n_solutions=100,
-        abstol=1e-3,
-        compatibilized=False,
-        printing=True,
-    ):
-        """the fractional frequency of each received metabolite amongst all possible alternative syntrophic solutions"""
-        # member_solutions = member_solutions if member_solutions else {model.id: model.optimize() for model in member_models}
-        scores = {}
-        member_models = (
-            member_models if compatibilized else _compatibilize(member_models, printing)
-        )
-        if member_excreta:
-            missing_members = [
-                model for model in member_models if model.id not in member_excreta
-            ]
-            if missing_members:
-                print(
-                    f"The {','.join(missing_members)} members are missing from the defined "
-                    f"excreta list and will therefore be determined through an additional MP simulation."
-                )
-                member_excreta.update(CommScores.mp(missing_members, environment))
-        else:
-            member_excreta = CommScores.mp(
-                member_models, environment, None, abstol, printing
-            )
-        for org_model in member_models:
-            other_excreta = set(
-                chain.from_iterable(
-                    [
-                        excreta
-                        for model, excreta in member_excreta.items()
-                        if model != org_model.id
-                    ]
-                )
-            )
-            print(f"\n{org_model.id}\tOther Excreta", other_excreta)
-            model_util = MSModelUtil(org_model, True)
-            if environment:
-                model_util.add_medium(environment)
-            ex_rxns = {
-                ex_rxn: list(ex_rxn.metabolites)[0]
-                for ex_rxn in model_util.exchange_list()
-            }
-            print(f"\n{org_model.id}\tExtracellular reactions", ex_rxns)
-            variables = {
-                ex_rxn.id: Variable(
-                    "___".join([model_util.model.id, ex_rxn.id]),
-                    lb=0,
-                    ub=1,
-                    type="binary",
-                )
-                for ex_rxn in ex_rxns
-            }
-            model_util.add_cons_vars(list(variables.values()))
-            media, solutions = [], []
-            sol = model_util.model.optimize()
-            while sol.status == "optimal" and len(solutions) < n_solutions:
-                solutions.append(sol)
-                medium = set(
-                    [
-                        ex
-                        for ex in ex_rxns
-                        if sol.fluxes[ex.id] < -abstol and ex in other_excreta
-                    ]
-                )
-                model_util.create_constraint(
-                    Constraint(
-                        sum([variables[ex.id] for ex in medium]),
-                        ub=len(medium) - 1,
-                        name=f"iteration_{len(solutions)}",
-                    )
-                )
-                media.append(medium)
-                sol = model_util.model.optimize()
-            counter = Counter(chain(*media))
-            scores[model_util.model.id] = {
-                met.id: counter[ex] / len(media)
-                for ex, met in ex_rxns.items()
-                if counter[ex] > 0
-            }
-        return scores
-
-    @staticmethod
-    def sc(
-        member_models: Iterable = None,
-        com_model=None,
-        min_growth=0.1,
-        n_solutions=100,
-        abstol=1e-6,
-        compatibilized=True,
-        printing=False,
-    ):
-        """Calculate the frequency of interspecies dependency in a community"""
-        member_models, community = _load_models(
-            member_models, com_model, not compatibilized, printing=printing
-        )
-        for rxn in com_model.reactions:
-            rxn.lower_bound = 0 if "bio" in rxn.id else rxn.lower_bound
-
-        # c_{rxn.id}_lb: rxn < 1000*y_{species_id}
-        # c_{rxn.id}_ub: rxn > -1000*y_{species_id}
-        variables = {}
-        constraints = []
-        # TODO this can be converted to an MSCommunity object by looping through each index
-        # leverage CommKinetics
-        for org_model in member_models:
-            model_util = MSModelUtil(org_model, True)
-            variables[model_util.model.id] = Variable(
-                name=f"y_{model_util.model.id}", lb=0, ub=1, type="binary"
-            )
-            model_util.add_cons_vars([variables[model_util.model.id]])
-            for rxn in model_util.model.reactions:
-                if "bio" not in rxn.id:
-                    # print(rxn.flux_expression)
-                    lb = Constraint(
-                        rxn.flux_expression + 1000 * variables[model_util.model.id],
-                        name="_".join(["c", model_util.model.id, rxn.id, "lb"]),
-                        lb=0,
-                    )
-                    ub = Constraint(
-                        rxn.flux_expression - 1000 * variables[model_util.model.id],
-                        name="_".join(["c", model_util.model.id, rxn.id, "ub"]),
-                        ub=0,
-                    )
-                    constraints.extend([lb, ub])
-
-        # calculate the SCS
-        scores = {}
-        for model in member_models:
-            com_model_util = MSModelUtil(com_model)
-            com_model_util.add_cons_vars(constraints, sloppy=True)
-            # model growth is guaranteed while minimizing the growing members of the community
-            ## SMETANA_Biomass: {biomass_reactions} > {min_growth}
-            com_model_util.create_constraint(
-                Constraint(
-                    sum(
-                        rxn.flux_expression
-                        for rxn in model.reactions
-                        if "bio" in rxn.id
-                    ),
-                    name="SMETANA_Biomass",
-                    lb=min_growth,
-                )
-            )  # sloppy = True)
-            other_members = [other for other in member_models if other.id != model.id]
-            com_model_util.add_objective(
-                sum([variables[other.id] for other in other_members]), "min"
-            )
-            previous_constraints, donors_list = [], []
-            for i in range(n_solutions):
-                sol = com_model.optimize()  # FIXME The solution is not optimal
-                if sol.status != "optimal":
-                    scores[model.id] = None
-                    break
-                donors = [
-                    o
-                    for o in other_members
-                    if com_model.solver.primal_values[f"y_{o.id}"] > abstol
-                ]
-                donors_list.append(donors)
-                previous_con = f"iteration_{i}"
-                previous_constraints.append(previous_con)
-                com_model_util.add_cons_vars(
-                    [
-                        Constraint(
-                            sum(variables[o.id] for o in donors),
-                            name=previous_con,
-                            ub=len(previous_constraints) - 1,
-                        )
-                    ],
-                    sloppy=True,
-                )
-            if i != 0:
-                donors_counter = Counter(chain(*donors_list))
-                scores[model.id] = {
-                    o.id: donors_counter[o] / len(donors_list) for o in other_members
-                }
-        return scores
-
-    @staticmethod
-    def gyd(
-        member_models: Iterable = None,
-        model_utils: Iterable = None,
-        environment=None,
-        coculture_growth=False,
-        community=None,
-        check_models=True,
-    ):
-        gyds = {}
-        for combination in combinations(model_utils or member_models, 2):
-            if model_utils is None:
-                model1_util = MSModelUtil(combination[0], True)
-                model2_util = MSModelUtil(combination[1], True)
-                print(
-                    f"{model1_util.model.id} ++ {model2_util.model.id}",
-                    model1_util.model.slim_optimize(),
-                    model2_util.model.slim_optimize(),
-                )
-                if check_models:
-                    model1_util = CommScores._check_model(model1_util, environment)
-                    model2_util = CommScores._check_model(model2_util, environment)
-            else:
-                model1_util = combination[0]
-                model2_util = combination[1]
-            if not coculture_growth:
-                G_m1, G_m2 = CommScores._determine_growths(
-                    [model1_util, model2_util], environment
-                )
-                G_m1, G_m2 = (
-                    G_m1 if FBAHelper.isnumber(str(G_m1)) else 0,
-                    (G_m2 if FBAHelper.isnumber(str(G_m2)) else 0),
-                )
-            else:
-                community = community or MSCommunity(
-                    member_models=[model1_util.model, model2_util.model],
-                    ids=[mem.id for mem in member_models],
-                )
-                community.run_fba()
-                member_growths = community.parse_member_growths()
-                G_m1, G_m2 = (
-                    member_growths[model1_util.model.id],
-                    member_growths[model2_util.model.id],
-                )
-            if G_m2 <= 0 or G_m1 <= 0:
-                gyds[f"{model1_util.model.id} ++ {model2_util.model.id}"] = (
-                    "",
-                    "",
-                    G_m1,
-                    G_m2,
-                )
-                continue
-            gyds[f"{model1_util.model.id} ++ {model2_util.model.id}"] = (
-                abs(G_m1 - G_m2) / G_m1,
-                abs(G_m2 - G_m1) / G_m2,
-                G_m1,
-                G_m2,
-            )
-        return gyds
-
-    @staticmethod
-    def pc(
-        member_models=None,
-        modelutils=None,
-        com_model=None,
-        isolate_growths=None,
-        comm_sol=None,
-        environment=None,
-        comm_effects=True,
-        community=None,
-        interaction_threshold=0.1,
-        compatibilized=False,
-    ):
-        assert member_models or modelutils or community, (
-            "Members must be defined through either < member_models >"
-            " or < modelutils > or < community >."
-        )
-        member_models = (
-            member_models or [mem.model for mem in modelutils] or community.members
-        )
-        if com_model is None:
-            member_models, com_model = _load_models(
-                member_models, None, not compatibilized, printing=False
-            )
-        community = community or MSCommunity(com_model, member_models)
-        if comm_sol is None:
-            community.util.add_medium(environment)
-            comm_sol = community.util.model.optimize()
-        model_utils = modelutils or [MSModelUtil(mem, True) for mem in member_models]
-        modelutils = []
-        for mem in model_utils:
-            mem.add_medium(environment)
-            modelutils.append(mem)
-        if isolate_growths is None:
-            isolate_growths = {mem.id: mem.model.slim_optimize() for mem in modelutils}
-        pc_score = comm_sol.objective_value / sum(list(isolate_growths.values()))
-        if not comm_effects:
-            return pc_score
-
-        comm_member_growths = {
-            mem.id: comm_sol.fluxes[mem.primary_biomass.id] for mem in community.members
-        }
-        comm_growth_effect = {
-            memID: nanFilter(comm_environ / isolate_growths[memID])
-            for memID, comm_environ in comm_member_growths.items()
-        }
-        growth_diffs = array(
-            [nanFilter(x, False) for x in list(comm_growth_effect.values())]
-        )
-        th_pos, th_neg = 1 + interaction_threshold, 1 - interaction_threshold
-        if all(growth_diffs > th_pos):
-            bit = "mutualism"
-        elif all(growth_diffs < th_neg):
-            bit = "competitive"
-        elif ((th_pos > growth_diffs) & (growth_diffs > th_neg)).all():
-            bit = "neutral"
-        elif all(growth_diffs > th_neg) and any(growth_diffs > th_pos):
-            bit = "commensalism"
-        elif all(growth_diffs < th_pos) and any(growth_diffs < th_neg):
-            bit = "amensalism"
-        elif any(growth_diffs > th_pos) and any(growth_diffs < th_neg):
-            bit = "parasitism"
-        else:
-            print(
-                f"The relative growths {comm_growth_effect} from {comm_member_growths} coculture and"
-                f" {isolate_growths} monoculture are not captured."
-            )
-            bit = ""
-        return (pc_score, comm_growth_effect, comm_member_growths, bit)
-
-    @staticmethod
-    def bss(
-        member_models: Iterable = None,
-        model_utils: Iterable = None,
-        environments=None,
-        minMedia=None,
-        skip_bad_media=False,
-    ):
-        def compute_score(minMedia, environment=None, index=0):
-            minMedia = minMedia or _get_media(
-                model_s_=[modelUtil.model for modelUtil in model_utils],
-                environment=environment,
-                skip_bad_media=skip_bad_media,
-            )
-            model1_media = set(
-                [
-                    re.sub(r"(\_\w\d+$)", "", rxnID.replace("EX_", ""))
-                    for rxnID in minMedia[model1_util.id]["media"].keys()
-                ]
-            )
-            model2_media = set(
-                [
-                    re.sub(r"(\_\w\d+$)", "", rxnID.replace("EX_", ""))
-                    for rxnID in minMedia[model2_util.id]["media"].keys()
-                ]
-            )
-            model1_internal = {
-                rm_comp(met.id)
-                for rxn in model1_util.internal_list()
-                for met in rxn.products
-            }
-            model2_internal = {
-                rm_comp(met.id)
-                for rxn in model2_util.internal_list()
-                for met in rxn.products
-            }
-            bss_scores[
-                f"{model1_util.id} supporting {model2_util.id} in media{index}"
-            ] = (
-                model1_internal,
-                len(model2_media.intersection(model1_internal)) / len(model2_media),
-            )
-            bss_scores[
-                f"{model2_util.id} supporting {model1_util.id} in media{index}"
-            ] = (
-                model2_internal,
-                len(model1_media.intersection(model2_internal)) / len(model1_media),
-            )
-
-        bss_scores = {}
-        for combination in combinations(model_utils or member_models, 2):
-            if model_utils is None:
-                model1_util = MSModelUtil(combination[0], True)
-                model2_util = MSModelUtil(combination[1], True)
-                model_utils = [model1_util, model2_util]
-            else:
-                model1_util = combination[0]
-                model2_util = combination[1]
-            if environments:
-                for index, environment in enumerate(environments):
-                    compute_score(minMedia, environment, index)
-            else:
-                compute_score(minMedia)
-        return bss_scores
-
-    @staticmethod
     def mqs():
         pass
-
-    @staticmethod
-    def _calculate_jaccard_score(set1, set2):
-        if set1 == set2:
-            print(f"The sets are identical, with a length of {len(set1)}.")
-        if len(set1.union(set2)) == 0:
-            return (None, None)
-        return (
-            set1.intersection(set2),
-            len(set1.intersection(set2)) / len(set1.union(set2)),
-        )
 
     @staticmethod
     def get_all_genomes_from_ws(
@@ -1081,399 +397,3 @@ class CommScores:
             )
             for genome_name in genome_names
         }
-
-    @staticmethod
-    def fs(
-        models: Iterable = None,
-        kbase_object=None,
-        token_string: str = None,
-        kbase_token_path: str = None,
-        annotated_genomes: dict = None,
-        printing=False,
-    ):
-        if not isinstance(annotated_genomes, dict):
-            if not kbase_object:
-                import cobrakbase  # ; os.environ["HOME"] = cobrakbase_repo_path ; import cobrakbase
-
-                if token_string is not None:
-                    kbase_object = cobrakbase.KBaseAPI(token_string)
-                else:
-                    with open(kbase_token_path) as token_file:
-                        kbase_object = cobrakbase.KBaseAPI(token_file.readline())
-            annotated_genomes = {
-                model.id: kbase_object.get_from_ws(model.genome_ref)
-                for model in models
-                if hasattr(model, "genome_ref")
-            }
-        elif isinstance(annotated_genomes, list):
-            annotated_genomes = dict(
-                zip([model.id for model in models], annotated_genomes)
-            )
-        elif models is not None:
-            annotated_genomes = {
-                k: v
-                for k, v in annotated_genomes.items()
-                if k in [model.id for model in models]
-            }
-        genome_combinations = list(combinations(annotated_genomes.keys(), 2))
-        if printing:
-            print(
-                f"The Functionality Score (FS) will be calculated for {len(genome_combinations)} pairs."
-            )
-        if not isinstance(list(annotated_genomes.values())[0], dict):
-            genome1_set, genome2_set = set(), set()
-            distances = {}
-            for genome1, genome2 in genome_combinations:
-                for j in annotated_genomes[genome1].features:
-                    for key, val in j.ontology_terms.items():
-                        if key == "SSO":
-                            genome1_set.update(val)
-                for j in annotated_genomes[genome2].features:
-                    for key, val in j.ontology_terms.items():
-                        if key == "SSO":
-                            genome2_set.update(val)
-                distances[f"{genome1} ++ {genome2}"] = (
-                    CommScores._calculate_jaccard_score(genome1_set, genome2_set)
-                )
-        else:
-            distances = {
-                f"{genome1} ++ {genome2}": CommScores._calculate_jaccard_score(
-                    set(
-                        list(content["SSO"].keys())[0]
-                        for dic in annotated_genomes[genome1]["cdss"]
-                        for x, content in dic.items()
-                        if x == "ontology_terms" and len(content["SSO"].keys()) > 0
-                    ),
-                    set(
-                        list(content["SSO"].keys())[0]
-                        for dic in annotated_genomes[genome2]["cdss"]
-                        for x, content in dic.items()
-                        if x == "ontology_terms" and len(content["SSO"].keys()) > 0
-                    ),
-                )
-                for genome1, genome2 in combinations(annotated_genomes.keys(), 2)
-            }
-        return distances
-
-    @staticmethod
-    def smetana(
-        member_models: Iterable,
-        environment,
-        com_model=None,
-        min_growth=0.1,
-        n_solutions=100,
-        abstol=1e-6,
-        prior_values=None,
-        compatibilized=False,
-        sc_coupling=False,
-        printing=False,
-    ):
-        """Quantifies the extent of syntrophy as the sum of all exchanges in a given nutritional environment"""
-        member_models, community = _load_models(
-            member_models, com_model, compatibilized == False, printing=printing
-        )
-        sc = None
-        if not prior_values:
-            mp = CommScores.mp(member_models, environment, com_model, abstol)
-            mu = CommScores.mu(
-                member_models, environment, mp, n_solutions, abstol, compatibilized
-            )
-            if sc_coupling:
-                sc = CommScores.sc(
-                    member_models,
-                    com_model,
-                    min_growth,
-                    n_solutions,
-                    abstol,
-                    compatibilized,
-                )
-        elif len(prior_values) == 3:
-            sc, mu, mp = prior_values
-        else:
-            mu, mp = prior_values
-
-        smetana_scores = {}
-        for pairs in combinations(member_models, 2):
-            for model1, model2 in permutations(pairs):
-                if model1.id not in smetana_scores:
-                    smetana_scores[model1.id] = {}
-                if not any([not mu[model1.id], not mp[model1.id]]):
-                    sc_score = 1 if not sc_coupling else sc[model1.id][model2.id]
-                    models_mets = list(model1.metabolites) + list(model2.metabolites)
-                    unique_mets = set([met.id for met in models_mets])
-                    smetana_scores[model1.id][model2.id] = 0
-                    for met in models_mets:
-                        if met.id in unique_mets:
-                            mp_score = 0 if met.id not in mp[model1.id] else 1
-                            smetana_scores[model1.id][model2.id] += (
-                                mu[model1.id].get(met.id, 0) * sc_score * mp_score
-                            )
-        return smetana_scores
-
-    @staticmethod
-    def html_report(
-        df, mets, export_html_path="commscores_report.html", msdb_path=None
-    ):
-        import jinja2
-        from pandas import to_numeric
-
-        def names_updateCPD(metIDs, update_cpdNames):
-            names = []
-            for metID in metIDs:
-                if metID not in cpdNames:
-                    if "msdb" not in locals().keys():
-                        from modelseedpy.biochem import from_local
-
-                        msdb = from_local(msdb_path)
-                    name = msdb.compounds.get(metID, None)
-                    if name is None:
-                        name = metID
-                    else:
-                        name = name["name"]
-                    update_cpdNames[metID] = name
-                else:
-                    name = cpdNames[metID]
-                names.append(name)
-            return names, update_cpdNames
-
-        # construct a heatmap
-        df.index.name = "Community_index"
-        heatmap_df = df.copy(deep=True)  # takes some time
-        heatmap_df_index = zip(
-            heatmap_df["model1"].to_numpy(), heatmap_df["model2"].to_numpy()
-        )
-        heatmap_df.index = [" ++ ".join(index) for index in heatmap_df_index]
-        heatmap_df.index.name = "model1 ++ model2"
-        if "media" in heatmap_df.columns:
-            media_list = heatmap_df["media"].tolist()
-            new_index = [
-                f"{models} in {media_list[i]}"
-                for i, models in enumerate(heatmap_df.index)
-            ]
-            heatmap_df.index = new_index
-            heatmap_df.index.name = "model1 ++ model2 in Media"
-        heatmap_df = heatmap_df.loc[~heatmap_df.index.duplicated(), :]
-        heatmap_df = heatmap_df.drop(["model1", "model2"], axis=1)
-        if "media" in heatmap_df:
-            heatmap_df = heatmap_df.drop(["media"], axis=1)
-        costless = re.compile(r"(?<=\s\()(\d)(?=\))")
-        if "MIP_model1 (costless)" in heatmap_df.columns:
-            mip_model1, mip_model2 = [], []
-            for e in heatmap_df["MIP_model1 (costless)"]:
-                if e == "":
-                    mip_model1.append("")
-                    continue
-                mip_model1.append(
-                    costless.search(str(e)).group() if e not in [0, "0"] else ""
-                )
-            for e in heatmap_df["MIP_model2 (costless)"]:
-                if e == "":
-                    mip_model2.append("")
-                    continue
-                mip_model2.append(
-                    costless.search(str(e)).group() if e not in [0, "0"] else ""
-                )
-            for col, lis in {
-                "c_MIP1": mip_model1,
-                "c_MIP2": mip_model2,
-                "MIP_model1": heatmap_df["MIP_model1 (costless)"].apply(
-                    remove_metadata
-                ),
-                "MIP_model2": heatmap_df["MIP_model2 (costless)"].apply(
-                    remove_metadata
-                ),
-            }.items():
-                heatmap_df[col] = to_numeric(lis, errors="coerce")
-        for col in [
-            "MRO_model1",
-            "MRO_model2",
-            "BSS_model1",
-            "BSS_model2",
-            "PC_model1",
-            "PC_model2",
-            "FS",
-            "GYD",
-        ]:
-            if col not in heatmap_df:
-                print(f"The {col} is not computed")
-                continue
-            heatmap_df[col] = to_numeric(
-                heatmap_df[col].apply(remove_metadata), errors="coerce"
-            )
-        del (
-            heatmap_df["BIT"],
-            heatmap_df["MIP_model1 (costless)"],
-            heatmap_df["MIP_model2 (costless)"],
-        )  # TODO colorize the BIT entries as well
-        heatmap_df = heatmap_df.astype(float)
-        int_cols = ["CIP", "MIP_model1", "MIP_model2"]
-        if "costless_MIP_model1" in heatmap_df.columns:
-            int_cols.extend(["c_MIP1", "c_MIP2"])
-        for col in int_cols:
-            heatmap_df[col] = heatmap_df[col].apply(convert_to_int)
-
-        # construct a metabolites table
-        from pandas import DataFrame
-
-        # from pandas import set_option
-        # set_option("display.max_colwidth", None, 'display.width', 1500)
-        ## Process the score metabolites
-        mro_mets, mro_mets_names, mip_model1_mets, mip_model1_mets_names = (
-            [],
-            [],
-            [],
-            [],
-        )
-        mip_model2_mets, mip_model2_mets_names, cip_mets, cip_mets_names = (
-            [],
-            [],
-            [],
-            [],
-        )
-        from json import dump, load
-
-        cpdNames_path = os.path.join(package_dir, "data", "compoundNames.json")
-        with open(cpdNames_path, "r") as jsonIn:
-            cpdNames = load(jsonIn)
-        update_cpdNames = {}
-        for met in mets:
-            # MRO metabolites
-            mro_metIDs = [
-                metID
-                for metID in map(str, met["MRO metabolites"])
-                if metID not in ["None", None]
-            ]
-            mro_mets.append(", ".join(mro_metIDs))
-            names, update_cpdNames = names_updateCPD(mro_metIDs, update_cpdNames)
-            mro_mets_names.append(", ".join(names))
-            # MIP metabolites
-            mip_model1_metIDs = [
-                metID
-                for metID in map(str, met["MIP model1 metabolites"])
-                if metID not in ["None", None]
-            ]
-            mip_model1_mets.append(", ".join(mip_model1_metIDs))
-            names, update_cpdNames = names_updateCPD(mip_model1_metIDs, update_cpdNames)
-            mip_model1_mets_names.append(", ".join(names))
-            ## model2 MIP metabolites
-            mip_model2_metIDs = [
-                metID
-                for metID in map(str, met["MIP model2 metabolites"])
-                if metID not in ["None", None]
-            ]
-            mip_model2_mets.append(", ".join(mip_model2_metIDs))
-            names, update_cpdNames = names_updateCPD(mip_model2_metIDs, update_cpdNames)
-            mip_model2_mets_names.append(", ".join(names))
-            # CIP metabolites
-            cip_metIDs = [
-                metID
-                for metID in map(str, met["CIP metabolites"])
-                if metID not in ["None", None]
-            ]
-            cip_mets.append(", ".join(cip_metIDs))
-            names, update_cpdNames = names_updateCPD(cip_metIDs, update_cpdNames)
-            cip_mets_names.append(", ".join(names))
-        df_content = {
-            "MRO metabolite names": mro_mets_names,
-            "MRO metabolite IDs": mro_mets,
-            "MIP model1 metabolite names": mip_model1_mets_names,
-            "MIP model1 metabolite IDs": mip_model1_mets,
-            "MIP model2 metabolite names": mip_model2_mets_names,
-            "MIP model2 metabolite IDs": mip_model2_mets,
-            "CIP metabolite names": cip_mets_names,
-            "CIP metabolite IDs": cip_mets,
-        }
-        if update_cpdNames != {}:
-            cpdNames.update(update_cpdNames)
-            with open(cpdNames_path, "w") as jsonOut:
-                dump(cpdNames, jsonOut, indent=3)
-        # print(list(map(len, df_content.values())))
-        mets_table = DataFrame(data=df_content)
-        mets_table.index.name = "Community_index"
-
-        # populate the HTML template with the assembled simulation data from the DataFrame -> HTML conversion
-        content = {
-            "table": df.to_html(table_id="main", classes="display"),
-            "mets_table": mets_table.to_html(),
-            "heatmap": heatmap_df.applymap(lambda x: round(x, 3))
-            .style.background_gradient()
-            .to_html(table_id="heat", classes="display"),
-        }
-        env = jinja2.Environment(
-            loader=jinja2.FileSystemLoader(os.path.join(package_dir, "community")),
-            autoescape=jinja2.select_autoescape(["html", "xml"]),
-        )
-        html_report = env.get_template("commscores_template.html").render(content)
-        with open(export_html_path, "w") as out:
-            out.writelines(html_report)
-        return html_report
-
-    @staticmethod
-    def antiSMASH(json_path=None, zip_path=None):
-        # TODO Scores 2, 4, and 5 are being explored for relevance to community formation and reveal specific member interactions/targets
-        # load the antiSMASH report from either the JSON or the raw ZIP, or both
-        from json import load
-        from os import listdir, mkdir, path
-        from zipfile import ZipFile
-
-        if json_path:
-            cwd_files = listdir()
-            if json_path not in cwd_files and zip_path:
-                with ZipFile(zip_path, "r") as zip_file:
-                    zip_file.extract(json_path)
-            with open(json_path, "r") as json_file:
-                data = load(json_file)
-        elif zip_path:
-            mkdir("extracted_antiSMASH")
-            with ZipFile(zip_path, "r") as zip_file:
-                zip_file.extractall("extracted_antiSMASH")
-            json_files = [
-                x for x in listdir("extracted_antiSMASH") if x.endswith("json")
-            ]
-            if len(json_files) > 1:
-                print(
-                    f"The antiSMASH report describes {len(json_files)} JSON files, the first of which is selected "
-                    f"{json_files[0]} for analysis, otherwise explicitly identify the desired JSON file in the json_path parameter."
-                )
-            with open(
-                path.join("extracted_antiSMASH", json_files[0]), "r"
-            ) as json_file:
-                data = load(json_file)
-        else:
-            raise ParameterError(
-                "Either the json_path or zip_path from the antiSMASH analysis must be provided,"
-                " for these scores to be determined."
-            )
-        # Parse data and scores from the antiSMASH report
-        biosynthetic_areas = data["records"][0]["areas"]
-        BGCs = set(
-            array(
-                [
-                    data["records"][0]["areas"][i]["products"]
-                    for i in range(biosynthetic_areas)
-                ]
-            ).flatten()
-        )
-        len_proteins = len(
-            data["records"][0]["modules"]["antismash.modules.clusterblast"][
-                "knowncluster"
-            ]["proteins"]
-        )
-        protein_annotations = [
-            data["records"][0]["modules"]["antismash.modules.clusterblast"][
-                "knowncluster"
-            ]["proteins"][i]["annotations"]
-            for i in range(len_proteins)
-        ]
-        clusterBlast = [s for s in protein_annotations if "resistance" in s]
-        num_clusterBlast = sum(
-            [item.count("resistance") for item in protein_annotations]
-        )
-
-        return (
-            biosynthetic_areas,
-            BGCs,
-            protein_annotations,
-            clusterBlast,
-            num_clusterBlast,
-        )
