@@ -1,1 +1,5 @@
 data/processed/kchip/sequences/
+.devnev/
+.direnv/
+.venv/
+
