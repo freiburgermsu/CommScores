@@ -113,14 +113,14 @@ class CommScores:
         kbase_token_path: str = None,
         annotated_genomes: dict = None,
     ):
-        mro = self.mro_score()
-        mip = self.mip_score(interacting_media=self.media)
-        mp = None if not mp_score else self.mp_score()
-        mu = None  # self.mu_score()
-        sc = None  # self.sc_score()
-        smetana = None  # self.smetana_score()
-        gyd = self.gyd_score()
-        fs = (
+        mro_val = self.mro_score()
+        mip_val = self.mip_score(interacting_media=self.media)
+        mp_val = None if not mp_score else self.mp_score()
+        mu_val = None  # self.mu_score()
+        sc_val = None  # self.sc_score()
+        smetana_val = None  # self.smetana_score()
+        gyd_val = self.gyd_score()
+        fs_val = (
             self.fs_score()
             if any(
                 [
@@ -132,14 +132,14 @@ class CommScores:
             else None
         )
         return {
-            "mro": mro,
-            "mip": mip,
-            "mp": mp,
-            "mu": mu,
-            "sc": sc,
-            "smetana": smetana,
-            "gyd": gyd,
-            "fs": fs,
+            "mro": mro_val,
+            "mip": mip_val,
+            "mp": mp_val,
+            "mu": mu_val,
+            "sc": sc_val,
+            "smetana": smetana_val,
+            "gyd": gyd_val,
+            "fs": fs_val,
         }
 
     def mro_score(self):
@@ -163,12 +163,12 @@ class CommScores:
                     f"requirements with the {established} established member."
                 )
                 return self.mro_val
-        for pair, mro in self.mro_val.items():
+        for pair, mro_val in self.mro_val.items():
             newcomer, established = pair.split("---")
             print(
-                f"\nThe {newcomer} on {established} MRO score: {mro[0]} ({mro[0]*100:.2f}%). "
+                f"\nThe {newcomer} on {established} MRO score: {mro_val[0]} ({mro_val[0]*100:.2f}%). "
                 f"This is the percent of nutritional requirements in {newcomer} "
-                f"that overlap with {established} ({mro[1]}/{mro[2]})."
+                f"that overlap with {established} ({mro_val[1]}/{mro_val[2]})."
             )
         return self.mro_val
 
@@ -200,14 +200,14 @@ class CommScores:
             self.models, environment=self.environment, coculture_growth=coculture_growth
         )
         if not self.printing:
-            return self.gyd
+            return self.gyd_val
         growth_type = "monocultural" if not coculture_growth else "cocultural"
         for pair, score in self.gyd_val.items():
             print(
                 f"\nGYD score: The {growth_type} growth difference between the {pair} member models"
                 f" is {score} times greater than the growth of the slower member."
             )
-        return self.gyd
+        return self.gyd_val
 
     def fs_score(
         self,
@@ -220,13 +220,13 @@ class CommScores:
             self.models, kbase_obj, token_string, kbase_token_path, annotated_genomes
         )
         if not self.printing:
-            return fs
+            return self.fs_val
         for pair, score in self.fs_val.items():
             print(
                 f"\nFS Score: The similarity of RAST functional SSO ontology "
                 f"terms between the {pair} members is {score}."
             )
-        return fs
+        return self.fs_val
 
     def mp_score(self):
         print("executing MP")
