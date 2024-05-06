@@ -1,12 +1,12 @@
+from modelseedpy.community.commhelper import build_from_species_models
+from modelseedpy.core.msminimalmedia import MSMinimalMedia
+from modelseedpy.core.fbahelper import FBAHelper
+from numpy import load, nan, ndarray
+from typing import Iterable
+import sigfig
 import os
 import re
-from typing import Iterable
 
-import sigfig
-from modelseedpy.community.commhelper import build_from_species_models
-from modelseedpy.core.fbahelper import FBAHelper
-from modelseedpy.core.msminimalmedia import MSMinimalMedia
-from numpy import load, nan, ndarray
 
 package_dir = os.path.abspath(os.path.dirname(__file__))
 categories_dir = os.path.join(package_dir, "data", "categories")
