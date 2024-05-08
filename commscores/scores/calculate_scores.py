@@ -4,6 +4,7 @@ from modelseedpy.community.mscommunity import MSCommunity
 from modelseedpy.core.fbahelper import FBAHelper
 from modelseedpy.core.msmodelutl import MSModelUtil
 from multiprocess import current_process
+from collections import Iterable
 
 from ..logger import logger
 from ..utils import _get_media, _sigfig_check
@@ -18,10 +19,8 @@ from .pc import pc
 
 def _load(model, kbase_obj):
     model_str = model
-    if len(model) == 2:
-        model = kbase_obj.get_from_ws(*model)
-    else:
-        model = kbase_obj.get_from_ws(model)
+    if not isinstance(model, Iterable):   model = kbase_obj.get_from_ws(model)
+    else:    model = kbase_obj.get_from_ws(*model)
     return model, model_str
 
 
