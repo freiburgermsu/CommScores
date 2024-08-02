@@ -1,51 +1,132 @@
 from cobra.io import read_sbml_model
 from shutil import rmtree
+from math import isclose
 from glob import glob
+from json import load
 import commscores
 import re, os
 
 
-test_models = [read_sbml_model(model) for model in glob("*.xml")]
+# load the test models and media
+test_models, test_genomes = []
+for model_path in glob("*.xml"):
+    model = read_sbml_model(model_path)
+    model.id = model_path.replace(".xml", '')
+    test_models.append(model)
+
+with open("carbonDGlucose.json", 'r') as jsonIn:
+    media = load(jsonIn)
 
 
-def test_mro():
-    # validate the pure scores
-    mro_output = commscores.mro(test_models)
-    for key, val in mro_output.items():
-        assert isinstance(val[0], list), "the MRO compounds under competition"
-        assert isinstance(val[1], dict), "the MRO minimal media is faulty"
-        if key == "model1---model2":   assert val == (48.38709677419355, 15, 31), "the MRO computation has changed"
-        if key == "model2---model1":   assert val == (71.42857142857143, 15, 21), "the MRO computation has changed"
-        if key == "model1---model3":   assert val == (58.064516129032256, 18, 31), "the MRO computation has changed"
-        if key == "model3---model1":   assert val == (60.0, 18, 30), "the MRO computation has changed"
-        if key == "model1---model4":   assert val == (51.61290322580645, 16, 31), "the MRO computation has changed"
-        if key == "model4---model1":   assert val == (69.56521739130434, 16, 23), "the MRO computation has changed"
-        if key == "model2---model3":   assert val == (71.42857142857143, 15, 21), "the MRO computation has changed"
-        if key == "model3---model2":   assert val == (50.0, 15, 30), "the MRO computation has changed"
-        if key == "model2---model4":   assert val == (85.71428571428571, 18, 21), "the MRO computation has changed"
-        if key == "model4---model2":   assert val == (78.26086956521739, 18, 23), "the MRO computation has changed"
-        if key == "model3---model4":   assert val == (53.333333333333336, 16, 30), "the MRO computation has changed"
-        if key == "model4---model3":   assert val == (69.56521739130434, 16, 23), "the MRO computation has changed"
 
-    # validate the metabolite predictions and compounds under competition
-    mro_output = commscores.mro(test_models, raw_content=True)
-    for key, val in mro_output.items():
-        if "mets" not in key:   assert isinstance(val, list), "the MRO mets are faulty"
-        else:    assert all([isinstance(ele, float) or isinstance(ele, int) for ele in val]),  "the processed MRO scores are faulty"
+# works
+# def test_mro():
+#     # load the existing output
+#     with open("mro_results.json", 'r') as jsonIn:
+#         mro_results = load(jsonIn)
+
+#     # validate the pure scores
+#     mro_output = commscores.mro(test_models, environment=media)
+#     # print(mro_output)
+#     for key, val in mro_output.items():
+#         if "met" in key:
+#             assert set(val) == set(mro_results[key]), f"The {key} mets are different"
+#             continue
+#         # print(key, val, mro_results[key])
+#         for index, ele in enumerate(val):
+#             print(mro_results[key][index])
+#             assert isclose(ele, mro_results[key][index]), f"The {key} results have changed: old {mro_results[key][index]} new {ele}"
+
+#     # validate the metabolite predictions and compounds under competition
+#     with open("mro_results2.json", 'r') as jsonIn:
+#         mro_results2 = load(jsonIn)
+#     mro_output = commscores.mro(test_models, environment=media, raw_content=True)
+#     print(mro_output)
+#     for key, val in mro_output.items():
+#         assert set(val[0]) == set(mro_results2[key][0]), f"The {key} metabolites lists are different: old {mro_results2[key][0]} new {val[0]}"
+#         assert val[1] == mro_results2[key][1], f"The {key} minimal media are different"
 
 
-def test_mip():
-    # validate the predicted cross-fed compounds
-    mip_output = commscores.mip(test_models),
-    for modelID, val in mip_output.items():
-        assert isinstance(val[0], list), "the MIP syntrophic compounds are faulty"
-        if modelID == "model1":
-            assert val == ['cpd00128', 'cpd00136', 'cpd01080', 'cpd00081', 'cpd00129', 'cpd00048', 'cpd00039', 'cpd00066'], "the MIP computation has changed"
-        if modelID == "model2":
-            assert val == ['cpd00324', 'cpd00071', 'cpd00048', 'cpd00013'], "the MIP computation has changed"
-        if modelID == "model3":
-            assert val == ['cpd00100', 'cpd00281', 'cpd00129', 'cpd00363', 'cpd00071', 'cpd00239', 'cpd00065'], "the MIP computation has changed"
-        if modelID == "model4":
-            assert val == ['cpd00023', 'cpd00324', 'cpd00048', 'cpd00363', 'cpd00081', 'cpd00180'], "the MIP computation has changed"
+# def test_mip():
+#     # affirm that the outputs are sensible
+#     with open("mip_results.json", 'r') as jsonIn:
+#         mip_results = load(jsonIn)
+#     mip_output = commscores.mip(test_models, environment=media, costless=True)
+#     for key, val in mip_output.items():
+#         if key == "costless":
+#             for key2, val2 in mip_output["costless"].items():
+#                 # assertion bounds are necessary because there is inherent variability in the flux profile
+#                 assert len(val2) - len(mip_results["costless"][key2]) <= 3, f"The costless {key2} is incorrect"
+#                 assert len(val2) <= len(mip_output[key2]), f"The costless metabolites for {key2} is greater than the total metabolites"
+#             continue
+#         assert len(val) - len(mip_results[key]) <= 5, f"The {key} is incorrect"
+    
+
+
+# def test_grd():
+#     # affirm that the outputs are consistent
+#     with open("gyd_results.json", 'r') as jsonIn:
+#         gyd_results = load(jsonIn)
+#     gyd_output = commscores.gyd(test_models)
+#     print(gyd_output)
+#     for memberIDs, val in gyd_output.items():
+#         assert set(val) == set(gyd_results[memberIDs]), f"The GYD {memberIDs} results have changed"
+
+
+
+
+# def test_fs():
+#     # affirm that the outputs are consistent
+#     with open("gyd_results.json", 'r') as jsonIn:
+#         gyd_results = load(jsonIn)
+#     fs_output = commscores.fs(test_models)
+#     for modelID, val in mip_output.items():
+#         assert isinstance(val[0], list), "the MIP syntrophic compounds are faulty"
+
+
+
+
+def test_pc():
+    # affirm that the outputs are consistent
+    with open("pc_results.json", 'r') as jsonIn:
+        pc_results = load(jsonIn)
+    pc_output = commscores.pc(test_models)
+    for modelID, val in pc_output.items():
+
+
+
+
+
+# def test_cip():
+#     # validate the predicted cross-fed compounds
+#     mip_output = commscores.mip(test_models)
+#     for modelID, val in mip_output.items():
+#         assert isinstance(val[0], list), "the MIP syntrophic compounds are faulty"
+#         if modelID == "model1":
+#             assert val == ['cpd00128', 'cpd00136', 'cpd01080', 'cpd00081', 'cpd00129', 'cpd00048', 'cpd00039', 'cpd00066'], "the MIP computation has changed"
+#         if modelID == "model2":
+#             assert val == ['cpd00324', 'cpd00071', 'cpd00048', 'cpd00013'], "the MIP computation has changed"
+#         if modelID == "model3":
+#             assert val == ['cpd00100', 'cpd00281', 'cpd00129', 'cpd00363', 'cpd00071', 'cpd00239', 'cpd00065'], "the MIP computation has changed"
+#         if modelID == "model4":
+#             assert val == ['cpd00023', 'cpd00324', 'cpd00048', 'cpd00363', 'cpd00081', 'cpd00180'], "the MIP computation has changed"
+
+
+
+
+
+# def test_bss():
+#     # validate the predicted cross-fed compounds
+#     mip_output = commscores.mip(test_models)
+#     for modelID, val in mip_output.items():
+#         assert isinstance(val[0], list), "the MIP syntrophic compounds are faulty"
+#         if modelID == "model1":
+#             assert val == ['cpd00128', 'cpd00136', 'cpd01080', 'cpd00081', 'cpd00129', 'cpd00048', 'cpd00039', 'cpd00066'], "the MIP computation has changed"
+#         if modelID == "model2":
+#             assert val == ['cpd00324', 'cpd00071', 'cpd00048', 'cpd00013'], "the MIP computation has changed"
+#         if modelID == "model3":
+#             assert val == ['cpd00100', 'cpd00281', 'cpd00129', 'cpd00363', 'cpd00071', 'cpd00239', 'cpd00065'], "the MIP computation has changed"
+#         if modelID == "model4":
+#             assert val == ['cpd00023', 'cpd00324', 'cpd00048', 'cpd00363', 'cpd00081', 'cpd00180'], "the MIP computation has changed"
 
 

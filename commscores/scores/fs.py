@@ -2,15 +2,14 @@ from itertools import combinations
 from typing import Iterable
 
 
-def _calculate_jaccard_score(set1, set2):
-    if set1 == set2:
-        print(f"The sets are identical, with a length of {len(set1)}.")
-    if len(set1.union(set2)) == 0:
-        return (None, None)
-    return (
-        set1.intersection(set2),
-        len(set1.intersection(set2)) / len(set1.union(set2)),
-    )
+# allows to singular execution of this script, besides loading CommScores as an entire package
+import sys
+from pathlib import Path
+if __name__ == "__main__" and (__package__ is None or __package__ == ''):
+    parent_dir = Path(__file__).resolve().parent.parent
+    sys.path.insert(0, str(parent_dir))
+    from utils import _calculate_jaccard_score
+else:   from ..utils import _calculate_jaccard_score
 
 
 def fs(

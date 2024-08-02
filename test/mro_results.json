@@ -1,0 +1,88 @@
+{
+   "Pantoea_sp._YR343_2511231025.fna.RAST.mdl---Rhizobium_sp._CF142_2510917030.fna.RAST.mdl": [
+      0.0,
+      0,
+      15
+   ],
+   "Rhizobium_sp._CF142_2510917030.fna.RAST.mdl---Pantoea_sp._YR343_2511231025.fna.RAST.mdl": [
+      0.0,
+      0,
+      11
+   ],
+   "Rhizobium_sp._CF142_2510917030.fna.RAST.mdl---Pantoea_sp._YR343_2511231025.fna.RAST.mdl--mets": [],
+   "Pantoea_sp._YR343_2511231025.fna.RAST.mdl---Pseudomonas_sp._GM17_2511231006.fna.RAST.mdl": [
+      66.66666666666667,
+      10,
+      15
+   ],
+   "Pseudomonas_sp._GM17_2511231006.fna.RAST.mdl---Pantoea_sp._YR343_2511231025.fna.RAST.mdl": [
+      52.63157894736842,
+      10,
+      19
+   ],
+   "Pseudomonas_sp._GM17_2511231006.fna.RAST.mdl---Pantoea_sp._YR343_2511231025.fna.RAST.mdl--mets": [
+      "cpd00254",
+      "cpd10515",
+      "cpd00034",
+      "cpd00063",
+      "cpd00058",
+      "cpd00099",
+      "cpd00030",
+      "cpd00027",
+      "cpd00205",
+      "cpd00149"
+   ],
+   "Pantoea_sp._YR343_2511231025.fna.RAST.mdl---Streptomyces_mirabilis_YR139_2582581314.fna.RAST.mdl": [
+      6.666666666666667,
+      1,
+      15
+   ],
+   "Streptomyces_mirabilis_YR139_2582581314.fna.RAST.mdl---Pantoea_sp._YR343_2511231025.fna.RAST.mdl": [
+      14.285714285714286,
+      1,
+      7
+   ],
+   "Streptomyces_mirabilis_YR139_2582581314.fna.RAST.mdl---Pantoea_sp._YR343_2511231025.fna.RAST.mdl--mets": [
+      "cpd10515"
+   ],
+   "Rhizobium_sp._CF142_2510917030.fna.RAST.mdl---Pseudomonas_sp._GM17_2511231006.fna.RAST.mdl": [
+      9.090909090909092,
+      1,
+      11
+   ],
+   "Pseudomonas_sp._GM17_2511231006.fna.RAST.mdl---Rhizobium_sp._CF142_2510917030.fna.RAST.mdl": [
+      5.2631578947368425,
+      1,
+      19
+   ],
+   "Pseudomonas_sp._GM17_2511231006.fna.RAST.mdl---Rhizobium_sp._CF142_2510917030.fna.RAST.mdl--mets": [
+      "cpd00012"
+   ],
+   "Rhizobium_sp._CF142_2510917030.fna.RAST.mdl---Streptomyces_mirabilis_YR139_2582581314.fna.RAST.mdl": [
+      18.181818181818183,
+      2,
+      11
+   ],
+   "Streptomyces_mirabilis_YR139_2582581314.fna.RAST.mdl---Rhizobium_sp._CF142_2510917030.fna.RAST.mdl": [
+      28.571428571428573,
+      2,
+      7
+   ],
+   "Streptomyces_mirabilis_YR139_2582581314.fna.RAST.mdl---Rhizobium_sp._CF142_2510917030.fna.RAST.mdl--mets": [
+      "cpd00322",
+      "cpd01329"
+   ],
+   "Pseudomonas_sp._GM17_2511231006.fna.RAST.mdl---Streptomyces_mirabilis_YR139_2582581314.fna.RAST.mdl": [
+      5.2631578947368425,
+      1,
+      19
+   ],
+   "Streptomyces_mirabilis_YR139_2582581314.fna.RAST.mdl---Pseudomonas_sp._GM17_2511231006.fna.RAST.mdl": [
+      14.285714285714286,
+      1,
+      7
+   ],
+   "Streptomyces_mirabilis_YR139_2582581314.fna.RAST.mdl---Pseudomonas_sp._GM17_2511231006.fna.RAST.mdl--mets": [
+      "cpd10515"
+   ]
+}

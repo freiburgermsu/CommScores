@@ -4,7 +4,7 @@ from modelseedpy.community.mscommunity import MSCommunity
 from modelseedpy.core.fbahelper import FBAHelper
 from modelseedpy.core.msmodelutl import MSModelUtil
 from multiprocess import current_process
-from collections import Iterable
+from collections.abc import Iterable
 
 from ..logger import logger
 from ..utils import _get_media, _sigfig_check
