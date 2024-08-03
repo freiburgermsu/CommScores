@@ -108,15 +108,18 @@ def _get_media(
     media=None,
     com_model=None,
     model_s_=None,
-    min_growth=None,
+    min_growth=0.1,
     environment=None,
     interacting=True,
     printing=False,
     minimization_method="minFlux",
     skip_bad_media=False,
 ):
-    if com_model is None and model_s_ is None:
-        raise TypeError("< com_model > or < model_s_ > must be parameterized.")
+    if com_model is None:
+        if model_s_ is None:
+            raise TypeError("< com_model > or < model_s_ > must be parameterized.")
+        elif isinstance(model_s_, (set, list, tuple)):
+            com_model = build_from_species_models(model_s_)
     if media is not None:
         if model_s_ is not None and not isinstance(model_s_, (list, set, tuple)):
             return media["members"][model_s_.id]["media"]
@@ -125,46 +128,51 @@ def _get_media(
         return media
     com_media = None
     if com_model is not None:
+        # sol_growth = model_util.run_fba(None, pfba).fluxes[model_util.biomass_objective]
+        # min_growth = sol_growth if min_growth is None else min(sol_growth, min_growth) 
+        minGrowth = min_growth
         while com_media is None:
             com_media, media_sol = MSMinimalMedia.determine_min_media(
                 com_model,
                 minimization_method,
-                min_growth,
+                minGrowth,
                 None,
                 interacting,
                 5,
                 printing,
             )
-            min_growth *= 1.1
+            minGrowth *= 1.1
         if model_s_ is None:
             return com_media, media_sol
     if model_s_ is not None:
         if not isinstance(model_s_, (list, set, tuple, ndarray)):
+            minGrowth = min_growth
             while com_media is None:
                 com_media, media_sol = MSMinimalMedia.determine_min_media(
                     com_model,
                     minimization_method,
-                    min_growth,
+                    minGrowth,
                     None,
                     interacting,
                     5,
                     printing,
                 )
-                min_growth *= 1.1
+                minGrowth *= 1.1
             return com_media, media_sol
         members_media = {}
         for model in model_s_:
             # print(model.id)
+            minGrowth = min_growth
             while com_media is None:
                 com_media, media_sol = MSMinimalMedia.determine_min_media(
                         model,
                         minimization_method,
-                        min_growth,
+                        minGrowth,
                         environment,
                         interacting,
                         printing,
-                    )[0]
-                minimal_growth *= 1.1
+                    )
+                minGrowth *= 1.1
             members_media[model.id] = {"media": (com_media, media_sol)}
         # print(members_media)
         if com_model is None:

@@ -8,7 +8,7 @@ import re, os
 
 
 # load the test models and media
-test_models, test_genomes = []
+test_models, test_genomes = [], []
 for model_path in glob("*.xml"):
     model = read_sbml_model(model_path)
     model.id = model_path.replace(".xml", '')
@@ -74,6 +74,40 @@ with open("carbonDGlucose.json", 'r') as jsonIn:
 
 
 
+# def test_pc():
+#     # affirm that the outputs are consistent
+#     with open("pc_results.json", 'r') as jsonIn:
+#         pc_results = load(jsonIn)
+#     pc_output = commscores.pc(test_models)
+#     print(pc_output)
+#     assert isclose(pc_results[0], pc_output[0], abs_tol=1e-5), f"The PC score of {pc_output[0]} differs from the accepted value {pc_results[0]}"
+#     assert pc_results[3] == pc_output[3], f"The BIT of {pc_output[0]} differs from the accepted value {pc_results[0]}"
+#     for mem, CommGrowth in pc_output[1].items():
+#         assert isclose(CommGrowth, pc_results[1][mem], abs_tol=1e-5), f"The growth of {mem} in the community {CommGrowth} differs from the accepted value {pc_results[1][mem]}"
+#     for mem, IndGrowth in pc_output[2].items():
+#         assert isclose(IndGrowth, pc_results[2][mem], abs_tol=1e-2), f"The growth of {mem} in the community {IndGrowth} differs from the accepted value {pc_results[2][mem]}"
+
+
+# def test_cip():
+#     # affirm that the outputs are consistent
+#     with open("cip_results.json", 'r') as jsonIn:
+#         cip_results = load(jsonIn)
+#     cip_output = commscores.cip(member_models=test_models, environment=media)
+#     assert set(cip_output[0]) == set(cip_results[0]), f"The CIP metabolites {cip_output[0]} is inconsistent with the accepted metabolites {cip_results[0]}"
+#     assert cip_output[1] == cip_results[1], f"The CIP count {cip_output[1]} is inconsistent with the accepted {cip_results[1]}"
+        
+
+
+
+# Developing
+# def test_bss():
+#     # affirm that the outputs are consistent
+#     with open("cip_results.json", 'r') as jsonIn:
+#         cip_results = load(jsonIn)
+#     mip_output = commscores.mip(test_models)
+#     for modelID, val in mip_output.items():
+
+
 
 # def test_fs():
 #     # affirm that the outputs are consistent
@@ -82,51 +116,3 @@ with open("carbonDGlucose.json", 'r') as jsonIn:
 #     fs_output = commscores.fs(test_models)
 #     for modelID, val in mip_output.items():
 #         assert isinstance(val[0], list), "the MIP syntrophic compounds are faulty"
-
-
-
-
-def test_pc():
-    # affirm that the outputs are consistent
-    with open("pc_results.json", 'r') as jsonIn:
-        pc_results = load(jsonIn)
-    pc_output = commscores.pc(test_models)
-    for modelID, val in pc_output.items():
-
-
-
-
-
-# def test_cip():
-#     # validate the predicted cross-fed compounds
-#     mip_output = commscores.mip(test_models)
-#     for modelID, val in mip_output.items():
-#         assert isinstance(val[0], list), "the MIP syntrophic compounds are faulty"
-#         if modelID == "model1":
-#             assert val == ['cpd00128', 'cpd00136', 'cpd01080', 'cpd00081', 'cpd00129', 'cpd00048', 'cpd00039', 'cpd00066'], "the MIP computation has changed"
-#         if modelID == "model2":
-#             assert val == ['cpd00324', 'cpd00071', 'cpd00048', 'cpd00013'], "the MIP computation has changed"
-#         if modelID == "model3":
-#             assert val == ['cpd00100', 'cpd00281', 'cpd00129', 'cpd00363', 'cpd00071', 'cpd00239', 'cpd00065'], "the MIP computation has changed"
-#         if modelID == "model4":
-#             assert val == ['cpd00023', 'cpd00324', 'cpd00048', 'cpd00363', 'cpd00081', 'cpd00180'], "the MIP computation has changed"
-
-
-
-
-
-# def test_bss():
-#     # validate the predicted cross-fed compounds
-#     mip_output = commscores.mip(test_models)
-#     for modelID, val in mip_output.items():
-#         assert isinstance(val[0], list), "the MIP syntrophic compounds are faulty"
-#         if modelID == "model1":
-#             assert val == ['cpd00128', 'cpd00136', 'cpd01080', 'cpd00081', 'cpd00129', 'cpd00048', 'cpd00039', 'cpd00066'], "the MIP computation has changed"
-#         if modelID == "model2":
-#             assert val == ['cpd00324', 'cpd00071', 'cpd00048', 'cpd00013'], "the MIP computation has changed"
-#         if modelID == "model3":
-#             assert val == ['cpd00100', 'cpd00281', 'cpd00129', 'cpd00363', 'cpd00071', 'cpd00239', 'cpd00065'], "the MIP computation has changed"
-#         if modelID == "model4":
-#             assert val == ['cpd00023', 'cpd00324', 'cpd00048', 'cpd00363', 'cpd00081', 'cpd00180'], "the MIP computation has changed"
-
-
