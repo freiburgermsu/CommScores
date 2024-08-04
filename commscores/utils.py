@@ -115,10 +115,8 @@ def _get_media(
     minimization_method="minFlux",
     skip_bad_media=False,
 ):
-    if com_model is None:
-        if model_s_ is None:
-            raise TypeError("< com_model > or < model_s_ > must be parameterized.")
-        elif isinstance(model_s_, (set, list, tuple)):
+    assert com_model is not None or model_s_ is not None, "com_model or model_s_ must be parameterized."
+    if com_model is True and isinstance(model_s_, (set, list, tuple)):
             com_model = build_from_species_models(model_s_)
     if media is not None:
         if model_s_ is not None and not isinstance(model_s_, (list, set, tuple)):
@@ -145,10 +143,11 @@ def _get_media(
         if model_s_ is None:
             return com_media, media_sol
     if model_s_ is not None:
+        min_media = None
         if not isinstance(model_s_, (list, set, tuple, ndarray)):
             minGrowth = min_growth
-            while com_media is None:
-                com_media, media_sol = MSMinimalMedia.determine_min_media(
+            while min_media is None:
+                min_media, media_sol = MSMinimalMedia.determine_min_media(
                     com_model,
                     minimization_method,
                     minGrowth,
@@ -158,13 +157,13 @@ def _get_media(
                     printing,
                 )
                 minGrowth *= 1.1
-            return com_media, media_sol
+            return min_media, media_sol
         members_media = {}
         for model in model_s_:
             # print(model.id)
             minGrowth = min_growth
-            while com_media is None:
-                com_media, media_sol = MSMinimalMedia.determine_min_media(
+            while min_media is None:
+                min_media, media_sol = MSMinimalMedia.determine_min_media(
                         model,
                         minimization_method,
                         minGrowth,
@@ -173,7 +172,7 @@ def _get_media(
                         printing,
                     )
                 minGrowth *= 1.1
-            members_media[model.id] = {"media": (com_media, media_sol)}
+            members_media[model.id] = {"media": (min_media, media_sol)}
         # print(members_media)
         if com_model is None:
             return members_media

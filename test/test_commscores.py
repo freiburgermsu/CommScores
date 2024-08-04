@@ -47,6 +47,7 @@ with open("carbonDGlucose.json", 'r') as jsonIn:
 #         assert val[1] == mro_results2[key][1], f"The {key} minimal media are different"
 
 
+
 # def test_mip():
 #     # affirm that the outputs are sensible
 #     with open("mip_results.json", 'r') as jsonIn:
@@ -88,6 +89,7 @@ with open("carbonDGlucose.json", 'r') as jsonIn:
 #         assert isclose(IndGrowth, pc_results[2][mem], abs_tol=1e-2), f"The growth of {mem} in the community {IndGrowth} differs from the accepted value {pc_results[2][mem]}"
 
 
+
 # def test_cip():
 #     # affirm that the outputs are consistent
 #     with open("cip_results.json", 'r') as jsonIn:
@@ -98,17 +100,18 @@ with open("carbonDGlucose.json", 'r') as jsonIn:
         
 
 
-
-# Developing
 # def test_bss():
 #     # affirm that the outputs are consistent
-#     with open("cip_results.json", 'r') as jsonIn:
-#         cip_results = load(jsonIn)
-#     mip_output = commscores.mip(test_models)
-#     for modelID, val in mip_output.items():
+#     with open("bss_results.json", 'r') as jsonIn:
+#         bss_results = load(jsonIn)
+#     bss_output = commscores.bss(test_models, environment=media)
+#     for modelID, val in bss_output.items():
+#         assert set(bss_results[modelID][0]) == set(val[0]), f"The {len(val)} parasitized metabolites of {modelID} is inconsistent with the accepted value of {len(bss_results[modelID])}"
+#         assert bss_results[modelID][1] == val[1], f"The {val[1]} parasitized metabolites of {modelID} is inconsistent with the accepted value of {bss_results[modelID][1]}"
 
 
 
+# Developing
 # def test_fs():
 #     # affirm that the outputs are consistent
 #     with open("gyd_results.json", 'r') as jsonIn:
