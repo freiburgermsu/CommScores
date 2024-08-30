@@ -20,6 +20,8 @@ pandas = "^2.2.2"
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.24.0"
 jupyter = "^1.0.0"
+matplotlib = "^3.9.2"
+seaborn = "^0.13.2"
 
 [build-system]
 requires = ["poetry-core"]
