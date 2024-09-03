@@ -1,12 +1,18 @@
+from modelseedpy.community.commhelper import build_from_species_models
+from modelseedpy.core.msminimalmedia import MSMinimalMedia
+from modelseedpy.core.fbahelper import FBAHelper
+from numpy import load, nan, ndarray
+from typing import Iterable
+from math import isclose
+import sigfig
 import os
 import re
-from typing import Iterable
 
-import sigfig
-from modelseedpy.community.commhelper import build_from_species_models
-from modelseedpy.core.fbahelper import FBAHelper
-from modelseedpy.core.msminimalmedia import MSMinimalMedia
-from numpy import load, nan, ndarray
+
+class BadModels(Exception):
+    def __init__(self, message):
+        print(message)
+
 
 package_dir = os.path.abspath(os.path.dirname(__file__))
 categories_dir = os.path.join(package_dir, "data", "categories")
@@ -83,13 +89,13 @@ def _compatibilize(member_models: Iterable, printing=False):
 
 
 def _load_models(
-    member_models: Iterable, com_model=None, compatibilize=True, printing=False
+    member_models: Iterable, com_model=None, compatibilize=True, commID=None, printing=False
 ):
     # ic(member_models, com_model, compatibilize)
     if not com_model and member_models:
-        model = build_from_species_models(member_models, name="SMETANA_pair")
-        return member_models, model  # (model, names=names, abundances=abundances)
-    # models = PARSING_FUNCTION(community_model)  # TODO the individual models of a community model can be parsed
+        return member_models, build_from_species_models(member_models, commID, "CommScores_community")  # (model, names=names, abundances=abundances)
+    # elif com_model and not member_models:
+    #     return com_model.members, com_model  # TODO the individual models of a community model can be parsed
     if compatibilize:
         return (
             _compatibilize(member_models, printing),
@@ -102,79 +108,76 @@ def _get_media(
     media=None,
     com_model=None,
     model_s_=None,
-    min_growth=None,
+    min_growth=0.1,
     environment=None,
     interacting=True,
     printing=False,
     minimization_method="minFlux",
     skip_bad_media=False,
 ):
-    # print(media, com_model, model_s_)
-    if com_model is None and model_s_ is None:
-        raise TypeError("< com_model > or < model_s_ > must be parameterized.")
+    assert com_model is not None or model_s_ is not None, "com_model or model_s_ must be parameterized."
+    if com_model is True and isinstance(model_s_, (set, list, tuple)):
+            com_model = build_from_species_models(model_s_)
     if media is not None:
         if model_s_ is not None and not isinstance(model_s_, (list, set, tuple)):
             return media["members"][model_s_.id]["media"]
         elif com_model is not None:
             return media["community_media"]
         return media
-    # model_s_ is either a singular model or a list of models
+    com_media = None
     if com_model is not None:
-        try:
+        # sol_growth = model_util.run_fba(None, pfba).fluxes[model_util.biomass_objective]
+        # min_growth = sol_growth if min_growth is None else min(sol_growth, min_growth) 
+        minGrowth = min_growth
+        while com_media is None:
             com_media, media_sol = MSMinimalMedia.determine_min_media(
                 com_model,
                 minimization_method,
-                min_growth,
+                minGrowth,
                 None,
                 interacting,
                 5,
                 printing,
             )
-        except Exception as e:
-            if skip_bad_media:
-                com_media, media_sol = None, None
-            else:
-                print(e)
+            minGrowth *= 1.1
+        if model_s_ is None:
+            return com_media, media_sol
     if model_s_ is not None:
+        min_media = None
         if not isinstance(model_s_, (list, set, tuple, ndarray)):
-            try:
-                return MSMinimalMedia.determine_min_media(
-                    model_s_,
+            minGrowth = min_growth
+            while min_media is None:
+                min_media, media_sol = MSMinimalMedia.determine_min_media(
+                    com_model,
                     minimization_method,
-                    min_growth,
-                    environment,
+                    minGrowth,
+                    None,
                     interacting,
+                    5,
                     printing,
                 )
-            except Exception as e:
-                if not skip_bad_media:
-                    print(e)
-                return None
+                minGrowth *= 1.1
+            return min_media, media_sol
         members_media = {}
         for model in model_s_:
-            try:
-                members_media[model.id] = {
-                    "media": MSMinimalMedia.determine_min_media(
+            # print(model.id)
+            minGrowth = min_growth
+            while min_media is None:
+                min_media, media_sol = MSMinimalMedia.determine_min_media(
                         model,
                         minimization_method,
-                        min_growth,
+                        minGrowth,
                         environment,
                         interacting,
                         printing,
-                    )[0]
-                }
-                continue
-            except Exception as e:
-                if skip_bad_media:
-                    continue
-                else:
-                    print(e)
+                    )
+                minGrowth *= 1.1
+            members_media[model.id] = {"media": (min_media, media_sol)}
         # print(members_media)
         if com_model is None:
             return members_media
-    else:
-        return com_media, media_sol
-    return {"community_media": com_media, "members": members_media}
+        return {"community_media": com_media, "members": members_media}
+    raise BadModels(f"The parameterized community model of type {type(com_model)} and member models {model_s_} are not properly captured.")
 
 
 def _sigfig_check(value, sigfigs, default):
@@ -184,6 +187,43 @@ def _sigfig_check(value, sigfigs, default):
         return sigfig.round(value, sigfigs)
     else:
         return default
+
+
+def _calculate_jaccard_score(set1, set2):
+    if set1 == set2:
+        print(f"The sets are identical, with a length of {len(set1)}.")
+    if len(set1.union(set2)) == 0:
+        return (None, None)
+    return (
+        set1.intersection(set2),
+        len(set1.intersection(set2)) / len(set1.union(set2)),
+    )
+
+
+
+def _check_model(model_util, media, model_str=None, skip_bad_media=True):
+    default_media = model_util.model.medium
+    # print("test")
+    if media is not None:
+        model_util.add_medium(media)
+    obj_val = model_util.model.slim_optimize()
+    model_str = model_str or model_util.model.id
+    # print(model_str, obj_val)
+    if isclose(obj_val, 0, abs_tol=1e-6) or not FBAHelper.isnumber(obj_val):
+        print(f"The {model_str} model is not operational on the provided media")
+        if not skip_bad_media:
+            print(" and will be gapfilled.")
+            return MSGapfill.gapfill(model_util.model, media)
+        model_util.add_medium(default_media)
+    return model_util.model
+
+
+def _determine_growths(modelUtils, environ):
+    obj_vals = []
+    for util in modelUtils:
+        util.add_medium(environ)
+        obj_vals.append(util.model.slim_optimize())
+    return obj_vals
 
 
 def nanFilter(value, string=True):

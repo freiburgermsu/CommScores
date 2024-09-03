@@ -5,31 +5,15 @@ from modelseedpy.community.mscommunity import MSCommunity
 from modelseedpy.core.fbahelper import FBAHelper
 from modelseedpy.core.msgapfill import MSGapfill
 from modelseedpy.core.msmodelutl import MSModelUtil
-from numpy import isclose
 
-
-def _check_model(model_util, media, model_str, skip_bad_media=True):
-    default_media = model_util.model.medium
-    # print("test")
-    if media is not None:
-        model_util.add_medium(media)
-    obj_val = model_util.model.slim_optimize()
-    print(model_util.model.id, obj_val)
-    if isclose(obj_val, 0, abs_tol=1e-6) or not FBAHelper.isnumber(obj_val):
-        print(f"The {model_str} model is not operational")
-        if not skip_bad_media:
-            print(" and will be gapfilled.")
-            return MSGapfill.gapfill(model_util.model, media)
-        model_util.add_medium(default_media)
-    return model_util.model
-
-
-def _determine_growths(modelUtils, environ):
-    obj_vals = []
-    for util in modelUtils:
-        util.add_medium(environ)
-        obj_vals.append(util.model.slim_optimize())
-    return obj_vals
+# allows to singular execution of this script, besides loading CommScores as an entire package
+import sys
+from pathlib import Path
+if __name__ == "__main__" and (__package__ is None or __package__ == ''):
+    parent_dir = Path(__file__).resolve().parent.parent
+    sys.path.insert(0, str(parent_dir))
+    from utils import _check_model, _determine_growths
+else:   from ..utils import _check_model, _determine_growths
 
 
 def gyd(
@@ -51,8 +35,8 @@ def gyd(
                 model2_util.model.slim_optimize(),
             )
             if check_models:
-                model1_util = _check_model(model1_util, environment)
-                model2_util = _check_model(model2_util, environment)
+                model1_util.model = _check_model(model1_util, environment)
+                model2_util.model = _check_model(model2_util, environment)
         else:
             model1_util = combination[0]
             model2_util = combination[1]

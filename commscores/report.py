@@ -50,24 +50,11 @@ def report_generation(
                 else:
                     larger_list = models2
                     smaller_list = models1
-                model_pairs.append(
-                    [
-                        list(zip(combin, smaller_list))
-                        for combin in permutations(larger_list, len(smaller_list))
-                    ]
-                )
+                model_pairs.append([list(zip(combin, smaller_list))
+                                    for combin in permutations(larger_list, len(smaller_list))])
             # flatten the assembled pairs and filter duplicates
-            model_pairs = array(
-                [
-                    x
-                    for x in set(
-                        tuple(x)
-                        for x in [
-                            i for y in list(chain.from_iterable(model_pairs)) for i in y
-                        ]
-                    )
-                ]
-            )
+            model_pairs = array([x for x in set(tuple(x) for x in [
+                i for y in list(chain.from_iterable(model_pairs)) for i in y])])
             all_models = list(chain.from_iterable(all_models))
         if pair_limit is not None:
             shuffle(model_pairs)
@@ -75,34 +62,25 @@ def report_generation(
             for index, pair in enumerate(model_pairs):
                 if set(pair) not in exclude_pairs and index < pair_limit:
                     new_pairs.append(pair)
-                elif index >= pair_limit:
-                    break
+                elif index >= pair_limit:  break
             model_pairs = array(new_pairs)
         if isinstance(model_pairs[0], str):
             model_pairs = unique(sort(model_pairs, axis=1))
-        pairs = {
-            first: model_pairs[where(model_pairs[:, 0] == first)][:, 1]
-            for first in model_pairs[:, 0]
-        }
+        pairs = {first: model_pairs[where(model_pairs[:, 0] == first)][:, 1]
+                 for first in model_pairs[:, 0]}
     else:
-        raise ValueError(
-            "Either < all_models > or < pairs > must be defined to simulate interactions."
-        )
+        raise ValueError("Either < all_models > or < pairs > must be defined to simulate interactions.")
     if not all_models:
-        all_models = list(chain(*[list(values) for values in pairs.values()])) + list(
-            pairs.keys()
-        )
+        all_models = list(chain(*[list(values) for values in pairs.values()])) + list(pairs.keys())
     lazy_load = len(model_pairs) > 10000  # all_models[0], (list,set,tuple))
     if lazy_load and not kbase_obj:
         ValueError("The < kbase_obj > argument must be provided to lazy load models.")
     new_models = []
     for index, model in enumerate(all_models):
-        if model.id == "":
-            model.id = f"model_index{index}"
+        if model.id == "":   model.id = f"model_index{index}"
         new_models.append(model)
     all_models = new_models[:]
-    if not mem_media:
-        models_media = _get_media(model_s_=all_models, skip_bad_media=skip_bad_media)
+    if not mem_media:   models_media = _get_media(model_s_=all_models, skip_bad_media=skip_bad_media)
     else:
         models_media = mem_media.copy()
         missing_models = set()
@@ -115,52 +93,25 @@ def report_generation(
             logger.error(
                 f"Media of the {missing_modelID} models are not defined, and will be calculated separately."
             )
-            models_media.update(
-                _get_media(model_s_=missing_models), skip_bad_media=skip_bad_media
-            )
+            models_media.update(_get_media(model_s_=missing_models), skip_bad_media=skip_bad_media)
     if see_media:
         print(f"The minimal media of all members:\n{models_media}")
     print(f"\nExamining the {len(list(model_pairs))} model pairs")
     if pool_size is not None:
         from datetime import datetime
-
         from multiprocess import Pool
 
-        print(
-            f"Loading {int(pool_size)} workers and computing the scores",
-            datetime.now(),
-        )
-        pool = Pool(
-            int(pool_size)
-        )  # .map(calculate_scores, [{k: v} for k,v in pairs.items()])
-        args = [
-            [
-                dict([pair]),
-                models_media,
-                environments,
-                annotated_genomes,
-                lazy_load,
-                kbase_obj,
-            ]
-            for pair in list(pairs.items())
-        ]
+        print(f"Loading {int(pool_size)} workers and computing the scores", datetime.now())
+        pool = Pool(int(pool_size))  # .map(calculate_scores, [{k: v} for k,v in pairs.items()])
+        args = [[dict([pair]), models_media, environments, annotated_genomes, lazy_load, kbase_obj]
+                for pair in list(pairs.items())]
         output = pool.map(calculate_scores, args)
         series = chain.from_iterable([ele[0] for ele in output])
         mets = chain.from_iterable([ele[1] for ele in output])
     else:
-        series, mets = calculate_scores(
-            pairs,
-            models_media,
-            environments,
-            annotated_genomes,
-            lazy_load,
-            kbase_obj,
-            cip_score,
-            costless,
-            skip_bad_media,
-            check_models,
-            print_progress,
-        )
+        series, mets = calculate_scores(pairs, models_media, environments, annotated_genomes,
+                                        lazy_load, kbase_obj, cip_score, costless,
+                                        skip_bad_media, check_models, print_progress)
     return concat(series, axis=1).T, mets
 
 
@@ -175,31 +126,25 @@ def html_report(df, mets, export_html_path="commscores_report.html", msdb_path=N
                 if "msdb" not in locals().keys():
                     from modelseedpy.biochem import from_local
 
+                    assert msdb_path, "An MSDB path is needed to load compound names"
                     msdb = from_local(msdb_path)
                 name = msdb.compounds.get(metID, None)
-                if name is None:
-                    name = metID
-                else:
-                    name = name["name"]
+                if name is None:   name = metID
+                else:   name = name["name"]
                 update_cpdNames[metID] = name
-            else:
-                name = cpdNames[metID]
+            else:  name = cpdNames[metID]
             names.append(name)
         return names, update_cpdNames
 
     # construct a heatmap
     df.index.name = "Community_index"
     heatmap_df = df.copy(deep=True)  # takes some time
-    heatmap_df_index = zip(
-        heatmap_df["model1"].to_numpy(), heatmap_df["model2"].to_numpy()
-    )
+    heatmap_df_index = zip(heatmap_df["model1"].to_numpy(), heatmap_df["model2"].to_numpy())
     heatmap_df.index = [" ++ ".join(index) for index in heatmap_df_index]
     heatmap_df.index.name = "model1 ++ model2"
     if "media" in heatmap_df.columns:
         media_list = heatmap_df["media"].tolist()
-        new_index = [
-            f"{models} in {media_list[i]}" for i, models in enumerate(heatmap_df.index)
-        ]
+        new_index = [f"{models} in {media_list[i]}" for i, models in enumerate(heatmap_df.index)]
         heatmap_df.index = new_index
         heatmap_df.index.name = "model1 ++ model2 in Media"
     heatmap_df = heatmap_df.loc[~heatmap_df.index.duplicated(), :]
@@ -213,16 +158,12 @@ def html_report(df, mets, export_html_path="commscores_report.html", msdb_path=N
             if e == "":
                 mip_model1.append("")
                 continue
-            mip_model1.append(
-                costless.search(str(e)).group() if e not in [0, "0"] else ""
-            )
+            mip_model1.append(costless.search(str(e)).group() if e not in [0, "0"] else "")
         for e in heatmap_df["MIP_model2 (costless)"]:
             if e == "":
                 mip_model2.append("")
                 continue
-            mip_model2.append(
-                costless.search(str(e)).group() if e not in [0, "0"] else ""
-            )
+            mip_model2.append(costless.search(str(e)).group() if e not in [0, "0"] else "")
         for col, lis in {
             "c_MIP1": mip_model1,
             "c_MIP2": mip_model2,
@@ -230,31 +171,17 @@ def html_report(df, mets, export_html_path="commscores_report.html", msdb_path=N
             "MIP_model2": heatmap_df["MIP_model2 (costless)"].apply(remove_metadata),
         }.items():
             heatmap_df[col] = to_numeric(lis, errors="coerce")
-    for col in [
-        "MRO_model1",
-        "MRO_model2",
-        "BSS_model1",
-        "BSS_model2",
-        "PC_model1",
-        "PC_model2",
-        "FS",
-        "GYD",
-    ]:
+    for col in ["MRO_model1", "MRO_model2", "BSS_model1", "BSS_model2", "PC_model1",
+                "PC_model2", "FS", "GYD"]:
         if col not in heatmap_df:
             print(f"The {col} is not computed")
             continue
-        heatmap_df[col] = to_numeric(
-            heatmap_df[col].apply(remove_metadata), errors="coerce"
-        )
-    del (
-        heatmap_df["BIT"],
-        heatmap_df["MIP_model1 (costless)"],
-        heatmap_df["MIP_model2 (costless)"],
-    )  # TODO colorize the BIT entries as well
+        heatmap_df[col] = to_numeric(heatmap_df[col].apply(remove_metadata), errors="coerce")
+     # TODO colorize the BIT entries as well
+    del (heatmap_df["BIT"], heatmap_df["MIP_model1 (costless)"], heatmap_df["MIP_model2 (costless)"])
     heatmap_df = heatmap_df.astype(float)
     int_cols = ["CIP", "MIP_model1", "MIP_model2"]
-    if "costless_MIP_model1" in heatmap_df.columns:
-        int_cols.extend(["c_MIP1", "c_MIP2"])
+    if "costless_MIP_model1" in heatmap_df.columns:  int_cols.extend(["c_MIP1", "c_MIP2"])
     for col in int_cols:
         heatmap_df[col] = heatmap_df[col].apply(convert_to_int)
 
@@ -264,58 +191,31 @@ def html_report(df, mets, export_html_path="commscores_report.html", msdb_path=N
     # from pandas import set_option
     # set_option("display.max_colwidth", None, 'display.width', 1500)
     ## Process the score metabolites
-    mro_mets, mro_mets_names, mip_model1_mets, mip_model1_mets_names = (
-        [],
-        [],
-        [],
-        [],
-    )
-    mip_model2_mets, mip_model2_mets_names, cip_mets, cip_mets_names = (
-        [],
-        [],
-        [],
-        [],
-    )
+    mro_mets, mro_mets_names, mip_model1_mets, mip_model1_mets_names = ([],[],[],[])
+    mip_model2_mets, mip_model2_mets_names, cip_mets, cip_mets_names = ([],[],[],[])
     from json import dump, load
 
     cpdNames_path = os.path.join(package_dir, "data", "compoundNames.json")
-    with open(cpdNames_path, "r") as jsonIn:
-        cpdNames = load(jsonIn)
+    with open(cpdNames_path, "r") as jsonIn:  cpdNames = load(jsonIn)
     update_cpdNames = {}
     for met in mets:
         # MRO metabolites
-        mro_metIDs = [
-            metID
-            for metID in map(str, met["MRO metabolites"])
-            if metID not in ["None", None]
-        ]
+        mro_metIDs = [metID for metID in map(str, met["MRO metabolites"]) if metID not in ["None", None]]
         mro_mets.append(", ".join(mro_metIDs))
         names, update_cpdNames = names_updateCPD(mro_metIDs, update_cpdNames)
         mro_mets_names.append(", ".join(names))
         # MIP metabolites
-        mip_model1_metIDs = [
-            metID
-            for metID in map(str, met["MIP model1 metabolites"])
-            if metID not in ["None", None]
-        ]
+        mip_model1_metIDs = [metID for metID in map(str, met["MIP model1 metabolites"]) if metID not in ["None", None]]
         mip_model1_mets.append(", ".join(mip_model1_metIDs))
         names, update_cpdNames = names_updateCPD(mip_model1_metIDs, update_cpdNames)
         mip_model1_mets_names.append(", ".join(names))
         ## model2 MIP metabolites
-        mip_model2_metIDs = [
-            metID
-            for metID in map(str, met["MIP model2 metabolites"])
-            if metID not in ["None", None]
-        ]
+        mip_model2_metIDs = [metID for metID in map(str, met["MIP model2 metabolites"]) if metID not in ["None", None]]
         mip_model2_mets.append(", ".join(mip_model2_metIDs))
         names, update_cpdNames = names_updateCPD(mip_model2_metIDs, update_cpdNames)
         mip_model2_mets_names.append(", ".join(names))
         # CIP metabolites
-        cip_metIDs = [
-            metID
-            for metID in map(str, met["CIP metabolites"])
-            if metID not in ["None", None]
-        ]
+        cip_metIDs = [metID for metID in map(str, met["CIP metabolites"]) if metID not in ["None", None]]
         cip_mets.append(", ".join(cip_metIDs))
         names, update_cpdNames = names_updateCPD(cip_metIDs, update_cpdNames)
         cip_mets_names.append(", ".join(names))

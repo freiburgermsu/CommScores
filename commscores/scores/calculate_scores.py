@@ -4,6 +4,7 @@ from modelseedpy.community.mscommunity import MSCommunity
 from modelseedpy.core.fbahelper import FBAHelper
 from modelseedpy.core.msmodelutl import MSModelUtil
 from multiprocess import current_process
+from collections.abc import Iterable
 
 from ..logger import logger
 from ..utils import _get_media, _sigfig_check
@@ -18,80 +19,49 @@ from .pc import pc
 
 def _load(model, kbase_obj):
     model_str = model
-    if len(model) == 2:
-        model = kbase_obj.get_from_ws(*model)
-    else:
-        model = kbase_obj.get_from_ws(model)
+    if not isinstance(model, Iterable):   model = kbase_obj.get_from_ws(model)
+    else:    model = kbase_obj.get_from_ws(*model)
     return model, model_str
 
 
-def calculate_scores(
-    pairs,
-    models_media=None,
-    environments=None,
-    annotated_genomes=True,
-    lazy_load=False,
-    kbase_obj=None,
-    cip_score=True,
-    costless=True,
-    skip_bad_media=False,
-    check_models=True,
-    print_progress=False,
-):
+def calculate_scores(pairs, models_media=None, environments=None, annotated_genomes=True,
+                     lazy_load=False, kbase_obj=None, cip_score=True, costless=True,
+                     skip_bad_media=False, check_models=True, print_progress=False):
     from pandas import Series
 
     if isinstance(pairs, list):
-        (
-            pairs,
-            models_media,
-            environments,
-            annotated_genomes,
-            lazy_load,
-            kbase_obj,
-        ) = pairs
+        (pairs, models_media, environments, annotated_genomes, lazy_load, kbase_obj) = pairs
     series, mets = [], []
-    if not isinstance(environments, (list, tuple)):
-        environments = [environments]
+    if not isinstance(environments, (list, tuple)):   environments = [environments]
     if isinstance(environments, (list, tuple)) and hasattr(environments[0], "name"):
-        environments = {
-            m.name: FBAHelper.convert_kbase_media(m, 1000) for m in environments
-        }
+        environments = {m.name: FBAHelper.convert_kbase_media(m, 1000) for m in environments}
     elif not isinstance(environments, dict):
         environments = {f"media{i}": m for i, m in enumerate(environments)}
     pid = current_process().name
     model_utils = {}
     count = 0
     for model1, models in pairs.items():
-        if model1.id == "":
-            model1.id = "model1"
-        if lazy_load:
-            model1, model1_str = _load(model1, kbase_obj)
-        else:
-            model1_str = model1.id
+        if model1.id == "":    model1.id = "model1"
+        if lazy_load:    model1, model1_str = _load(model1, kbase_obj)
+        else:    model1_str = model1.id
         if model1.id not in models_media:
             models_media[model1.id] = {
                 "media": _get_media(model_s_=model1, skip_bad_media=skip_bad_media)
             }
-            if models_media[model1.id] is None:
-                continue
+            if models_media[model1.id] is None:   continue
         if model1.id not in model_utils:
             model_utils[model1.id] = MSModelUtil(model1, True)
         # print(pid, model1)
         for model_index, model2 in enumerate(models):
-            if model2.id == "":
-                model2.id = "model2"
-            if lazy_load:
-                model2, model2_str = _load(model2, kbase_obj)
-            else:
-                model2_str = model2.id
+            if model2.id == "":     model2.id = "model2"
+            if lazy_load:     model2, model2_str = _load(model2, kbase_obj)
+            else:     model2_str = model2.id
             if model2.id not in models_media:
                 models_media[model2.id] = {
                     "media": _get_media(model_s_=model2, skip_bad_media=skip_bad_media)
                 }
-                if models_media[model2.id] is None:
-                    continue
-            if model2.id not in model_utils:
-                model_utils[model2.id] = MSModelUtil(model2, True)
+                if models_media[model2.id] is None:    continue
+            if model2.id not in model_utils:   model_utils[model2.id] = MSModelUtil(model2, True)
             grouping = [model1, model2]
             grouping_utils = [model_utils[model1.id], model_utils[model2.id]]
             modelIDs = [model.id for model in grouping]
@@ -103,106 +73,59 @@ def calculate_scores(
                 if print_progress:
                     print(f"\tEnvironment\t{environName}", end="\t")
                 if check_models:  # check that the models grow in the environment
-                    _check_model(
-                        model_utils[model1.id], environ, model1_str, skip_bad_media
-                    )
-                    _check_model(
-                        model_utils[model2.id], environ, model2_str, skip_bad_media
-                    )
+                    _check_model(model_utils[model1.id], environ, model1_str, skip_bad_media)
+                    _check_model(model_utils[model2.id], environ, model2_str, skip_bad_media)
                 # initiate the KBase output
-                report_dic = {
-                    f"model{i+1}": modelID for i, modelID in enumerate(modelIDs)
-                }
+                report_dic = {f"model{i+1}": modelID for i, modelID in enumerate(modelIDs)}
                 # the model growths are determined and the environmental media is parameterized for each of the members
                 g1, g2, comm = [
                     _sigfig_check(val, 5, "")
                     for val in _determine_growths(
-                        [
-                            model_utils[model1.id],
-                            model_utils[model2.id],
-                            community.util,
-                        ],
-                        environ,
-                    )
+                        [model_utils[model1.id], model_utils[model2.id], community.util,],  environ
+                        )
                 ]
-                coculture_growths = {
-                    memID: abundance * comm
-                    for memID, abundance in community.predict_abundances().items()
-                }
+                coculture_growths = {memID: abundance * comm
+                                     for memID, abundance in community.predict_abundances().items()}
                 report_dic.update(
-                    {
-                        "media": environName,
-                        "monoculture growth model1": g1,
-                        "monoculture growth model2": g2,
-                    }
+                    {"media": environName, "monoculture growth model1": g1, "monoculture growth model2": g2}
                 )
                 report_dic.update(
-                    {
-                        f"coculture growth model{modelIDs.index(memID)+1}": growth
-                        for memID, growth in coculture_growths.items()
-                    }
+                    {f"coculture growth model{modelIDs.index(memID)+1}": growth
+                     for memID, growth in coculture_growths.items()}
                 )
                 report_dic.update({"community growth": comm})
                 # define the MRO content
-                mro_values = mro(
-                    grouping, models_media, raw_content=True, environment=environ
-                )
+                mro_values = mro(grouping, models_media, raw_content=True, environment=environ)
                 report_dic.update(
-                    {
-                        f"MRO_model{modelIDs.index(models_string.split('--')[0])+1}": f"{100*len(intersection)/len(memMedia):.3f}% ({len(intersection)}/{len(memMedia)})"
-                        for models_string, (
-                            intersection,
-                            memMedia,
-                        ) in mro_values.items()
+                    {f"MRO_model{modelIDs.index(models_string.split('--')[0])+1}": f"{100*len(intersection)/len(memMedia):.3f}% ({len(intersection)}/{len(memMedia)})"
+                        for models_string, (intersection, memMedia) in mro_values.items()
                     }
                 )
                 mets.append({"MRO metabolites": list(mro_values.values())[0][0]})
-                if print_progress:
-                    print("MRO done", end="\t")
+                if print_progress:   print("MRO done", end="\t")
                 # define the CIP content
                 if cip_score:
-                    cip_values = cip(
-                        modelutils=[model_utils[mem.id] for mem in grouping]
-                    )
+                    cip_values = cip(modelutils=[model_utils[mem.id] for mem in grouping])
                     report_dic.update({"CIP": cip_values[1]})
                     mets[-1].update({"CIP metabolites": list(cip_values[0])})
                     if print_progress:
                         print("CIP done", end="\t")
                 # define the MIP content
-                mip_values = mip(
-                    grouping,
-                    comm_model,
-                    0.1,
-                    None,
-                    None,
-                    environ,
-                    print_progress,
-                    True,
-                    costless,
-                    costless,
-                    skip_bad_media,
-                )
+                mip_values = mip(grouping, comm_model, 0.1, None, None, environ, print_progress,
+                                 True, costless, costless, skip_bad_media)
                 # print(mip_values)
                 if mip_values is not None:
                     report_dic.update(
-                        {
-                            f"MIP_model{modelIDs.index(models_name)+1}": str(
-                                len(received)
-                            )
-                            for models_name, received in mip_values[0].items()
-                        }
+                        {f"MIP_model{modelIDs.index(models_name)+1}": str(len(received))
+                         for models_name, received in mip_values[0].items()}
                     )
                     mets[-1].update(
-                        {
-                            "MIP model1 metabolites": list(mip_values[0].values())[0],
-                            "MIP model2 metabolites": list(mip_values[0].values())[1],
-                        }
+                        {"MIP model1 metabolites": list(mip_values[0].values())[0],
+                         "MIP model2 metabolites": list(mip_values[0].values())[1]}
                     )
                     if costless:
                         for models_name, received in mip_values[1].items():
-                            report_dic[
-                                f"MIP_model{modelIDs.index(models_name)+1} (costless)"
-                            ] = (
+                            report_dic[f"MIP_model{modelIDs.index(models_name)+1} (costless)"] = (
                                 report_dic[f"MIP_model{modelIDs.index(models_name)+1}"]
                                 + f" ({len(received)})"
                             )
@@ -213,27 +136,14 @@ def calculate_scores(
                     report_dic.update(
                         {"MIP_model1 (costless)": "", "MIP_model2 (costless)": ""}
                     )
-                    mets[-1].update(
-                        {
-                            "MIP model1 metabolites": [None],
-                            "MIP model2 metabolites": [None],
-                        }
-                    )
+                    mets[-1].update({"MIP model1 metabolites": [None], "MIP model2 metabolites": [None]})
                 if print_progress:
                     print("MIP done", end="\t")
                 # define the BSS content
-                bss_values = bss(
-                    grouping,
-                    grouping_utils,
-                    environments,
-                    models_media,
-                    skip_bad_media,
-                )
+                bss_values = bss(grouping, grouping_utils, environments, models_media, skip_bad_media)
                 report_dic.update(
-                    {
-                        f"BSS_model{modelIDs.index(name.split(' supporting ')[0])+1}": f"{_sigfig_check(100*val, 5, '')}%"
-                        for name, (mets, val) in bss_values.items()
-                    }
+                    {f"BSS_model{modelIDs.index(name.split(' supporting ')[0])+1}": f"{_sigfig_check(100*val, 5, '')}%"
+                     for name, (mets, val) in bss_values.items()}
                 )
                 mets[-1].update(
                     {

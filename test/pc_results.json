@@ -1,0 +1,16 @@
+[
+   0.7729382747623191,
+   {
+      "Pantoea_sp._YR343_2511231025.fna.RAST.mdl": 0.9899005080423035,
+      "Rhizobium_sp._CF142_2510917030.fna.RAST.mdl": 0.7107731787472508,
+      "Pseudomonas_sp._GM17_2511231006.fna.RAST.mdl": 0.8421961070629606,
+      "Streptomyces_mirabilis_YR139_2582581314.fna.RAST.mdl": 0.4573768822878911
+   },
+   {
+      "Pantoea_sp._YR343_2511231025.fna.RAST.mdl": 92.12489679088938,
+      "Rhizobium_sp._CF142_2510917030.fna.RAST.mdl": 41.47131072757479,
+      "Pseudomonas_sp._GM17_2511231006.fna.RAST.mdl": 69.57616049937927,
+      "Streptomyces_mirabilis_YR139_2582581314.fna.RAST.mdl": 32.301480681023165
+   },
+   "amensalism"
+]
