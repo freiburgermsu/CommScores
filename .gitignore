@@ -176,5 +176,6 @@ data/models/arpacheco_models/
 .devenv/
 
 # data
+examples/
 *.zip
 *.gz
