@@ -174,3 +174,8 @@ data/models/arpacheco_models/
 # nix
 .direnv/
 .devenv/
+
+# data
+examples/
+*.zip
+*.gz
