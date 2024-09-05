@@ -26,11 +26,11 @@ logger = logging.getLogger(__name__)
 
 # open the parsed ModelSEED Database reactions and compounds content
 with open(
-    os.path.join(os.path.dirname(__file__), "..", "data", "compound_Xrefs.json"), "r"
+    os.path.join(os.path.dirname(__file__), "data", "compound_Xrefs.json"), "r"
 ) as cpdXRefs:
     compounds_cross_references = json.load(cpdXRefs)
 with open(
-    os.path.join(os.path.dirname(__file__), "..", "data", "compoundNames.json"), "r"
+    os.path.join(os.path.dirname(__file__), "data", "compoundNames.json"), "r"
 ) as cpdNames:
     compoundNames = json.load(cpdNames)
 

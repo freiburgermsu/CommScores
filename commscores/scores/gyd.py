@@ -1,7 +1,7 @@
 from itertools import combinations
 from typing import Iterable
 
-from modelseedpy.community.mscommunity import MSCommunity
+from mscommunity.mscommunity import MSCommunity
 from modelseedpy.core.fbahelper import FBAHelper
 from modelseedpy.core.msgapfill import MSGapfill
 from modelseedpy.core.msmodelutl import MSModelUtil
@@ -12,8 +12,8 @@ from pathlib import Path
 if __name__ == "__main__" and (__package__ is None or __package__ == ''):
     parent_dir = Path(__file__).resolve().parent.parent
     sys.path.insert(0, str(parent_dir))
-    from utils import _check_model, _determine_growths
-else:   from ..utils import _check_model, _determine_growths
+    from commscoresutil import CommScoresUtil
+else:   from ..commscoresutil import CommScoresUtil
 
 
 def gyd(
@@ -35,13 +35,13 @@ def gyd(
                 model2_util.model.slim_optimize(),
             )
             if check_models:
-                model1_util.model = _check_model(model1_util, environment)
-                model2_util.model = _check_model(model2_util, environment)
+                model1_util.model = CommScoresUtil._check_model(model1_util, environment)
+                model2_util.model = CommScoresUtil._check_model(model2_util, environment)
         else:
             model1_util = combination[0]
             model2_util = combination[1]
         if not coculture_growth:
-            G_m1, G_m2 = _determine_growths([model1_util, model2_util], environment)
+            G_m1, G_m2 = CommScoresUtil._determine_growths([model1_util, model2_util], environment)
             G_m1, G_m2 = (
                 G_m1 if FBAHelper.isnumber(str(G_m1)) else 0,
                 (G_m2 if FBAHelper.isnumber(str(G_m2)) else 0),

@@ -5,9 +5,9 @@ from itertools import chain, combinations, permutations
 from numpy import array, sort, unique, where
 from numpy.random import shuffle
 
-from .logger import logger
-from .scores.calculate_scores import calculate_scores
-from .utils import _get_media, convert_to_int, remove_metadata
+from commscores.logger import logger
+from commscores.scores.calculate_scores import calculate_scores
+from commscores.commscoresutil import CommScoresUtil
 
 package_dir = os.path.abspath(os.path.dirname(__file__))
 
@@ -80,7 +80,7 @@ def report_generation(
         if model.id == "":   model.id = f"model_index{index}"
         new_models.append(model)
     all_models = new_models[:]
-    if not mem_media:   models_media = _get_media(model_s_=all_models, skip_bad_media=skip_bad_media)
+    if not mem_media:   models_media = CommScoresUtil._get_media(model_s_=all_models, skip_bad_media=skip_bad_media)
     else:
         models_media = mem_media.copy()
         missing_models = set()
@@ -93,9 +93,10 @@ def report_generation(
             logger.error(
                 f"Media of the {missing_modelID} models are not defined, and will be calculated separately."
             )
-            models_media.update(_get_media(model_s_=missing_models), skip_bad_media=skip_bad_media)
+            models_media.update(CommScoresUtil._get_media(model_s_=missing_models), skip_bad_media=skip_bad_media)
     if see_media:
-        print(f"The minimal media of all members:\n{models_media}")
+        print(f"The minimal media of all members:")
+        display(models_media)
     print(f"\nExamining the {len(list(model_pairs))} model pairs")
     if pool_size is not None:
         from datetime import datetime
@@ -167,8 +168,8 @@ def html_report(df, mets, export_html_path="commscores_report.html", msdb_path=N
         for col, lis in {
             "c_MIP1": mip_model1,
             "c_MIP2": mip_model2,
-            "MIP_model1": heatmap_df["MIP_model1 (costless)"].apply(remove_metadata),
-            "MIP_model2": heatmap_df["MIP_model2 (costless)"].apply(remove_metadata),
+            "MIP_model1": heatmap_df["MIP_model1 (costless)"].apply(CommScoresUtil.remove_metadata),
+            "MIP_model2": heatmap_df["MIP_model2 (costless)"].apply(CommScoresUtil.remove_metadata),
         }.items():
             heatmap_df[col] = to_numeric(lis, errors="coerce")
     for col in ["MRO_model1", "MRO_model2", "BSS_model1", "BSS_model2", "PC_model1",
@@ -176,14 +177,14 @@ def html_report(df, mets, export_html_path="commscores_report.html", msdb_path=N
         if col not in heatmap_df:
             print(f"The {col} is not computed")
             continue
-        heatmap_df[col] = to_numeric(heatmap_df[col].apply(remove_metadata), errors="coerce")
+        heatmap_df[col] = to_numeric(heatmap_df[col].apply(CommScoresUtil.remove_metadata), errors="coerce")
      # TODO colorize the BIT entries as well
     del (heatmap_df["BIT"], heatmap_df["MIP_model1 (costless)"], heatmap_df["MIP_model2 (costless)"])
     heatmap_df = heatmap_df.astype(float)
     int_cols = ["CIP", "MIP_model1", "MIP_model2"]
     if "costless_MIP_model1" in heatmap_df.columns:  int_cols.extend(["c_MIP1", "c_MIP2"])
     for col in int_cols:
-        heatmap_df[col] = heatmap_df[col].apply(convert_to_int)
+        heatmap_df[col] = heatmap_df[col].apply(CommScoresutil.convert_to_int)
 
     # construct a metabolites table
     from pandas import DataFrame

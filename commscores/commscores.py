@@ -9,7 +9,7 @@ from pprint import pprint
 from typing import Iterable
 
 from deepdiff import DeepDiff  # (old, new)
-from modelseedpy.community.commhelper import build_from_species_models
+from mscommunity.commhelper import build_from_species_models
 from modelseedpy.core.exceptions import ObjectiveError, ParameterError
 from modelseedpy.core.fbahelper import FBAHelper
 from modelseedpy.core.msminimalmedia import MSMinimalMedia
@@ -27,17 +27,18 @@ package_dir = os.path.abspath(os.path.dirname(__file__))
 
 rm_comp = FBAHelper.remove_compartment
 
-from .utils import (
-    _categorize_mets,
-    _compatibilize,
-    _get_media,
-    _load_models,
-    _process_mets,
-    _sigfig_check,
-    convert_to_int,
-    nanFilter,
-    remove_metadata,
-)
+from .commscoresutil import CommScoresUtil
+# (
+#     _categorize_mets,
+#     _compatibilize,
+#     _get_media,
+#     _load_models,
+#     _process_mets,
+#     _sigfig_check,
+#     convert_to_int,
+#     nanFilter,
+#     remove_metadata,
+# )
 
 
 class CommScores:

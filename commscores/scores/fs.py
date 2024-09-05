@@ -8,8 +8,8 @@ from pathlib import Path
 if __name__ == "__main__" and (__package__ is None or __package__ == ''):
     parent_dir = Path(__file__).resolve().parent.parent
     sys.path.insert(0, str(parent_dir))
-    from utils import _calculate_jaccard_score
-else:   from ..utils import _calculate_jaccard_score
+    from commscoresutil import CommScoresUtil
+else:   from ..commscoresutil import CommScoresUtil
 
 
 def fs(
@@ -59,12 +59,12 @@ def fs(
                 for key, val in j.ontology_terms.items():
                     if key == "SSO":
                         genome2_set.update(val)
-            distances[f"{genome1} ++ {genome2}"] = _calculate_jaccard_score(
+            distances[f"{genome1} ++ {genome2}"] = CommScoresUtil._calculate_jaccard_score(
                 genome1_set, genome2_set
             )
     else:
         distances = {
-            f"{genome1} ++ {genome2}": _calculate_jaccard_score(
+            f"{genome1} ++ {genome2}": CommScoresUtil._calculate_jaccard_score(
                 set(
                     list(content["SSO"].keys())[0]
                     for dic in annotated_genomes[genome1]["cdss"]

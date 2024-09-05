@@ -11,8 +11,8 @@ from pathlib import Path
 if __name__ == "__main__" and (__package__ is None or __package__ == ''):
     parent_dir = Path(__file__).resolve().parent.parent
     sys.path.insert(0, str(parent_dir))
-    from utils import _get_media
-else:   from ..utils import _get_media
+    from commscoresutil import CommScoresUtil
+else:   from ..commscoresutil import CommScoresUtil
 
 rm_comp = FBAHelper.remove_compartment
 
@@ -23,7 +23,7 @@ def remove_comp(string):
 def compute_score(minMedia, model_utils, environ, skip_bad_media, index=0):
     scores = {}
     model1_util, model2_util = model_utils
-    minMedia = minMedia or _get_media(
+    minMedia = minMedia or CommScoresUtil._get_media(
         model_s_=[model1_util.model, model2_util.model],
         environment=environ,
         skip_bad_media=skip_bad_media,

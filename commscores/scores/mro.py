@@ -9,8 +9,8 @@ if __name__ == "__main__" and (__package__ is None or __package__ == ''):
     # Uses directory of script as starting point
     parent_dir = Path(__file__).resolve().parent.parent
     sys.path.insert(0, str(parent_dir))
-    from utils import _compatibilize, _get_media
-else:   from ..utils import _compatibilize, _get_media
+    from commscoresutil import CommScoresUtil
+else:   from ..commscoresutil import CommScoresUtil
 
 def mro(member_models: Iterable = None, mem_media: dict = None, min_growth=0.1, media_dict=None,
         raw_content=False, environment=None, skip_bad_media=False, printing=False, compatibilized=False):
@@ -19,15 +19,15 @@ def mro(member_models: Iterable = None, mem_media: dict = None, min_growth=0.1, 
     if not mem_media:
         if not member_models:
             raise ParameterError("The either member_models or minimal_media parameter must be defined.")
-        member_models = (member_models if compatibilized else _compatibilize(member_models, printing))
-        mem_media = _get_media(media_dict, None, member_models, min_growth, environment,
+        member_models = member_models if compatibilized else CommScoresUtil._compatibilize(member_models, printing)
+        mem_media = CommScoresUtil._get_media(media_dict, None, member_models, min_growth, environment,
                                printing=printing, skip_bad_media=skip_bad_media)
         if "community_media" in mem_media:
             mem_media = mem_media["members"]
     # MROs = array(list(map(len, pairs.values()))) / array(list(map(len, mem_media.values())))
     mro_values = {}
     for model1, model2 in combinations(member_models, 2):
-        intersection = set(mem_media[model1.id]["media"].keys()) & set(mem_media[model2.id]["media"].keys())
+        intersection = set(mem_media[model1.id]["media"][0].keys()) & set(mem_media[model2.id]["media"][0].keys())
         inter = [ex.replace("EX_", "").replace("_e0", "") for ex in intersection]
         m1_media = mem_media[model1.id]["media"]
         m2_media = mem_media[model2.id]["media"]

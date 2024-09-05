@@ -3,12 +3,12 @@ from itertools import chain, combinations, permutations
 from typing import Iterable
 
 from deepdiff import DeepDiff
-from modelseedpy.community.commhelper import build_from_species_models
+from mscommunity.commhelper import build_from_species_models
 from modelseedpy.core.msminimalmedia import MSMinimalMedia
 from modelseedpy.core.msmodelutl import MSModelUtil
 from optlang import Constraint, Objective, Variable
 
-from ..utils import _compatibilize, _load_models
+from ..commscoresutil import CommScoresUtil
 
 
 def contributions(org_possible_contributions, scores, model_util, abstol):
@@ -43,7 +43,7 @@ def mu(
     # member_solutions = member_solutions if member_solutions else {model.id: model.optimize() for model in member_models}
     scores = {}
     member_models = (
-        member_models if compatibilized else _compatibilize(member_models, printing)
+        member_models if compatibilized else CommScoresUtil._compatibilize(member_models, printing)
     )
     if member_excreta:
         missing_members = [
@@ -124,7 +124,7 @@ def mp(
 ):
     """Discover the metabolites that each species can contribute to a community"""
     community = (
-        _compatibilize(com_model)
+        CommScoresUtil._compatibilize(com_model)
         if com_model
         else build_from_species_models(member_models, standardize=True)
     )
@@ -178,7 +178,7 @@ def sc(
     printing=False,
 ):
     """Calculate the frequency of interspecies dependency in a community"""
-    member_models, community = _load_models(
+    member_models, community = CommScoresUtil._load_models(
         member_models, com_model, not compatibilized, printing=printing
     )
     for rxn in com_model.reactions:
@@ -274,7 +274,7 @@ def smetana(
     printing=False,
 ):
     """Quantifies the extent of syntrophy as the sum of all exchanges in a given nutritional environment"""
-    member_models, community = _load_models(
+    member_models, community = CommScoresutil._load_models(
         member_models, com_model, compatibilized == False, printing=printing
     )
     sc = None

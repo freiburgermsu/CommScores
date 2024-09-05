@@ -19,26 +19,26 @@ if __name__ == "__main__" and (__package__ is None or __package__ == ''):
     # Uses directory of script as starting point
     parent_dir = Path(__file__).resolve().parent.parent
     sys.path.insert(0, str(parent_dir))
-    from utils import _get_media, _load_models
-else:   from ..utils import _get_media, _load_models
+    from commscoresutil import CommScoresUtil
+else:   from ..commscoresutil import CommScoresUtil
 
 
 def mip(member_models: Iterable, com_model=None, min_growth=0.1, interacting_media_dict=None,
         noninteracting_media_dict=None, environment=None, printing=False, compatibilized=False,
         costless=False, skip_bad_media=False):
     """Determine the quantity of nutrients that can be potentially sourced through syntrophy"""
-    member_models, community = _load_models(member_models, com_model, not compatibilized, "MIP_comm", printing=printing)
+    member_models, community = CommScoresUtil._load_models(member_models, com_model, not compatibilized, "MIP_comm", printing=printing)
     print(community.id, community.objective.expression)
     # determine the interacting and non-interacting media for the specified community  .util.model
     print("Non-interacting community, minimize transporters", end="\t")
-    noninteracting_medium, noninteracting_sol = _get_media(noninteracting_media_dict, community,
+    noninteracting_medium, noninteracting_sol = CommScoresUtil._get_media(noninteracting_media_dict, community,
                                                            None, min_growth, environment, False,
                                                            skip_bad_media=skip_bad_media)
     if noninteracting_medium is None:   raise NoMedia("There is no non-interacting media.")
     if "community_media" in noninteracting_medium:
         noninteracting_medium = noninteracting_medium["community_media"]
     print("Interacting community, minimize exchanges", end="\t")
-    interacting_medium, interacting_sol = _get_media(interacting_media_dict, community, None, min_growth,
+    interacting_medium, interacting_sol = CommScoresUtil._get_media(interacting_media_dict, community, None, min_growth,
                                                      environment, True, skip_bad_media=skip_bad_media)
     if interacting_medium is None:      raise NoMedia("There is no Interacting media.")
     if "community_media" in interacting_medium:

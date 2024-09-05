@@ -1,4 +1,4 @@
-from modelseedpy.community.mscommunity import MSCommunity
+from mscommunity.mscommunity import MSCommunity
 from modelseedpy.core.msmodelutl import MSModelUtil
 from numpy import array
 
@@ -8,8 +8,8 @@ from pathlib import Path
 if __name__ == "__main__" and (__package__ is None or __package__ == ''):
     parent_dir = Path(__file__).resolve().parent.parent
     sys.path.insert(0, str(parent_dir))
-    from utils import _load_models, nanFilter
-else:   from ..utils import _load_models, nanFilter
+    from commscoresutil import CommScoresUtil
+else:   from ..commscoresutil import CommScoresUtil
 
 
 def pc(
@@ -28,7 +28,7 @@ def pc(
     assert member_models or modelutils or community, "Either member_models or modelutils or community must be defined."
     member_models = member_models or [mem.model for mem in modelutils] or community.members
     if com_model is None:
-        member_models, com_model = _load_models(member_models, None, not compatibilized, printing=False)
+        member_models, com_model = CommScoresUtil._load_models(member_models, None, not compatibilized, printing=False)
     community = community or MSCommunity(com_model, member_models)
     if comm_sol is None:
         abundances = community.predict_abundances(environment, False)
@@ -48,9 +48,9 @@ def pc(
     comm_member_growths, comm_growth_effect = {}, {}
     for mem in community.members:
         comm_member_growths[mem.id] = comm_sol.fluxes[mem.primary_biomass.id]
-        comm_growth_effect[mem.id] = nanFilter(comm_member_growths[mem.id] / isolate_growths[mem.id])
+        comm_growth_effect[mem.id] = CommScoresUtil.nanFilter(comm_member_growths[mem.id] / isolate_growths[mem.id])
     
-    growth_diffs = array([nanFilter(x, False) for x in list(comm_growth_effect.values())])
+    growth_diffs = array([CommScoresUtil.nanFilter(x, False) for x in list(comm_growth_effect.values())])
     th_pos, th_neg = 1 + interaction_threshold, 1 - interaction_threshold
     if all(growth_diffs > th_pos):
         bit = "mutualism"
