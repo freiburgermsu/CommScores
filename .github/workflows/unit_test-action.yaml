@@ -2,25 +2,34 @@ name: Test CommScores
 on:
   push:
     branches:
-      - main
+      - dev
   pull_request:
     branches:
-      - main
+      - dev
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.12]
     steps:
       - uses: actions/checkout@v2
-      - name: Install Python 3
-        uses: actions/setup-python@v1
+      - name: Install Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: ${{ matrix.python-version }}
+      - name: Run tests
+        run: python -m pytest /home/runner/work/ROSSpy/ROSSpy/rosspy/test/test_ro_unix.py
+
+
       - name: Install Pip, pytest, commscores
         run: |
           python -m pip install --upgrade pip
           pip install pytest
-          pip install commscores
+          pip install git+https://github.com/freiburgermsu/CommScores.git@dev
           pip show commscores
       - name: Run tests
         run: python -m pytest test\test_commscores.py
