@@ -1,4 +1,5 @@
 from cobra.io import read_sbml_model
+from itertools import combinations
 from shutil import rmtree
 from math import isclose
 from glob import glob
@@ -138,6 +139,26 @@ def test_fs():
         
 
 # Developing
-
-#     def test_calculate_scores():
-#         pass
+def test_calculate_scores():
+    # affirm that the outputs are consistent
+    from glob import glob
+    from json import load
+    from os import path
+    
+    with open(f"{relDir}/calculate_scores_results.json", 'r') as jsonIn:
+        fs_results = load(jsonIn)
+        
+    # load the genomes
+    genomes = {}
+    for genetics in glob(f"{relDir}/*.fna.RAST.json"):
+        baseName = path.basename(genetics).replace(".json", '.mdl')
+        genomes[baseName] = load(open(genetics, 'r'))
+    
+    # calculate the scores
+    scores_output = commscores.calculate_scores(pairs=list(combinations(all_models, 2)), member_media=test_models,
+                                            environments=media, annotated_genomes=genomes)
+    for combo, vals in fs_output.items():
+        SSOs = set(fs_results[combo][0])
+        fs = float(fs_results[combo][1])
+        assert vals[0] == SSOs, f"The {combo} computed set is not identical to the established SSOs: {vals[0]} ; {SSOs}"
+        assert isclose(vals[1], fs, abs_tol=1e-5), f"The {combo} computed FS {vals[1]} is not identical to the established FS {fs}"
