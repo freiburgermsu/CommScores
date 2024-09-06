@@ -12,12 +12,18 @@ import sys, os, re
 # define a local pointer to import package versions
 path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 path2 = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-kbmodules_path = "/scratch/shared/code/KBBaseModules"
-modelseed_path = "/scratch/shared/ModelSEEDpy_APF"
-mscommunity_path = "/scratch/shared/code/MSCommunity"
-utilsModule_path = "/scratch/shared/code/chenry_utility_module/lib"
-msrecon_path = "/scratch/shared/code/KB-ModelSEEDReconstruction/lib"
-commscores_path = "/scratch/shared/code/CommScores"
+kbmodules_path = "/Users/afreiburger/Documents/KBBaseModules"
+modelseed_path = "/Users/afreiburger/Documents/ModelSEEDpy"
+mscommunity_path = "/Users/afreiburger/Documents/MSCommunity"
+utilsModule_path = "/Users/afreiburger/Documents/chenry_utility_module/lib"
+msrecon_path = "/Users/afreiburger/Documents/KB-ModelSEEDReconstruction/lib"
+commscores_path = "/Users/afreiburger/Documents/CommScores"
+# kbmodules_path = "/scratch/shared/code/KBBaseModules"
+# modelseed_path = "/scratch/shared/ModelSEEDpy_APF"
+# mscommunity_path = "/scratch/shared/code/MSCommunity"
+# utilsModule_path = "/scratch/shared/code/chenry_utility_module/lib"
+# msrecon_path = "/scratch/shared/code/KB-ModelSEEDReconstruction/lib"
+# commscores_path = "/scratch/shared/code/CommScores"
 for p in [path, path2, kbmodules_path, modelseed_path, mscommunity_path, utilsModule_path, msrecon_path, commscores_path]:
     sys.path.insert(0, p)
 # print(sys.path)
