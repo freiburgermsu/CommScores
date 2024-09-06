@@ -1,3 +1,4 @@
+from ..commscoresutil import CommScoresUtil
 from .antismash import antiSMASH
 from .bss import bss
 from .calculate_scores import calculate_scores

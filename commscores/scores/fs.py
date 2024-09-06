@@ -18,8 +18,10 @@ def fs(
     token_string: str = None,
     kbase_token_path: str = None,
     annotated_genomes: dict = None,
+    modelIDs: Iterable = None,
     printing=False,
 ):
+    modelIDs = modelIDs or [model.id for model in models]
     if not isinstance(annotated_genomes, dict):
         if not kbase_object:
             import cobrakbase  # ; os.environ["HOME"] = cobrakbase_repo_path ; import cobrakbase
@@ -37,7 +39,7 @@ def fs(
     elif isinstance(annotated_genomes, list):
         annotated_genomes = dict(zip([model.id for model in models], annotated_genomes))
     elif models is not None:
-        annotated_genomes = {k: v for k, v in annotated_genomes.items() if k in [model.id for model in models]}
+        annotated_genomes = {k: v for k, v in annotated_genomes.items() if k in modelIDs}
     genome_combinations = list(combinations(annotated_genomes.keys(), 2))
     if printing:  print(f"The Functionality Score (FS) will be calculated for {len(genome_combinations)} pairs.")
     if not isinstance(list(annotated_genomes.values())[0], dict):
