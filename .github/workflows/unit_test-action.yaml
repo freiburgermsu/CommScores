@@ -28,4 +28,4 @@ jobs:
           pip install git+https://github.com/freiburgermsu/CommScores.git@dev
           pip show commscores
       - name: Run tests
-        run: python -m pytest test\test_commscores.py
+        run: python -m pytest test/test_commscores.py
