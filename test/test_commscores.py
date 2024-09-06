@@ -112,10 +112,21 @@ with open("carbonDGlucose.json", 'r') as jsonIn:
 
 
 # Developing
-# def test_fs():
-#     # affirm that the outputs are consistent
-#     with open("gyd_results.json", 'r') as jsonIn:
-#         gyd_results = load(jsonIn)
-#     fs_output = commscores.fs(test_models)
-#     for modelID, val in mip_output.items():
-#         assert isinstance(val[0], list), "the MIP syntrophic compounds are faulty"
+def test_fs():
+    # affirm that the outputs are consistent
+    from glob import glob
+    from json import load
+    from os import path
+    genomes = {}
+    for genetics in glob("*.fna.RAST.json"):
+        baseName = path.basename(genetics).replace(".json", '.mdl')
+        genomes[baseName] = load(open(genetics, 'r'))
+    
+    with open("fs_results.json", 'r') as jsonIn:
+        fs_results = load(jsonIn)
+    fs_output = commscores.fs(test_models)
+    for combo, vals in fs_output.items():
+        SSOs = set(fs_results[combo][0])
+        fs = float(fs_results[combo][1])
+        assert vals[0] == SSOs, f"The {combo} computed set is not identical to the established SSOs: {vals[0]} ; {SSOs}"
+        assert isclose(vals[1], fs, abs_tol=1e-5), f"The {combo} computed FS {vals[1]} is not identical to the established FS {fs}"
