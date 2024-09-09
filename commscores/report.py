@@ -5,9 +5,9 @@ from itertools import chain, combinations, permutations
 from numpy import array, sort, unique, where
 from numpy.random import shuffle
 
-from commscores.logger import logger
-from commscores.scores.calculate_scores import calculate_scores
-from commscores.commscoresutil import CommScoresUtil
+from logger import logger
+from scores.calculate_scores import calculate_scores
+from commscoresutil import CommScoresUtil
 
 package_dir = os.path.abspath(os.path.dirname(__file__))
 
@@ -25,7 +25,6 @@ def report_generation(
     pool_size: int = None,
     cip_score=True,
     costless=True,
-    skip_bad_media=False,
     check_models=True,
     print_progress=False,
 ):
@@ -80,7 +79,7 @@ def report_generation(
         if model.id == "":   model.id = f"model_index{index}"
         new_models.append(model)
     all_models = new_models[:]
-    if not mem_media:   models_media = CommScoresUtil._get_media(model_s_=all_models, skip_bad_media=skip_bad_media)
+    if not mem_media:   models_media = CommScoresUtil._get_media(model_s_=all_models)
     else:
         models_media = mem_media.copy()
         missing_models = set()
@@ -93,7 +92,7 @@ def report_generation(
             logger.error(
                 f"Media of the {missing_modelID} models are not defined, and will be calculated separately."
             )
-            models_media.update(CommScoresUtil._get_media(model_s_=missing_models), skip_bad_media=skip_bad_media)
+            models_media.update(CommScoresUtil._get_media(model_s_=missing_models))
     if see_media:
         print(f"The minimal media of all members:")
         display(models_media)
@@ -112,7 +111,7 @@ def report_generation(
     else:
         series, mets = calculate_scores(pairs, models_media, environments, annotated_genomes,
                                         lazy_load, kbase_obj, cip_score, costless,
-                                        skip_bad_media, check_models, print_progress)
+                                        check_models, print_progress)
     return concat(series, axis=1).T, mets
 
 

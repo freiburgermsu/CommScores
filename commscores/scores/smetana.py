@@ -8,7 +8,13 @@ from modelseedpy.core.msminimalmedia import MSMinimalMedia
 from modelseedpy.core.msmodelutl import MSModelUtil
 from optlang import Constraint, Objective, Variable
 
-from ..commscoresutil import CommScoresUtil
+import sys
+from pathlib import Path
+# if __name__ == "__main__" and (__package__ is None or __package__ == ''):
+# Uses directory of script as starting point
+parent_dir = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(parent_dir))
+from commscoresutil import CommScoresUtil
 
 
 def contributions(org_possible_contributions, scores, model_util, abstol):

@@ -18,16 +18,21 @@ from modelseedpy.core.msmodelutl import MSModelUtil
 # silence deprecation warnings from DeepDiff parsing the syntrophy
 from numpy import array
 
-from .logger import logger
-from .scores import antiSMASH, bss, cip, fs, gyd, mip, mp, mro, mu, pc, sc, smetana
+
+# allows to singular execution of this script, besides loading CommScores as an entire package
+import sys
+from pathlib import Path
+# if __name__ == "__main__" and (__package__ is None or __package__ == ''):
+parent_dir = Path(__file__).resolve().parent
+sys.path.insert(0, str(parent_dir))
+from logger import logger
+from scores import antiSMASH, bss, cip, fs, gyd, mip, mp, mro, mu, pc, sc, smetana
+from commscoresutil import CommScoresUtil
 
 warnings.simplefilter("ignore", category=DeprecationWarning)
-
 package_dir = os.path.abspath(os.path.dirname(__file__))
-
 rm_comp = FBAHelper.remove_compartment
 
-from .commscoresutil import CommScoresUtil
 # (
 #     _categorize_mets,
 #     _compatibilize,

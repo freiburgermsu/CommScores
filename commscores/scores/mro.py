@@ -5,15 +5,15 @@ from typing import Iterable
 # allows to singular execution of this script, besides loading CommScores as an entire package
 import sys
 from pathlib import Path
-if __name__ == "__main__" and (__package__ is None or __package__ == ''):
-    # Uses directory of script as starting point
-    parent_dir = Path(__file__).resolve().parent.parent
-    sys.path.insert(0, str(parent_dir))
-    from commscoresutil import CommScoresUtil
-else:   from ..commscoresutil import CommScoresUtil
+# if __name__ == "__main__" and (__package__ is None or __package__ == ''):
+# Uses directory of script as starting point
+parent_dir = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(parent_dir))
+from commscoresutil import CommScoresUtil
+# else:   from ..commscoresutil import CommScoresUtil
 
 def mro(member_models: Iterable = None, mem_media: dict = None, min_growth=0.1, media_dict=None,
-        raw_content=False, environment=None, skip_bad_media=False, printing=False, compatibilized=False):
+        raw_content=False, environment=None, printing=False, compatibilized=False):
     """Determine the overlap of nutritional requirements (minimal media) between member organisms."""
     # determine the member minimal media if they are not parameterized
     if not mem_media:
@@ -21,7 +21,7 @@ def mro(member_models: Iterable = None, mem_media: dict = None, min_growth=0.1, 
             raise ParameterError("The either member_models or minimal_media parameter must be defined.")
         member_models = member_models if compatibilized else CommScoresUtil._compatibilize(member_models, printing)
         mem_media = CommScoresUtil._get_media(media_dict, None, member_models, min_growth, environment,
-                               printing=printing, skip_bad_media=skip_bad_media)
+                               printing=printing)
         if "community_media" in mem_media:
             mem_media = mem_media["members"]
     # MROs = array(list(map(len, pairs.values()))) / array(list(map(len, mem_media.values())))

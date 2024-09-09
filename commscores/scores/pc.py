@@ -5,11 +5,11 @@ from numpy import array
 # allows to singular execution of this script, besides loading CommScores as an entire package
 import sys
 from pathlib import Path
-if __name__ == "__main__" and (__package__ is None or __package__ == ''):
-    parent_dir = Path(__file__).resolve().parent.parent
-    sys.path.insert(0, str(parent_dir))
-    from commscoresutil import CommScoresUtil
-else:   from ..commscoresutil import CommScoresUtil
+# if __name__ == "__main__" and (__package__ is None or __package__ == ''):
+parent_dir = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(parent_dir))
+from commscoresutil import CommScoresUtil
+# else:   from ..commscoresutil import CommScoresUtil
 
 
 def pc(
@@ -40,9 +40,10 @@ def pc(
         modelutils.append(mem)
     if isolate_growths is None:
         isolate_growths = {mem.id: mem.model.slim_optimize() for mem in modelutils}
-    pc_score = comm_sol.objective_value / sum(list(isolate_growths.values()))
-    if not comm_effects:
-        return pc_score
+    memberGrowth = sum(list(isolate_growths.values()))
+    if memberGrowth == 0:  return 
+    pc_score = comm_sol.objective_value / memberGrowth
+    if not comm_effects:   return pc_score
 
     # compute the community growth effects of each member
     comm_member_growths, comm_growth_effect = {}, {}

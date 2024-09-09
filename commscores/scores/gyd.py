@@ -9,11 +9,11 @@ from modelseedpy.core.msmodelutl import MSModelUtil
 # allows to singular execution of this script, besides loading CommScores as an entire package
 import sys
 from pathlib import Path
-if __name__ == "__main__" and (__package__ is None or __package__ == ''):
-    parent_dir = Path(__file__).resolve().parent.parent
-    sys.path.insert(0, str(parent_dir))
-    from commscoresutil import CommScoresUtil
-else:   from ..commscoresutil import CommScoresUtil
+# if __name__ == "__main__" and (__package__ is None or __package__ == ''):
+parent_dir = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(parent_dir))
+from commscoresutil import CommScoresUtil
+# else:   from ..commscoresutil import CommScoresUtil
 
 
 def gyd(

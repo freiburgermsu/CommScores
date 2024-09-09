@@ -12,21 +12,15 @@ import sys, os, re
 # define a local pointer to import package versions
 path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 path2 = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-kbmodules_path = "/Users/afreiburger/Documents/KBBaseModules"
-modelseed_path = "/Users/afreiburger/Documents/ModelSEEDpy"
-mscommunity_path = "/Users/afreiburger/Documents/MSCommunity"
-utilsModule_path = "/Users/afreiburger/Documents/chenry_utility_module/lib"
-msrecon_path = "/Users/afreiburger/Documents/KB-ModelSEEDReconstruction/lib"
-commscores_path = "/Users/afreiburger/Documents/CommScores"
-# kbmodules_path = "/scratch/shared/code/KBBaseModules"
-# modelseed_path = "/scratch/shared/ModelSEEDpy_APF"
-# mscommunity_path = "/scratch/shared/code/MSCommunity"
-# utilsModule_path = "/scratch/shared/code/chenry_utility_module/lib"
-# msrecon_path = "/scratch/shared/code/KB-ModelSEEDReconstruction/lib"
-# commscores_path = "/scratch/shared/code/CommScores"
+kbmodules_path = "/scratch/shared/code/KBBaseModules"
+modelseed_path = "/scratch/shared/ModelSEEDpy_APF"
+mscommunity_path = "/scratch/shared/code/MSCommunity"
+utilsModule_path = "/scratch/shared/code/chenry_utility_module/lib"
+msrecon_path = "/scratch/shared/code/KB-ModelSEEDReconstruction/lib"
+commscores_path = "/scratch/shared/code/CommScores"
 for p in [path, path2, kbmodules_path, modelseed_path, mscommunity_path, utilsModule_path, msrecon_path, commscores_path]:
     sys.path.insert(0, p)
-# print(sys.path)
+# print(sys.path) 
 
 ## cobrakbase imports
 from cobrakbase.core.kbasefba import FBAModel
@@ -161,7 +155,6 @@ class CommScoresUtil(KBDevUtils):
         interacting=True,
         printing=False,
         minimization_method="minFlux",
-        skip_bad_media=False,
     ):
         assert com_model is not None or model_s_ is not None, "com_model or model_s_ must be parameterized."
         if com_model is True and isinstance(model_s_, (set, list, tuple)):
@@ -179,14 +172,7 @@ class CommScoresUtil(KBDevUtils):
             minGrowth = min_growth
             while com_media is None:
                 com_media, media_sol = MSMinimalMedia.determine_min_media(
-                    com_model,
-                    minimization_method,
-                    minGrowth,
-                    None,
-                    interacting,
-                    5,
-                    printing,
-                )
+                    com_model, minimization_method, minGrowth, environment, interacting, printing)
                 minGrowth *= 1.1
             if model_s_ is None:
                 return com_media, media_sol
@@ -196,14 +182,7 @@ class CommScoresUtil(KBDevUtils):
                 minGrowth = min_growth
                 while min_media is None:
                     min_media, media_sol = MSMinimalMedia.determine_min_media(
-                        com_model,
-                        minimization_method,
-                        minGrowth,
-                        None,
-                        interacting,
-                        5,
-                        printing,
-                    )
+                        model_s_, minimization_method, minGrowth, environment, interacting, printing)
                     minGrowth *= 1.1
                 return min_media, media_sol
             members_media = {}
@@ -212,13 +191,7 @@ class CommScoresUtil(KBDevUtils):
                 minGrowth = min_growth
                 while min_media is None:
                     min_media, media_sol = MSMinimalMedia.determine_min_media(
-                            model,
-                            minimization_method,
-                            minGrowth,
-                            environment,
-                            interacting,
-                            printing,
-                        )
+                            model, minimization_method, minGrowth, environment, interacting, printing)
                     minGrowth *= 1.1
                 members_media[model.id] = {"media": (min_media, media_sol)}
             # print(members_media)
@@ -249,7 +222,7 @@ class CommScoresUtil(KBDevUtils):
 
 
 
-    def _check_model(model_util, media, model_str=None, skip_bad_media=True):
+    def _check_model(model_util, media, model_str=None):
         default_media = model_util.model.medium
         # print("test")
         if media is not None:
@@ -259,10 +232,6 @@ class CommScoresUtil(KBDevUtils):
         # print(model_str, obj_val)
         if isclose(obj_val, 0, abs_tol=1e-6) or not FBAHelper.isnumber(obj_val):
             print(f"The {model_str} model is not operational on the provided media")
-            if not skip_bad_media:
-                pass
-                # print(" and will be gapfilled.")
-                # return MSGapfill.gapfill(model_util.model, media)
             model_util.add_medium(default_media)
         return model_util.model
 

@@ -6,17 +6,35 @@ from mscommunity.mscommunity import MSCommunity
 
 from multiprocess import current_process
 from collections.abc import Iterable
+from pandas import concat
 import sigfig
 
-from ..logger import logger
-from ..commscoresutil import CommScoresUtil 
-from .bss import bss
-from .cip import cip
-from .fs import fs
-from .gyd import gyd
-from .mip import mip
-from .mro import mro
-from .pc import pc
+
+import sys
+from pathlib import Path
+# if __name__ == "__main__" and (__package__ is None or __package__ == ''):
+parent_dir = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(parent_dir))
+from commscoresutil import CommScoresUtil
+from logger import logger
+from scores.bss import bss
+from scores.cip import cip
+from scores.fs import fs
+from scores.gyd import gyd
+from scores.mip import mip
+from scores.mro import mro
+from scores.pc import pc
+# else:
+#     from ..logger import logger
+#     from ..commscoresutil import CommScoresUtil 
+#     from .bss import bss
+#     from .cip import cip
+#     from .fs import fs
+#     from .gyd import gyd
+#     from .mip import mip
+#     from .mro import mro
+#     from .pc import pc
+
 
 
 def _load(model, kbase_obj):
@@ -26,31 +44,34 @@ def _load(model, kbase_obj):
     return model, model_str
 
 
-def calculate_scores(pairs, models_media=None, environments=None, annotated_genomes=True,
-                     lazy_load=False, kbase_obj=None, cip_score=True, costless=True,
-                     skip_bad_media=False, check_models=True, print_progress=False):
+def calculate_scores(pairs, member_media=None, environments=None, annotated_genomes=True, lazy_load=False,
+                     kbase_obj=None, cip_score=True, costless=True, check_models=True, print_progress=False):
     from pandas import Series
-
+    
     if isinstance(pairs, list):
-        (pairs, models_media, environments, annotated_genomes, lazy_load, kbase_obj) = pairs
+        (pairs, member_media, environments, annotated_genomes, lazy_load, kbase_obj) = pairs
     series, mets = [], []
     if not isinstance(environments, (list, tuple)):   environments = [environments]
+    print(environments)
     if isinstance(environments, (list, tuple)) and hasattr(environments[0], "name"):
         environments = {m.name: FBAHelper.convert_kbase_media(m, 1000) for m in environments}
     elif not isinstance(environments, dict):
         environments = {f"media{i}": m for i, m in enumerate(environments)}
     pid = current_process().name
+    member_media = member_media or {}
     model_utils = {}
     count = 0
     for model1, models in pairs.items():
+        print(model1, models)
         if model1.id == "":    model1.id = "model1"
         if lazy_load:    model1, model1_str = _load(model1, kbase_obj)
         else:    model1_str = model1.id
-        if model1.id not in models_media:
-            models_media[model1.id] = {
-                "media": CommScoresUtil._get_media(model_s_=model1, skip_bad_media=skip_bad_media)
+        if model1.id not in member_media:
+            print(model1)
+            member_media[model1.id] = {
+                "media": CommScoresUtil._get_media(model_s_=model1)
             }
-            if models_media[model1.id] is None:   continue
+            if member_media[model1.id] is None:   continue
         if model1.id not in model_utils:
             model_utils[model1.id] = MSModelUtil(model1, True)
         # print(pid, model1)
@@ -58,11 +79,11 @@ def calculate_scores(pairs, models_media=None, environments=None, annotated_geno
             if model2.id == "":     model2.id = "model2"
             if lazy_load:     model2, model2_str = _load(model2, kbase_obj)
             else:     model2_str = model2.id
-            if model2.id not in models_media:
-                models_media[model2.id] = {
-                    "media": CommScoresUtil._get_media(model_s_=model2, skip_bad_media=skip_bad_media)
+            if model2.id not in member_media:
+                member_media[model2.id] = {
+                    "media": CommScoresUtil._get_media(model_s_=model2)
                 }
-                if models_media[model2.id] is None:    continue
+                if member_media[model2.id] is None:    continue
             if model2.id not in model_utils:   model_utils[model2.id] = MSModelUtil(model2, True)
             grouping = [model1, model2]
             grouping_utils = [model_utils[model1.id], model_utils[model2.id]]
@@ -75,8 +96,8 @@ def calculate_scores(pairs, models_media=None, environments=None, annotated_geno
                 if print_progress:
                     print(f"\tEnvironment\t{environName}", end="\t")
                 if check_models:  # check that the models grow in the environment
-                    CommScoresUtil._check_model(model_utils[model1.id], environ, model1_str, skip_bad_media)
-                    CommScoresUtil._check_model(model_utils[model2.id], environ, model2_str, skip_bad_media)
+                    CommScoresUtil._check_model(model_utils[model1.id], environ, model1_str)
+                    CommScoresUtil._check_model(model_utils[model2.id], environ, model2_str)
                 # initiate the KBase output
                 report_dic = {f"model{i+1}": modelID for i, modelID in enumerate(modelIDs)}
                 # the model growths are determined and the environmental media is parameterized for each of the members
@@ -97,7 +118,7 @@ def calculate_scores(pairs, models_media=None, environments=None, annotated_geno
                 )
                 report_dic.update({"community growth": comm})
                 # define the MRO content
-                mro_values = mro(grouping, models_media, raw_content=True, environment=environ)
+                mro_values = mro(grouping, member_media, raw_content=True, environment=environ)
                 report_dic.update(
                     {f"MRO_model{modelIDs.index(models_string.split('--')[0])+1}": f"{100*len(intersection)/len(memMedia):.3f}% ({len(intersection)}/{len(memMedia)})"
                         for models_string, (intersection, memMedia) in mro_values.items()
@@ -113,8 +134,7 @@ def calculate_scores(pairs, models_media=None, environments=None, annotated_geno
                     if print_progress:
                         print("CIP done", end="\t")
                 # define the MIP content
-                mip_values = mip(grouping, comm_model, 0.1, None, None, environ, print_progress,
-                                 True, costless, skip_bad_media)
+                mip_values = mip(grouping, comm_model, 0.1, None, None, environ, print_progress, True, costless)
                 # print(mip_values)
                 if mip_values is not None:
                     report_dic.update(
@@ -140,7 +160,7 @@ def calculate_scores(pairs, models_media=None, environments=None, annotated_geno
                 if print_progress:
                     print("MIP done", end="\t")
                 # define the BSS content
-                bss_values = bss(grouping, grouping_utils, environments, models_media, skip_bad_media)
+                bss_values = bss(grouping, grouping_utils, environments, member_media)
                 report_dic.update(
                     {f"BSS_model{modelIDs.index(name.split(' supporting ')[0])+1}": f"{CommScoresUtil._sigfig_check(100*val, 5, '')}%"
                      for name, (mets, val) in bss_values.items()}
@@ -154,14 +174,15 @@ def calculate_scores(pairs, models_media=None, environments=None, annotated_geno
                     print("BSS done", end="\t")
                 # define the PC content
                 pc_values = pc(grouping, grouping_utils, comm_model, None, comm_sol, environ, True, community)
-                report_dic.update(
-                    {"PC_model1": CommScoresUtil._sigfig_check(list(pc_values[1].values())[0], 5, ""),
-                     "PC_model2": CommScoresUtil._sigfig_check(list(pc_values[1].values())[1], 5, ""),
-                     "PC_comm": CommScoresUtil._sigfig_check(pc_values[0], 5, ""),
-                     "BIT": pc_values[3]}
-                )
-                if print_progress:
-                    print("PC  done\tBIT done", end="\t")
+                if pc_values is not None:
+                    report_dic.update(
+                        {"PC_model1": CommScoresUtil._sigfig_check(list(pc_values[1].values())[0], 5, ""),
+                         "PC_model2": CommScoresUtil._sigfig_check(list(pc_values[1].values())[1], 5, ""),
+                         "PC_comm": CommScoresUtil._sigfig_check(pc_values[0], 5, ""),
+                         "BIT": pc_values[3]}
+                    )
+                    if print_progress:
+                        print("PC  done\tBIT done", end="\t")
                 # print([mem.slim_optimize() for mem in grouping])
                 # define the GYD content
                 logger.debug(list(gyd(grouping, grouping_utils, environ, False, community, check_models).values()))
