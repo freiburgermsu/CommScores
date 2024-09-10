@@ -25,7 +25,6 @@ def fs(
     if not isinstance(annotated_genomes, dict):
         if not kbase_object:
             import cobrakbase  # ; os.environ["HOME"] = cobrakbase_repo_path ; import cobrakbase
-
             if token_string is not None:
                 kbase_object = cobrakbase.KBaseAPI(token_string)
             else:
