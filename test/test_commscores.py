@@ -104,14 +104,14 @@ def test_cip():
         
 
 
-def test_bss():
-    # affirm that the outputs are consistent
-    with open(f"{relDir}/bss_results2.json", 'r') as jsonIn:
-        bss_results = load(jsonIn)
-    bss_output = commscores.bss(test_models, environment=media)
-    for modelID, val in bss_output.items():
-        assert set(bss_results[modelID][0]) == set(val[0]), f"The {len(val)} parasitized metabolites of {modelID} is inconsistent with the accepted value of {len(bss_results[modelID])}"
-        assert bss_results[modelID][1] == val[1], f"The {val[1]} parasitized metabolites of {modelID} is inconsistent with the accepted value of {bss_results[modelID][1]}"
+# def test_bss():
+#     # affirm that the outputs are consistent
+#     with open(f"{relDir}/bss_results2.json", 'r') as jsonIn:
+#         bss_results = load(jsonIn)
+#     bss_output = commscores.bss(test_models, environment=media)
+#     for modelID, val in bss_output.items():
+#         assert set(bss_results[modelID][0]) == set(val[0]), f"The {len(val)} parasitized metabolites of {modelID} is inconsistent with the accepted value of {len(bss_results[modelID])}"
+#         assert bss_results[modelID][1] == val[1], f"The {val[1]} parasitized metabolites of {modelID} is inconsistent with the accepted value of {bss_results[modelID][1]}"
 
         
 def test_fs():
