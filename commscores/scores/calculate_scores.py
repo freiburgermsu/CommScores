@@ -68,9 +68,8 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
         else:    model1_str = model1.id
         if model1.id not in member_media:
             print(model1)
-            member_media[model1.id] = {
-                "media": CommScoresUtil._get_media(model_s_=model1)
-            }
+            media, sol = CommScoresUtil._get_media(model_s_=model1)
+            member_media[model1.id] = {"media": media, "solution": sol}
             if member_media[model1.id] is None:   continue
         if model1.id not in model_utils:
             model_utils[model1.id] = MSModelUtil(model1, True)
@@ -80,9 +79,8 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
             if lazy_load:     model2, model2_str = _load(model2, kbase_obj)
             else:     model2_str = model2.id
             if model2.id not in member_media:
-                member_media[model2.id] = {
-                    "media": CommScoresUtil._get_media(model_s_=model2)
-                }
+                media, sol = CommScoresUtil._get_media(model_s_=model2)
+                member_media[model2.id] = {"media": media, "solution": sol}
                 if member_media[model2.id] is None:    continue
             if model2.id not in model_utils:   model_utils[model2.id] = MSModelUtil(model2, True)
             grouping = [model1, model2]
@@ -109,21 +107,15 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
                 if abundaces is None:
                     continue
                 coculture_growths = {memID: abundance * comm for memID, abundance in abundaces.items()}
-                report_dic.update(
-                    {"media": environName, "monoculture growth model1": g1, "monoculture growth model2": g2}
-                )
-                report_dic.update(
-                    {f"coculture growth model{modelIDs.index(memID)+1}": growth
-                     for memID, growth in coculture_growths.items()}
-                )
+                report_dic.update({"media": environName, "monoculture growth model1": g1, "monoculture growth model2": g2})
+                report_dic.update({f"coculture growth model{modelIDs.index(memID)+1}": growth
+                                   for memID, growth in coculture_growths.items()})
                 report_dic.update({"community growth": comm})
                 # define the MRO content
                 mro_values = mro(grouping, member_media, raw_content=True, environment=environ)
                 report_dic.update(
                     {f"MRO_model{modelIDs.index(models_string.split('--')[0])+1}": f"{100*len(intersection)/len(memMedia):.3f}% ({len(intersection)}/{len(memMedia)})"
-                        for models_string, (intersection, memMedia) in mro_values.items()
-                    }
-                )
+                     for models_string, (intersection, memMedia) in mro_values.items()})
                 mets.append({"MRO metabolites": list(mro_values.values())[0][0]})
                 if print_progress:   print("MRO done", end="\t")
                 # define the CIP content

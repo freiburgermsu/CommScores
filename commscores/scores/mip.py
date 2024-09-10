@@ -24,21 +24,19 @@ from commscoresutil import CommScoresUtil
 
 
 def mip(member_models: Iterable, com_model=None, min_growth=0.1, interacting_media_dict=None,
-        noninteracting_media_dict=None, environment=None, printing=False, compatibilized=False,
-        costless=False):
+        noninteracting_media_dict=None, environment=None, printing=False, compatibilized=False, costless=False):
     """Determine the quantity of nutrients that can be potentially sourced through syntrophy"""
     member_models, community = CommScoresUtil._load_models(member_models, com_model, not compatibilized, "MIP_comm", printing=printing)
     print(community.id, community.objective.expression)
     # determine the interacting and non-interacting media for the specified community  .util.model
     print("Non-interacting community, minimize transporters", end="\t")
-    noninteracting_medium, noninteracting_sol = CommScoresUtil._get_media(noninteracting_media_dict, community,
-                                                           None, min_growth, environment, False)
+    print(min_growth)
+    noninteracting_medium, noninteracting_sol = CommScoresUtil._get_media(noninteracting_media_dict, community, None, min_growth, environment, False)
     if noninteracting_medium is None:   raise NoMedia("There is no non-interacting media.")
     if "community_media" in noninteracting_medium:
         noninteracting_medium = noninteracting_medium["community_media"]
     print("Interacting community, minimize exchanges", end="\t")
-    interacting_medium, interacting_sol = CommScoresUtil._get_media(interacting_media_dict, community, None, min_growth,
-                                                     environment, True)
+    interacting_medium, interacting_sol = CommScoresUtil._get_media(interacting_media_dict, community, None, min_growth, environment, True)
     if interacting_medium is None:      raise NoMedia("There is no Interacting media.")
     if "community_media" in interacting_medium:
         interacting_medium = interacting_medium["community_media"]
@@ -52,11 +50,7 @@ def mip(member_models: Iterable, com_model=None, min_growth=0.1, interacting_med
     directionalMIP = {mem.id: [] for mem in member_models}
     for rxn in comm_util.transport_list():
         # print(rxn.reaction, "\t", [met.id for met in rxn.metabolites if "_e0" in met.id])
-        metIDs = list(
-            set([met.id.split("_")[0] for met in rxn.reactants]).intersection(
-                set([met.id.split("_")[0] for met in rxn.products])
-            )
-        )
+        metIDs = list(set([met.id.split("_")[0] for met in rxn.reactants]) & set([met.id.split("_")[0] for met in rxn.products]))
         if len(metIDs) == 1:   metID = metIDs[0]
         else:
             # filter protons
