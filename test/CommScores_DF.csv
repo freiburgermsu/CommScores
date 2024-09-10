@@ -1,0 +1,4 @@
+,model1,model2,media,monoculture growth model1,monoculture growth model2,coculture growth model1,coculture growth model2,community growth,MRO_model1,MRO_model2,CIP,MIP_model1 (costless),MIP_model2 (costless),BSS_model1,BSS_model2,PC_model1,PC_model2,PC_comm,BIT,GYD1,GYD2
+0,Streptomyces_mirabilis_YR139_2582581314.fna.RAST.mdl,Rhizobium_sp._CF142_2510917030.fna.RAST.mdl,media0,-1.4241e-12,0.0,,,0.0,1550.000% (31/2),1550.000% (31/2),22,3 (2),1 (1),51.613%,51.613%,,,-74305000000000.0,,,
+1,Streptomyces_mirabilis_YR139_2582581314.fna.RAST.mdl,Pseudomonas_sp._GM17_2511231006.fna.RAST.mdl,media0,-1.4241e-12,0.0,,,0.0,1550.000% (31/2),1550.000% (31/2),27,4 (1),1 (1),51.613%,48.387%,,,-91500000000000.0,,,
+2,Rhizobium_sp._CF142_2510917030.fna.RAST.mdl,Pseudomonas_sp._GM17_2511231006.fna.RAST.mdl,media0,0.0,0.0,,,0.0,1550.000% (31/2),1550.000% (31/2),5,1 (1),2 (0),51.613%,48.387%,,,,,,

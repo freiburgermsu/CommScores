@@ -26,7 +26,6 @@ for p in [path, path2, kbmodules_path, modelseed_path, mscommunity_path, utilsMo
 from cobrakbase.core.kbasefba import FBAModel
 
 ## utility module import
-import kbbasemodules
 from chenry_utility_module.kbdevutils import KBDevUtils
 
 ## modelseedpy imports
