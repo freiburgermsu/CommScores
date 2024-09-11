@@ -25,6 +25,7 @@ jupyter = "^1.0.0"
 matplotlib = "^3.9.2"
 seaborn = "^0.13.2"
 xlrd = "^2.0.1"
+shap = "^0.46.0"
 
 [build-system]
 requires = ["poetry-core"]
