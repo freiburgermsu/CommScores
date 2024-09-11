@@ -11,7 +11,6 @@ class NoMedia:
         print(message)
 
 
-
 # allows to singular execution of this script, besides loading CommScores as an entire package
 import sys
 from pathlib import Path
