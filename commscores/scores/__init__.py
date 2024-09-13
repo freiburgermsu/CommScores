@@ -11,5 +11,5 @@ from scores.fs import fs
 from scores.gyd import gyd
 from scores.mip import mip
 from scores.mro import mro
-from scores.pc import pc
+from scores.pc import pc, bit
 from scores.smetana import mp, mu, sc, smetana

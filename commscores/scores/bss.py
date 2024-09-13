@@ -39,10 +39,10 @@ def compute_score(minMedia, model_utils, environ, index=0):
     model2_media = set(list(map(remove_comp, list(minMedia[model2_util.id]["media"].keys()))))
     model1_internal = {rm_comp(met.id) for rxn in model1_util.internal_list() for met in rxn.products}
     model2_internal = {rm_comp(met.id) for rxn in model2_util.internal_list() for met in rxn.products}
-    if len(model1_media) > 0:
+    if len(model2_media) > 0:
         scores[f"{model1_util.id} supporting {model2_util.id} in media{index}"] = (
             list(model1_internal), len(model2_media & model1_internal) / len(model2_media))
-    if len(model2_media) > 0:
+    if len(model1_media) > 0:
         scores[f"{model2_util.id} supporting {model1_util.id} in media{index}"] = (
             list(model2_internal), len(model1_media & model2_internal) / len(model1_media))
     return scores

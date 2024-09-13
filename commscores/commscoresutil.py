@@ -19,14 +19,14 @@ import uuid
 # define a local pointer to import package versions
 path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 path2 = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+site_packages = "/home/afreiburger/.local/lib/python3.11/site-packages"
 kbmodules_path = "/scratch/shared/code/KBBaseModules"
-modelseed_path = "/scratch/shared/ModelSEEDpy_APF"
 modelseed_path = "/scratch/shared/ModelSEEDpy_APF"
 mscommunity_path = "/scratch/shared/code/MSCommunity"
 utilsModule_path = "/scratch/shared/code/chenry_utility_module/lib"
 msrecon_path = "/scratch/shared/code/KB-ModelSEEDReconstruction/lib"
 commscores_path = "/scratch/shared/code/CommScores"
-for p in [path, path2, kbmodules_path, modelseed_path, mscommunity_path, utilsModule_path, msrecon_path, commscores_path]:
+for p in [path, path2, site_packages, kbmodules_path, modelseed_path, mscommunity_path, utilsModule_path, msrecon_path, commscores_path]:
     sys.path.insert(0, p)
 # print(sys.path) 
 

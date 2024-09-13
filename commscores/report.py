@@ -85,18 +85,25 @@ def report_generation(
     all_models = new_models[:]
     models_media = mem_media.copy()
     # define the minimal media of each model
-    # if not mem_media:   models_media = CommScoresUtil._get_media(model_s_=all_models)
-    # else:
-    #     models_media = mem_media.copy()
-    #     missing_models = set()
-    #     missing_modelID = []
-    #     for model in all_models:
-    #         if model is not None and model.id not in models_media:
-    #             missing_models.add(model)
-    #             missing_modelID.append(model if not hasattr(model, "id") else model.id)
-    #     if missing_models != set():
-    #         logger.error(f"Media of the {missing_modelID} models are not defined, and will be calculated separately.")
-    #         models_media.update(CommScoresUtil._get_media(model_s_=missing_models))
+    if mem_media is None:
+        models_media = {}
+        for model in all_models:
+            print(model.id)
+            models_media[model.id] = {}
+            for name, environ in environments:
+                print(name)
+                models_media[model.id][name] = CommScoresUtil._get_media(model_s_=model, environment=environ)
+    else:
+        models_media = mem_media.copy()
+        missing_models = set()
+        missing_modelID = []
+        for model in all_models:
+            if model is not None and model.id not in models_media:
+                missing_models.add(model)
+                missing_modelID.append(model if not hasattr(model, "id") else model.id)
+        if missing_models != set():
+            logger.error(f"Media of the {missing_modelID} models are not defined, and will be calculated separately.")
+            models_media.update(CommScoresUtil._get_media(model_s_=missing_models))
     if see_media:
         print(f"The minimal media of all members:")
         display(models_media)

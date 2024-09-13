@@ -16,7 +16,7 @@ modelseedpy =  { git = "https://github.com/freiburgermsu/ModelSEEDpy.git", branc
 mscommunity =  { git = "https://github.com/ModelSEED/MSCommunity.git", branch = "main" }
 h5py = "^3.11.0"
 pandas = "^2.2.2"
-cobra = "^0.29.0"
+cobra = "^0.28.0"
 lxml = "^5.3.0"
 
 

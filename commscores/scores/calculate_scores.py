@@ -23,7 +23,7 @@ from scores.fs import fs
 from scores.gyd import gyd
 from scores.mip import mip
 from scores.mro import mro
-from scores.pc import pc
+from scores.pc import pc, bit
 # else:
 #     from ..logger import logger
 #     from ..commscoresutil import CommScoresUtil 
@@ -48,7 +48,8 @@ def _load(model, kbase_obj):
 def calculate_scores(pairs, member_media=None, environments=None, annotated_genomes=True, lazy_load=False,
                      kbase_obj=None, costless=True, check_models=True, print_progress=False):    
     # process the arguments
-    if isinstance(pairs, list):  (pairs, member_media, environments, annotated_genomes, lazy_load, kbase_obj) = pairs
+    if isinstance(pairs, list):
+        (pairs, member_media, environments, annotated_genomes, lazy_load, kbase_obj, check_models, print_progress) = pairs
     series, mets = [], []
     if isinstance(environments, (list, tuple)) and hasattr(environments[0], "name"):
         environments = {m.name: FBAHelper.convert_kbase_media(m, 1000) for m in environments}
@@ -69,7 +70,7 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
         model1_str = model1.id
         if lazy_load:    model1, model1_str = _load(model1, kbase_obj)
         # member_media[model1.id] = member_media.get(model1.id, CommScoresUtil._get_media(model_s_=model1))
-        if member_media[model1.id]["media"] is None:   continue
+        if member_media[model1.id] is None:   continue
         if model1.id not in model_utils:    model_utils[model1.id] = MSModelUtil(model1, True)
         for model_index, model2 in enumerate(models):
             # load and process model2
@@ -77,7 +78,7 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
             model2_str = model2.id
             if lazy_load:     model2, model2_str = _load(model2, kbase_obj)
             # member_media[model2.id] = member_media.get(model2.id, CommScoresUtil._get_media(model_s_=model2))
-            if member_media[model2.id]["media"] is None:   continue
+            if member_media[model2.id] is None:   continue
             if model2.id not in model_utils:   model_utils[model2.id] = MSModelUtil(model2, True)
             
             # define group the model1 and model2 pair
@@ -92,6 +93,7 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
             print(f"{pid}~~{count}\t{modelIDs}\t{type(community.util.model.solver)}\t{comm_sol.objective_value}")
             
             # test every given environment
+            groupMedia = {k:v for k,v in member_media if k in modelIDs}
             for environName, environ in environments.items():
                 if print_progress:   print(f"\tEnvironment\t{environName}", end="\t")
                 ## check that the models grow in the environment
@@ -115,42 +117,40 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
                 report_dic.update({"community growth": comm})
                 
                 ### add the MRO score
-                mro_values = mro(grouping, member_media, raw_content=True, environment=environ)
-                report_dic.update(
-                    {f"MRO_model{modelIDs.index(models_string.split('--')[0])+1}": f"{100*len(intersection)/len(memMedia):.3f}% ({len(intersection)}/{len(memMedia)})"
-                        for models_string, (intersection, memMedia) in mro_values.items()})
-                mets.append({"MRO metabolites": list(mro_values.values())[0][0]})
+                mro_values = mro(grouping, groupMedia, raw_content=True, environment=environ)
+                for commName, (inter, m2Media) in mro_values.items():
+                    mroName = f"MRO_model{modelIDs.index(commName.split('--')[0])+1}"
+                    mroScore = f"{100*len(inter)/len(m2Media):.3f}% ({len(inter)}/{len(m2Media)})"
+                    report_dic.update({mroName: mroScore})
+                    mets.append({"MRO metabolites": inter)
                 if print_progress:   print("MRO done", end="\t")
                 
                 ### add the CIP score
                 cip_mets, cipVal = cip(modelutils=[model_utils[mem.id] for mem in grouping])
                 report_dic.update({"CIP": cipVal})
                 mets[-1].update({"CIP metabolites": list(cip_mets)})
-                if print_progress:
-                    print("CIP done", end="\t")
+                if print_progress:   print("CIP done", end="\t")
                 
                 ### add the MIP score
                 mip_mets = mip(grouping, comm_model, 0.1, None, None, environ, print_progress, True, costless, cip_mets)
                 if mip_mets is not None:
                     report_dic.update(
                         {f"MIP_model{modelIDs.index(models_name)+1}": str(len(received))
-                         for models_name, received in mip_mets.items() if models_name != "costless"}
-                    )
+                         for models_name, received in mip_mets.items() if models_name != "costless"})
                     mets[-1].update({"MIP model1 metabolites": list(mip_mets.values())[0], "MIP model2 metabolites": list(mip_mets.values())[1]})
                     if costless:
                         for models_name, received in mip_mets["costless"].items():
                             report_dic[f"MIP_model{modelIDs.index(models_name)+1} (costless)"] = (
                                 report_dic[f"MIP_model{modelIDs.index(models_name)+1}"] + f" ({len(received)})")
                             del report_dic[f"MIP_model{modelIDs.index(models_name)+1}"]
-                        if print_progress:
-                            print("costless_MIP  done", end="\t")
+                        if print_progress:    print("costless_MIP  done", end="\t")
                 else:
                     report_dic.update({"MIP_model1 (costless)": "", "MIP_model2 (costless)": ""})
                     mets[-1].update({"MIP model1 metabolites": [None], "MIP model2 metabolites": [None]})
                 if print_progress:  print("MIP done", end="\t")
                 
                 ### add the BSS score
-                bss_values = bss(grouping, grouping_utils, environments, member_media)
+                bss_values = bss(grouping, grouping_utils, environments, groupMedia)
                 report_dic.update(
                     {f"BSS_model{modelIDs.index(name.split(' supporting ')[0])+1}": f"{CommScoresUtil._sigfig_check(100*val, 5, '')}%"
                      for name, (mets, val) in bss_values.items()}
@@ -159,26 +159,35 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
                     {"BSS model1 metabolites": [met_set for met_set, val in bss_values.values()][0],
                      "BSS model2 metabolites": [met_set for met_set, val in bss_values.values()][1]}
                 )
-                if print_progress:
-                    print("BSS done", end="\t")
+                if print_progress:   print("BSS done", end="\t")
                 
                 ### add the PC score
-                pc_values = pc(grouping, grouping_utils, comm_model, isolate_growths, comm_sol, environ, True, community)
-                if pc_values is not None:
+                memberGrowth = sum(list(isolate_growths.values()))
+                if memberGrowth > 0: 
+                    pc_score = comm_sol.objective_value / memberGrowth
+                    print([mem.primary_biomass.id for mem in community.members])
+                    print([comm_sol.fluxes[mem.primary_biomass.id] for mem in community.members])
+                    for mem in community.members:
+                        print(mem.primary_biomass.id)
+                        coculture = comm_sol.fluxes[mem.primary_biomass.id]
+                        print(coculture)
+                        if isolate_growths[mem.id] > 0:
+                            comm_growth_effect[mem.id] = coculture / isolate_growths[mem.id]
+                    pc1, pc2 = [comm_growth_effect[m] for m in modelIDs]
+                    bit_score = bit(comm_growth_effect, 1.1, 0.9)
                     report_dic.update(
-                        {"PC_model1": CommScoresUtil._sigfig_check(list(pc_values[1].values())[0], 5, ""),
-                         "PC_model2": CommScoresUtil._sigfig_check(list(pc_values[1].values())[1], 5, ""),
-                         "PC_comm": CommScoresUtil._sigfig_check(pc_values[0], 5, ""),
-                         "BIT": pc_values[3]}
+                        {"PC_model1": CommScoresUtil._sigfig_check(pc1, 5, ""),
+                         "PC_model2": CommScoresUtil._sigfig_check(pc2, 5, ""),
+                         "PC_comm": CommScoresUtil._sigfig_check(pc_score, 5, ""),
+                         "BIT": bit_score}
                     )
                     if print_progress:  print("PC  done\tBIT done", end="\t")
                 
                 ### add the GYD score
-                if g1 > 0 and g1 > 0:
-                    report_dic.update({"GYD1": CommScoresUtil._sigfig_check(abs(g1-g2)/g1, 5, ""),
-                                       "GYD2": CommScoresUtil._sigfig_check(abs(g2-g1)/g2, 5, "")})
-                    if print_progress:
-                        print("GYD done\t\t", end="\t" if annotated_genomes else "\n")
+                if g1 > 0:  report_dic.update({"GYD1": CommScoresUtil._sigfig_check(abs(g1-g2)/g1, 5, "")})
+                if g2 > 0:  report_dic.update({"GYD2": CommScoresUtil._sigfig_check(abs(g2-g1)/g2, 5, "")})
+                if (g1 > 0 or g2 > 0) and print_progress:
+                    print("GYD done\t\t", end="\t" if annotated_genomes else "\n")
                 
                 ### add the FS score
                 if isinstance(annotated_genomes, (list, dict, tuple)) or kbase_obj is not None and annotated_genomes is True:

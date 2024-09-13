@@ -12,6 +12,28 @@ from commscoresutil import CommScoresUtil
 # else:   from ..commscoresutil import CommScoresUtil
 
 
+def bit(comm_growth_effect, th_pos, th_neg):
+    growth_diffs = array([CommScoresUtil.nanFilter(x, False) for x in list(comm_growth_effect.values())])
+    if all(growth_diffs > th_pos):
+        bit = "mutualism"
+    elif all(growth_diffs < th_neg):
+        bit = "competitive"
+    elif ((th_pos > growth_diffs) & (growth_diffs > th_neg)).all():
+        bit = "neutral"
+    elif all(growth_diffs > th_neg) and any(growth_diffs > th_pos):
+        bit = "commensalism"
+    elif all(growth_diffs < th_pos) and any(growth_diffs < th_neg):
+        bit = "amensalism"
+    elif any(growth_diffs > th_pos) and any(growth_diffs < th_neg):
+        bit = "parasitism"
+    else:
+        print(
+            f"The relative growths {comm_growth_effect} from {comm_member_growths} coculture and"
+            f" {isolate_growths} monoculture are not captured."
+        )
+        bit = ""
+    return bit
+
 def pc(
     member_models=None,
     modelutils=None,
@@ -47,24 +69,5 @@ def pc(
         comm_member_growths[mem.id] = comm_sol.fluxes[mem.primary_biomass.id]
         comm_growth_effect[mem.id] = comm_member_growths[mem.id] / isolate_growths[mem.id]
     
-    growth_diffs = array([CommScoresUtil.nanFilter(x, False) for x in list(comm_growth_effect.values())])
-    th_pos, th_neg = 1 + interaction_threshold, 1 - interaction_threshold
-    if all(growth_diffs > th_pos):
-        bit = "mutualism"
-    elif all(growth_diffs < th_neg):
-        bit = "competitive"
-    elif ((th_pos > growth_diffs) & (growth_diffs > th_neg)).all():
-        bit = "neutral"
-    elif all(growth_diffs > th_neg) and any(growth_diffs > th_pos):
-        bit = "commensalism"
-    elif all(growth_diffs < th_pos) and any(growth_diffs < th_neg):
-        bit = "amensalism"
-    elif any(growth_diffs > th_pos) and any(growth_diffs < th_neg):
-        bit = "parasitism"
-    else:
-        print(
-            f"The relative growths {comm_growth_effect} from {comm_member_growths} coculture and"
-            f" {isolate_growths} monoculture are not captured."
-        )
-        bit = ""
-    return (pc_score, comm_growth_effect, comm_member_growths, bit)
+    th_pos, th_neg = 1 + interaction_threshold, 1 - interaction_threshold    
+    return (pc_score, comm_growth_effect, comm_member_growths, bit(comm_growth_effect, th_pos, th_neg))
