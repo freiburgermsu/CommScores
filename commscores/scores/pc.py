@@ -1,4 +1,4 @@
-from mscommunity.mscommunity import MSCommunity
+from mscommunity.mscommsim import MSCommunity
 from modelseedpy.core.msmodelutl import MSModelUtil
 from numpy import array
 
@@ -30,15 +30,11 @@ def pc(
     if com_model is None:
         member_models, com_model = CommScoresUtil._load_models(member_models, None, not compatibilized, printing=False)
     community = community or MSCommunity(com_model, member_models)
-    if comm_sol is None:
-        abundances = community.predict_abundances(environment, False)
-        comm_sol = community.solution
+    comm_sol = comm_sol or community.model.optimize()
     model_utils = modelutils or [MSModelUtil(mem, True) for mem in member_models]
-    modelutils = []
-    for mem in model_utils:
-        mem.add_medium(environment)
-        modelutils.append(mem)
     if isolate_growths is None:
+        for mem in modelutils:
+            mem.add_medium(environment)
         isolate_growths = {mem.id: mem.model.slim_optimize() for mem in modelutils}
     memberGrowth = sum(list(isolate_growths.values()))
     if memberGrowth == 0:  return 
@@ -49,7 +45,7 @@ def pc(
     comm_member_growths, comm_growth_effect = {}, {}
     for mem in community.members:
         comm_member_growths[mem.id] = comm_sol.fluxes[mem.primary_biomass.id]
-        comm_growth_effect[mem.id] = CommScoresUtil.nanFilter(comm_member_growths[mem.id] / isolate_growths[mem.id])
+        comm_growth_effect[mem.id] = comm_member_growths[mem.id] / isolate_growths[mem.id]
     
     growth_diffs = array([CommScoresUtil.nanFilter(x, False) for x in list(comm_growth_effect.values())])
     th_pos, th_neg = 1 + interaction_threshold, 1 - interaction_threshold
