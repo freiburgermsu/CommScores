@@ -117,7 +117,7 @@ def report_generation(
         from datetime import datetime
         from multiprocess import Pool
 
-        pool_size = min([pool_size, len(pairs)*5])
+        # pool_size = min([pool_size, len(pairs)*5])
         print(f"Loading {int(pool_size)} workers and computing the scores", datetime.now())
         pool = Pool(int(pool_size))  # .map(calculate_scores, [{k: v} for k,v in pairs.items()])
         args = [[dict([pair]), models_media, environments, annotated_genomes, lazy_load, kbase_obj, check_models, print_progress]

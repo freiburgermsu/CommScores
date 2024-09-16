@@ -12,7 +12,7 @@ from commscoresutil import CommScoresUtil
 # else:   from ..commscoresutil import CommScoresUtil
 
 
-def bit(comm_growth_effect, th_pos, th_neg):
+def bit(comm_growth_effect, th_pos, th_neg, comm_member_growths, isolate_growths):
     growth_diffs = array([CommScoresUtil.nanFilter(x, False) for x in list(comm_growth_effect.values())])
     if all(growth_diffs > th_pos):
         bit = "mutualism"
@@ -70,4 +70,4 @@ def pc(
         comm_growth_effect[mem.id] = comm_member_growths[mem.id] / isolate_growths[mem.id]
     
     th_pos, th_neg = 1 + interaction_threshold, 1 - interaction_threshold    
-    return (pc_score, comm_growth_effect, comm_member_growths, bit(comm_growth_effect, th_pos, th_neg))
+    return (pc_score, comm_growth_effect, comm_member_growths, bit(comm_growth_effect, th_pos, th_neg, comm_member_growths, isolate_growths))
