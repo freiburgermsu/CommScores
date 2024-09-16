@@ -19,13 +19,14 @@ import uuid
 # define a local pointer to import package versions
 path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 path2 = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+site_packages = "/home/afreiburger/.local/lib/python3.11/site-packages"
 kbmodules_path = "/scratch/shared/code/KBBaseModules"
 modelseed_path = "/scratch/shared/ModelSEEDpy_APF"
 mscommunity_path = "/scratch/shared/code/MSCommunity"
 utilsModule_path = "/scratch/shared/code/chenry_utility_module/lib"
 msrecon_path = "/scratch/shared/code/KB-ModelSEEDReconstruction/lib"
 commscores_path = "/scratch/shared/code/CommScores"
-for p in [path, path2, kbmodules_path, modelseed_path, mscommunity_path, utilsModule_path, msrecon_path, commscores_path]:
+for p in [path, path2, site_packages, kbmodules_path, modelseed_path, mscommunity_path, utilsModule_path, msrecon_path, commscores_path]:
     sys.path.insert(0, p)
 # print(sys.path) 
 
@@ -43,7 +44,7 @@ from modelseedpy.core import MSMinimalMedia
 from modelseedpy.helpers import get_template
 
 ## mscommunity imports
-from mscommunity import MSCommunity, build_from_species_models
+from mscommunity.commhelper import build_from_species_models
 
 # from installed_clients.WorkspaceClient import Workspace
 
@@ -494,7 +495,7 @@ class BadModels(Exception):
         
         
 class CommScoresUtil():
-    
+    @staticmethod
     def _categorize_mets(metIDs):
         # load compound categories
         package_dir = os.path.abspath(os.path.dirname(__file__))
@@ -536,7 +537,7 @@ class CommScoresUtil():
         return met_sugars, met_aminoAcids, met_vitamins, met_minerals, met_energy, met_other
 
 
-
+    @staticmethod
     def remove_metadata(element):
         rm_costless = re.compile("(\s\(.+\))")
         try:
@@ -545,7 +546,7 @@ class CommScoresUtil():
             pass
         return element
 
-
+    @staticmethod
     def convert_to_int(element):
         try:
             element = int(element)
@@ -553,15 +554,15 @@ class CommScoresUtil():
             pass
         return element
 
-
+    @staticmethod
     def _process_mets(metIDs):
         return [", ".join(lst) for lst in CommScoresUtil._categorize_mets(metIDs)]
 
-
+    @staticmethod
     def _compatibilize(member_models: Iterable, printing=False):
         return member_models
 
-
+    @staticmethod
     def _load_models(
         member_models: Iterable, com_model=None, compatibilize=True, commID=None, printing=False
     ):
@@ -605,7 +606,7 @@ class CommScoresUtil():
                 com_media, media_sol = MSMinimalMedia.determine_min_media(
                     com_model, minimization_method, minGrowth, environment, interacting, printing)
                 minGrowth *= 1.1
-            if minGrowth != min_growth:   print(f"{com_model.id} needed {minGrowth} v {min_growth}\n")
+            if not isclose(minGrowth, min_growth, abs_tol=0.01):   print(f"{com_model.id} needed {minGrowth} v {min_growth}\n")
             if model_s_ is None:
                 return com_media, media_sol
         if model_s_ is not None:
@@ -616,6 +617,7 @@ class CommScoresUtil():
                     min_media, media_sol = MSMinimalMedia.determine_min_media(
                         model_s_, minimization_method, minGrowth, environment, interacting, printing)
                     minGrowth *= 1.1
+                if not isclose(minGrowth, min_growth, abs_tol=0.01):   print(f"{model_s_.id} needed {minGrowth} v {min_growth}\n")
                 return min_media, media_sol
             members_media = {}
             for model in model_s_:
@@ -626,13 +628,13 @@ class CommScoresUtil():
                     minGrowth *= 1.1
                 members_media[model.id] = {"media": min_media, "solution": media_sol}
                 min_media = None
-                if minGrowth != min_growth:  print(f"{model.id} needed {minGrowth} v {min_growth}")
+                if not isclose(minGrowth, min_growth, abs_tol=0.01):  print(f"{model.id} needed {minGrowth} v {min_growth}")
             if com_model is None:
                 return members_media
             return {"community_media": com_media, "members": members_media}
         raise BadModels(f"The parameterized community model of type {type(com_model)} and member models {model_s_} are not properly captured.")
 
-
+    @staticmethod
     def _sigfig_check(value, sigfigs, default):
         if str(value) in ["inf", "nan"]:
             value = ""
@@ -641,7 +643,7 @@ class CommScoresUtil():
         else:
             return default
 
-
+    @staticmethod
     def _calculate_jaccard_score(set1, set2):
         if set1 == set2:
             print(f"The sets are identical, with a length of {len(set1)}.")
@@ -653,7 +655,7 @@ class CommScoresUtil():
         )
 
 
-
+    @staticmethod
     def _check_model(model_util, media, model_str=None):
         default_media = model_util.model.medium
         # print("test")
@@ -668,14 +670,17 @@ class CommScoresUtil():
         return model_util.model
 
 
-    def _determine_growths(modelUtils, environ):
+    @staticmethod
+    def _determine_growths(modelUtils, environ, sigfig=5):
         obj_vals = []
         for util in modelUtils:
             util.add_medium(environ)
-            obj_vals.append(util.model.slim_optimize())
+            val = util.model.slim_optimize()
+            sigfiggedVal = CommScoresUtil._sigfig_check(val, sigfig, "")
+            obj_vals.append(sigfiggedVal)
         return obj_vals
 
-
+    @staticmethod
     def nanFilter(value, string=True):
         if isinstance(value, str) or value is None:
             if string:

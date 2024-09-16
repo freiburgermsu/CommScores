@@ -12,26 +12,27 @@ from commscoresutil import CommScoresUtil
 package_dir = os.path.abspath(os.path.dirname(__file__))
 
 
-def create_pairs(all_models):
+def create_pairs(all_models, pair_limit: int = None):
     if not isinstance(all_models[0], list):
         all_models = list(set(all_models))
         model_pairs = array(list(combinations(all_models, 2)))
-    model_pairs = []
-    for models1, models2 in combinations(all_models, 2):
-        models1 = set(models1)
-        models2 = set(models2)
-        if len(models1) > len(models2):
-            larger_list = models1
-            smaller_list = models2
-        else:
-            larger_list = models2
-            smaller_list = models1
-        model_pairs.append([list(zip(combin, smaller_list))
-                            for combin in permutations(larger_list, len(smaller_list))])
-    # flatten the assembled pairs and filter duplicates
-    model_pairs = array([x for x in set(tuple(x) for x in [
-        i for y in list(chain.from_iterable(model_pairs)) for i in y])])
-    all_models = list(chain.from_iterable(all_models))
+    else:
+        model_pairs = []
+        for models1, models2 in combinations(all_models, 2):
+            models1 = set(models1)
+            models2 = set(models2)
+            if len(models1) > len(models2):
+                larger_list = models1
+                smaller_list = models2
+            else:
+                larger_list = models2
+                smaller_list = models1
+            model_pairs.append([list(zip(combin, smaller_list))
+                                for combin in permutations(larger_list, len(smaller_list))])
+        # flatten the assembled pairs and filter duplicates
+        model_pairs = array([x for x in set(tuple(x) for x in [
+            i for y in list(chain.from_iterable(model_pairs)) for i in y])])
+        all_models = list(chain.from_iterable(all_models))
     if pair_limit is not None:
         shuffle(model_pairs)
         new_pairs = []
@@ -44,7 +45,7 @@ def create_pairs(all_models):
         model_pairs = unique(sort(model_pairs, axis=1))
     pairs = {first: model_pairs[where(model_pairs[:, 0] == first)][:, 1]
              for first in model_pairs[:, 0]}
-    return pairs
+    return model_pairs, pairs
 
 
 def report_generation(
@@ -68,7 +69,7 @@ def report_generation(
     if pairs:
         model_pairs = unique([{model1, model2} for model1, models in pairs.items() for model2 in models])
     elif all_models is not None:
-        pairs = create_pairs(all_models)
+        model_pairs, pairs = create_pairs(all_models, pair_limit)
     else:
         raise ValueError("Either < all_models > or < pairs > must be defined to simulate interactions.")
     if not all_models:
@@ -82,9 +83,16 @@ def report_generation(
             else:     model.id = f"model{index}"
         new_models.append(model)
     all_models = new_models[:]
-    
+    models_media = mem_media.copy()
     # define the minimal media of each model
-    if not mem_media:   models_media = CommScoresUtil._get_media(model_s_=all_models)
+    if mem_media is None:
+        models_media = {}
+        for model in all_models:
+            print(model.id)
+            models_media[model.id] = {}
+            for name, environ in environments:
+                print(name)
+                models_media[model.id][name] = CommScoresUtil._get_media(model_s_=model, environment=environ)
     else:
         models_media = mem_media.copy()
         missing_models = set()
@@ -109,17 +117,17 @@ def report_generation(
         from datetime import datetime
         from multiprocess import Pool
 
+        # pool_size = min([pool_size, len(pairs)*5])
         print(f"Loading {int(pool_size)} workers and computing the scores", datetime.now())
         pool = Pool(int(pool_size))  # .map(calculate_scores, [{k: v} for k,v in pairs.items()])
-        args = [[dict([pair]), models_media, environments, annotated_genomes, lazy_load, kbase_obj]
+        args = [[dict([pair]), models_media, environments, annotated_genomes, lazy_load, kbase_obj, check_models, print_progress]
                 for pair in list(pairs.items())]
         output = pool.map(calculate_scores, args)
         series = chain.from_iterable([ele[0] for ele in output])
         mets = chain.from_iterable([ele[1] for ele in output])
     else:
         series, mets = calculate_scores(pairs, models_media, environments, annotated_genomes,
-                                        lazy_load, kbase_obj, cip_score, costless,
-                                        check_models, print_progress)
+                                        lazy_load, kbase_obj, costless, check_models, print_progress)
     return concat(series, axis=1).T, mets
 
 

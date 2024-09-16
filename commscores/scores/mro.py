@@ -33,8 +33,10 @@ def mro(member_models: Iterable = None, mem_media: dict = None, min_growth=0.1, 
         if raw_content:
             mro_values.update({f"{model1.id}---{model2.id}": (inter, m1_media), f"{model2.id}---{model1.id}": (inter, m2_media)})
         else:
-            mro_values.update({f"{model1.id}---{model2.id}": (100 * len(inter) / len(m1_media), len(inter), len(m1_media)),
-                               f"{model2.id}---{model1.id}": (100 * len(inter) / len(m2_media), len(inter), len(m2_media)),
-                               f"{model2.id}---{model1.id}--mets": inter})
+            if len(m1_media) > 0:
+                mro_values.update({f"{model1.id}---{model2.id}": (100 * len(inter) / len(m1_media), len(inter), len(m1_media))}),
+            if len(m2_media) > 0:
+                mro_values.update({f"{model2.id}---{model1.id}": (100 * len(inter) / len(m2_media), len(inter), len(m2_media))})
+            mro_values.update({f"{model2.id}---{model1.id}--mets": inter})
     return mro_values
     # return mean(list(map(len, pairs.values()))) / mean(list(map(len, mem_media.values())))
