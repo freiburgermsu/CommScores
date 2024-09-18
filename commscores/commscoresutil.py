@@ -602,10 +602,12 @@ class CommScoresUtil():
         com_media = None
         if com_model is not None:
             minGrowth = min_growth
+            count = 0
             while com_media is None or com_media == {}:
+                if count > 0:  minGrowth *= 1.1
                 com_media, media_sol = MSMinimalMedia.determine_min_media(
                     com_model, minimization_method, minGrowth, environment, interacting, printing)
-                minGrowth *= 1.1
+                count += 1
             if not isclose(minGrowth, min_growth, abs_tol=0.01):   print(f"{com_model.id} needed {minGrowth} v {min_growth}\n")
             if model_s_ is None:
                 return com_media, media_sol
@@ -613,19 +615,23 @@ class CommScoresUtil():
             min_media = None
             if not isinstance(model_s_, (list, set, tuple, ndarray)):
                 minGrowth = min_growth
+                count = 0
                 while min_media is None or min_media == {}:
+                    if count > 0:  minGrowth *= 1.1
                     min_media, media_sol = MSMinimalMedia.determine_min_media(
                         model_s_, minimization_method, minGrowth, environment, interacting, printing)
-                    minGrowth *= 1.1
+                    count += 1
                 if not isclose(minGrowth, min_growth, abs_tol=0.01):   print(f"{model_s_.id} needed {minGrowth} v {min_growth}\n")
                 return min_media, media_sol
             members_media = {}
             for model in model_s_:
                 minGrowth = min_growth
+                count = 0
                 while min_media is None or min_media == {}:
+                    if count > 0:  minGrowth *= 1.1
                     min_media, media_sol = MSMinimalMedia.determine_min_media(
                         model, minimization_method, minGrowth, environment, interacting, printing)
-                    minGrowth *= 1.1
+                    count += 1
                 members_media[model.id] = {"media": min_media, "solution": media_sol}
                 min_media = None
                 if not isclose(minGrowth, min_growth, abs_tol=0.01):  print(f"{model.id} needed {minGrowth} v {min_growth}")
