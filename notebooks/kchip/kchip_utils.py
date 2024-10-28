@@ -1,4 +1,4 @@
-""" Utilities functions for kchip data analysis """
+"""Utilities functions for kchip data analysis"""
 
 from pathlib import Path
 
@@ -72,16 +72,16 @@ COLUMN_LABELS = [
 ]
 
 
-def read_experimental_yield(file_path: Path) -> pd.DataFrame:
+def read_experimental_yield(file_path: Path, normalize: bool = True) -> pd.DataFrame:
     met_profile = pd.read_csv(file_path, index_col=0).T
     met_profile = met_profile.rename(index={"SF1": "SF"})
     met_profile = met_profile.rename(
         columns={"ArabinoseD": "D-Arabinose", "ArabinoseL": "L-Arabinose"}
     )
-    yield_df: pd.DataFrame = met_profile.loc[ROW_LABELS, COLUMN_LABELS].apply(
-        lambda row: row / row.max(), axis=1
-    )  # type: ignore
-    yield_df[yield_df < 0] = 0
+    yield_df = met_profile.loc[ROW_LABELS, COLUMN_LABELS]
+    if normalize:
+        yield_df = yield_df.apply(lambda row: row / row.max(), axis=1)  # type: ignore
+        yield_df[yield_df < 0] = 0
     return yield_df
 
 
@@ -103,6 +103,7 @@ def simulate_predicted_growth(
     model_dict: dict[str, cobra.Model],
     media_dict: dict[str, list[str]],
     carbon_sources: dict[str, list[str]],
+    normalize: bool = True,
 ) -> pd.DataFrame:
     predicted_growth_data = []
     bar = tqdm(total=len(model_dict) * len(media_dict))
@@ -122,7 +123,7 @@ def simulate_predicted_growth(
                 else:
                     curr_media[m] = 0
             # Constrain the O2 exchange flux
-            curr_media[f"EX_cpd00007_e0"] = 10 / 5
+            curr_media["EX_cpd00007_e0"] = 10 / 5
             curr_model.medium = curr_media
             # simulate growth
             growth = curr_model.slim_optimize()
@@ -132,11 +133,9 @@ def simulate_predicted_growth(
     predicted_growth = pd.DataFrame(predicted_growth_data).pivot_table(
         index="model", columns="media", values="growth"
     )
-    predicted_yield: pd.DataFrame = predicted_growth.loc[
-        ROW_LABELS, COLUMN_LABELS
-    ].apply(
-        lambda row: row / row.max(), axis=1
-    )  # type: ignore
+    predicted_yield = predicted_growth.loc[ROW_LABELS, COLUMN_LABELS]
+    if normalize:
+        predicted_yield = predicted_yield.apply(lambda row: row / row.max(), axis=1)  # type: ignore
     return predicted_yield
 
 
