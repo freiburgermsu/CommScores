@@ -8,7 +8,7 @@ from modelseedpy.core.msminimalmedia import MSMinimalMedia
 from modelseedpy.core.msmodelutl import MSModelUtil
 from optlang import Constraint, Objective, Variable
 
-from ..utils import _compatibilize, _load_models
+from commscores.utils import _compatibilize, _load_models
 
 
 def contributions(org_possible_contributions, scores, model_util, abstol):

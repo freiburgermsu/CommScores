@@ -5,9 +5,9 @@ from itertools import chain, combinations, permutations
 from numpy import array, sort, unique, where
 from numpy.random import shuffle
 
-from .logger import logger
-from .scores.calculate_scores import calculate_scores
-from .utils import _get_media, convert_to_int, remove_metadata
+from logger import logger
+from scores.calculate_scores import calculate_scores
+from utils import _get_media, convert_to_int, remove_metadata
 
 package_dir = os.path.abspath(os.path.dirname(__file__))
 

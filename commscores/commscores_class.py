@@ -9,7 +9,7 @@ from pprint import pprint
 from typing import Iterable
 
 from deepdiff import DeepDiff  # (old, new)
-from modelseedpy.community.commhelper import build_from_species_models
+from mscommunity.commhelper import build_from_species_models
 from modelseedpy.core.exceptions import ObjectiveError, ParameterError
 from modelseedpy.core.fbahelper import FBAHelper
 from modelseedpy.core.msminimalmedia import MSMinimalMedia
@@ -18,8 +18,8 @@ from modelseedpy.core.msmodelutl import MSModelUtil
 # silence deprecation warnings from DeepDiff parsing the syntrophy
 from numpy import array
 
-from .logger import logger
-from .scores import antiSMASH, bss, cip, fs, gyd, mip, mp, mro, mu, pc, sc, smetana
+from logger import logger
+from scores import antiSMASH, bss, cip, fs, gyd, mip, mp, mro, mu, pc, sc, smetana
 
 warnings.simplefilter("ignore", category=DeprecationWarning)
 

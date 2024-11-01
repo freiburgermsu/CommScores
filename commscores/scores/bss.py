@@ -12,7 +12,7 @@ if __name__ == "__main__" and (__package__ is None or __package__ == ''):
     parent_dir = Path(__file__).resolve().parent.parent
     sys.path.insert(0, str(parent_dir))
     from utils import _get_media
-else:   from ..utils import _get_media
+else:   from commscores.utils import _get_media
 
 rm_comp = FBAHelper.remove_compartment
 

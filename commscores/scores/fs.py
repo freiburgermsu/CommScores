@@ -9,7 +9,7 @@ if __name__ == "__main__" and (__package__ is None or __package__ == ''):
     parent_dir = Path(__file__).resolve().parent.parent
     sys.path.insert(0, str(parent_dir))
     from utils import _calculate_jaccard_score
-else:   from ..utils import _calculate_jaccard_score
+else:   from commscores.utils import _calculate_jaccard_score
 
 
 def fs(

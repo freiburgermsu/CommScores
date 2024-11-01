@@ -1,4 +1,4 @@
-from modelseedpy.community.commhelper import build_from_species_models
+from mscommunity.commhelper import build_from_species_models
 from modelseedpy.core.msminimalmedia import MSMinimalMedia
 from modelseedpy.core.fbahelper import FBAHelper
 from numpy import load, nan, ndarray

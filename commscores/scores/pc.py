@@ -9,7 +9,7 @@ if __name__ == "__main__" and (__package__ is None or __package__ == ''):
     parent_dir = Path(__file__).resolve().parent.parent
     sys.path.insert(0, str(parent_dir))
     from utils import _load_models, nanFilter
-else:   from ..utils import _load_models, nanFilter
+else:   from commscores.utils import _load_models, nanFilter
 
 
 def pc(

@@ -10,7 +10,7 @@ if __name__ == "__main__" and (__package__ is None or __package__ == ''):
     parent_dir = Path(__file__).resolve().parent.parent
     sys.path.insert(0, str(parent_dir))
     from utils import _compatibilize, _get_media
-else:   from ..utils import _compatibilize, _get_media
+else:   from commscores.utils import _compatibilize, _get_media
 
 def mro(member_models: Iterable = None, mem_media: dict = None, min_growth=0.1, media_dict=None,
         raw_content=False, environment=None, skip_bad_media=False, printing=False, compatibilized=False):

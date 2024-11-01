@@ -20,7 +20,7 @@ if __name__ == "__main__" and (__package__ is None or __package__ == ''):
     parent_dir = Path(__file__).resolve().parent.parent
     sys.path.insert(0, str(parent_dir))
     from utils import _get_media, _load_models
-else:   from ..utils import _get_media, _load_models
+else:   from commscores.utils import _get_media, _load_models
 
 
 def mip(member_models: Iterable, com_model=None, min_growth=0.1, interacting_media_dict=None,
