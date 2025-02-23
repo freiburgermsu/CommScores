@@ -7,6 +7,7 @@ from mscommunity.mscommsim import MSCommunity
 from multiprocess import current_process
 from collections.abc import Iterable
 from pandas import concat, Series
+from os import path
 import sigfig
 import signal
 
@@ -46,7 +47,7 @@ def _load(model, kbase_obj):
 
 
 def calculate_scores(pairs, member_media=None, environments=None, annotated_genomes=True, lazy_load=False,
-                     kbase_obj=None, costless=True, check_models=True, print_progress=False):    
+                     kbase_obj=None, costless=True, check_models=True, print_progress=False): 
     # process the arguments
     if isinstance(pairs, list):
         (pairs, member_media, environments, annotated_genomes, lazy_load, kbase_obj, check_models, print_progress) = pairs
@@ -60,7 +61,7 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
     # compute the scores
     pid = current_process().name
     member_media = member_media or {}
-    print(member_media)
+    # print(member_media)
     model_utils = {}
     count = 0
     for model1, models in pairs.items():
@@ -70,7 +71,7 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
         model1_str = model1.id
         if lazy_load:    model1, model1_str = _load(model1, kbase_obj)
         # member_media[model1.id] = member_media.get(model1.id, CommScoresUtil._get_media(model_s_=model1))
-        if member_media[model1.id] is None:   continue
+        if member_media[model1.id] is None:  print(f"skipping {model1.id}") ; continue
         if model1.id not in model_utils:    model_utils[model1.id] = MSModelUtil(model1, True)
         for model_index, model2 in enumerate(models):
             # load and process model2
@@ -78,7 +79,7 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
             model2_str = model2.id
             if lazy_load:     model2, model2_str = _load(model2, kbase_obj)
             # member_media[model2.id] = member_media.get(model2.id, CommScoresUtil._get_media(model_s_=model2))
-            if member_media[model2.id] is None:   continue
+            if member_media[model2.id] is None:  print(f"skipping {model1.id}") ; continue
             if model2.id not in model_utils:   model_utils[model2.id] = MSModelUtil(model2, True)
             
             # define group the model1 and model2 pair
@@ -93,19 +94,20 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
             
             # test every given environment
             groupMedia = {k:v for k,v in member_media.items() if k in modelIDs}
+            modelSeries = []
             for environName, environ in environments.items():
-                if print_progress:   print(f"\tEnvironment\t{environName}", end="\t")
+                print(f"\t{modelIDs}\tEnvironment\t{environName}", end="\t")
                 ## check that the models grow in the environment
                 if check_models:
                     CommScoresUtil._check_model(model_utils[model1.id], environ, model1_str)
                     CommScoresUtil._check_model(model_utils[model2.id], environ, model2_str)
                 ## initiate the KBase output
-                report_dic = {f"model{i+1}": modelID for i, modelID in enumerate(modelIDs)}
+                report_dic = {"model1": model1.id, "model2": model2.id}
                 ### the mono- and co-cultural growths are determined in the environmental media
                 groupUtils = [model_utils[model1.id], model_utils[model2.id], community.util]
                 g1, g2, comm = CommScoresUtil._determine_growths(groupUtils, environ, 5)
                 isolate_growths = {model1.id: g1, model2.id: g2}
-                abundances = community.predict_abundances(environ, True, 10)
+                abundances = community.predict_abundances(environ, True, 10, environName)
                 if abundances is None:
                     print(f"The {community.id} failed to compute abundances")
                     continue
@@ -114,7 +116,8 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
                 report_dic.update({"media": environName,
                                    "monoculture growth model1": CommScoresUtil._sigfig_check(g1, 5, ""),
                                    "monoculture growth model2": CommScoresUtil._sigfig_check(g2, 5, "")})
-                report_dic.update({f"coculture growth model{modelIDs.index(memID)+1}": growth for memID, growth in coculture_growths.items()})
+                report_dic.update({f"coculture growth model{modelIDs.index(memID)+1}": CommScoresUtil._sigfig_check(growth, 5, "")
+                                   for memID, growth in coculture_growths.items()})
                 report_dic.update({"community growth": comm})
                 
                 ### add the MRO score
@@ -185,8 +188,7 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
                 ### add the GYD score
                 if g1 > 0:  report_dic.update({"GYD1": CommScoresUtil._sigfig_check((g1-g2)/g1, 5, "")})
                 if g2 > 0:  report_dic.update({"GYD2": CommScoresUtil._sigfig_check((g2-g1)/g2, 5, "")})
-                if (g1 > 0 or g2 > 0) and print_progress:
-                    print("GYD done\t\t", end="\t" if annotated_genomes else "\n")
+                if (g1 > 0 or g2 > 0) and print_progress:   print("GYD done\t\t", end="\t" if annotated_genomes else "\n")
                 
                 ### add the FS score
                 if isinstance(annotated_genomes, (list, dict, tuple)) or kbase_obj is not None and annotated_genomes is True:
@@ -197,9 +199,9 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
                     if fs_values is not None:  mets[-1].update({"FS features": fs_values[0]})
                     if print_progress:  print("FS done\t\t")
                 series.append(Series(report_dic))
-                count += 1
-                if count % 100 == 0:
-                    df = concat(series, axis=1).T
-                    df.to_csv(f"{pid}_CommScores.csv")
+                modelSeries.append(Series(report_dic))
+            df = concat(modelSeries, axis=1).T
+            df.to_csv(f"{model1.id}_{model2.id}_CommScores.csv")
+            count += 1
     # return a pandas Series, which can be easily aggregated with other results into a DataFrame
     return series, mets

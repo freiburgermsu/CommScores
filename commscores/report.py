@@ -66,14 +66,12 @@ def report_generation(
     print_progress=False,
 ):
     # define the model pairs
+    assert pairs or all_models, "Either < all_models > or < pairs > must be defined to simulate interactions."
     if pairs:
         model_pairs = unique([{model1, model2} for model1, models in pairs.items() for model2 in models])
-    elif all_models is not None:
-        model_pairs, pairs = create_pairs(all_models, pair_limit)
-    else:
-        raise ValueError("Either < all_models > or < pairs > must be defined to simulate interactions.")
-    if not all_models:
-        all_models = list(chain(*[list(values) for values in pairs.values()])) + list(pairs.keys())
+        if not all_models:   all_models = list(chain(*[list(values) for values in pairs.values()])) + list(pairs.keys())
+    elif all_models:    model_pairs, pairs = create_pairs(all_models, pair_limit)
+    print(f"{model_pairs} unique model pairs")
         
     # assign IDs to the models
     new_models = []
@@ -128,7 +126,10 @@ def report_generation(
     else:
         series, mets = calculate_scores(pairs, models_media, environments, annotated_genomes,
                                         lazy_load, kbase_obj, costless, check_models, print_progress)
-    return concat(series, axis=1).T, mets
+    df = concat(series, axis=1).T
+    df["condition"] = df["model1"] + "-" + df["model2"] + "-" + df["media"]
+    df = df.drop("Unnamed: 0", axis=1).set_index("primary_key")
+    return df, mets
 
 
 def html_report(df, mets, export_html_path="commscores_report.html", msdb_path=None):
