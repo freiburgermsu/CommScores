@@ -88,7 +88,7 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
             
             ## construct a community model
             comm_model = build_from_species_models(grouping)
-            community = MSCommunity(comm_model, ids=modelIDs)
+            community = MSCommunity(comm_model, ids=modelIDs, kinetic_coeff)
             print(f"{pid}~~{count}\t{modelIDs}\t{type(community.util.model.solver)}\t{comm_model.slim_optimize()}")
             
             # test every given environment

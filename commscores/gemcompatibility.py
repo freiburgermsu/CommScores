@@ -25,13 +25,9 @@ logger = logging.getLogger(__name__)
 
 
 # open the parsed ModelSEED Database reactions and compounds content
-with open(
-    os.path.join(os.path.dirname(__file__), "..", "data", "compound_Xrefs.json"), "r"
-) as cpdXRefs:
+with open(os.path.join(os.path.dirname(__file__), "..", "data", "compound_Xrefs.json"), "r") as cpdXRefs:
     compounds_cross_references = json.load(cpdXRefs)
-with open(
-    os.path.join(os.path.dirname(__file__), "..", "data", "compoundNames.json"), "r"
-) as cpdNames:
+with open(os.path.join(os.path.dirname(__file__), "..", "data", "compoundNames.json"), "r") as cpdNames:
     compoundNames = json.load(cpdNames)
 
 
@@ -91,16 +87,12 @@ def add_custom_reaction(
             model.metabolites.get_by_id(metID): stoich
             for metID, stoich in stoichiometry.items()
         }
-    new_rxn = MSEquation(
-        stoichiometry, direction, rxnID, rxnName, subsystem, lb, ub, gpr
-    )
+    new_rxn = MSEquation(stoichiometry, direction, rxnID, rxnName, subsystem, lb, ub, gpr)
     model.add_reaction(new_rxn.rxn_obj)
 
 
 # define a results object
-resultsTup = namedtuple(
-    "resultsTup", ("new_met_id", "unknown_met_id", "changed_mets", "changed_rxns")
-)
+resultsTup = namedtuple("resultsTup", ("new_met_id", "unknown_met_id", "changed_mets", "changed_rxns"))
 
 
 class GEMCompatibility:
@@ -136,31 +128,20 @@ class GEMCompatibility:
         changed_mets: Iterable = None,
         changed_rxns: Iterable = None,
     ):
-        unknown_mets, changed_mets, changed_rxns = _define_vars(
-            unknown_mets, changed_mets, changed_rxns
-        )
+        unknown_mets, changed_mets, changed_rxns = _define_vars(unknown_mets, changed_mets, changed_rxns)
         new_models = []
         single_model = False
         if not isinstance(models, (list, tuple, set)):
             models = [models]
             single_model = True
-        for (
-            org_model
-        ) in (
-            models
-        ):  # Develop a singular model function and then an abstracted version for multiple models
-            model = (
-                org_model.copy()
-            )  # model_util cannot be used, since it would cause a circular import
+        # Develop a singular model function and then an abstracted version for multiple models
+        for org_model in models:
+            # model_util cannot be used, since it would cause a circular import
+            model = org_model.copy()
             rxnIDs = [rxn.id for rxn in model.reactions]
             model_exchanges = [rxn for rxn in model.reactions if "EX_" in rxn.id]
-            ex_mets_map = {
-                ex_rxn: [met.id for met in ex_rxn.metabolites]
-                for ex_rxn in model_exchanges
-            }
-            mets_ex_map = {
-                metID: ex for ex, mets in ex_mets_map.items() for metID in mets
-            }
+            ex_mets_map = {ex_rxn: [met.id for met in ex_rxn.metabolites] for ex_rxn in model_exchanges}
+            mets_ex_map = {metID: ex for ex, mets in ex_mets_map.items() for metID in mets}
             ex_mets = set(chain.from_iterable(list(ex_mets_map.values())))
             reactions = {}
             # standardize metabolites
@@ -184,21 +165,11 @@ class GEMCompatibility:
                 ### correct each metabolite in each exchange reaction
                 for ex_rxn in model_exchanges:
                     for met in ex_rxn.metabolites:
-                        model, met, reactions, results = GEMCompatibility._correct_met(
-                            model, met, reactions, True, printing
-                        )
+                        model, met, reactions, results = GEMCompatibility._correct_met(model, met, reactions, True, printing)
                         new_rxn_id = "EX_" + results.new_met_id
-                        if all(
-                            [
-                                "cpd" not in met.id,
-                                results.new_met_id not in ex_mets,
-                                results.unknown_met_id,
-                            ]
-                        ):
+                        if all(["cpd" not in met.id, results.new_met_id not in ex_mets, results.unknown_met_id]):
                             unknown_mets.append(met.id)
-                            logger.warning(
-                                f"CodeError: The metabolite {met.id} | {met.name} was not corrected to a ModelSEED metabolite."
-                            )
+                            logger.warning(f"CodeError: The metabolite {met.id} | {met.name} was not corrected to a ModelSEED metabolite.")
 
                         changed_rxns.extend(results.changed_rxns)
                         changed_mets.extend(results.changed_mets)
@@ -207,26 +178,14 @@ class GEMCompatibility:
                 if printing:
                     message = f"\n\n\nStandardize all metabolites in {model.id}"
                     print(message, "\n", "=" * len(message))
-                model_mets = [
-                    met.id for rxn in model.reactions for met in rxn.metabolites
-                ]
+                model_mets = [met.id for rxn in model.reactions for met in rxn.metabolites]
                 for met in model.metabolites:
-                    model, met, reactions, results = GEMCompatibility._correct_met(
-                        model, met, reactions, True, printing
-                    )
+                    model, met, reactions, results = GEMCompatibility._correct_met(model, met, reactions, True, printing)
                     if met.id in ex_mets:
                         mets_ex_map[met.id].id = "EX_" + results.new_met_id
-                    if all(
-                        [
-                            "cpd" not in met.id,
-                            results.new_met_id not in model_mets,
-                            results.unknown_met_id,
-                        ]
-                    ):
+                    if all(["cpd" not in met.id, results.new_met_id not in model_mets, results.unknown_met_id]):
                         unknown_mets.append(met.id)
-                        logger.warning(
-                            f"CodeError: The metabolite {met.id} | {met.name} was not corrected to a ModelSEED metabolite."
-                        )
+                        logger.warning(f"CodeError: The metabolite {met.id} | {met.name} was not corrected to a ModelSEED metabolite.")
                 # for rxn in model.reactions:
                 # if rxn in model_exchanges:
                 #     model, met, reactions, results = GEMCompatibility._correct_met(
@@ -237,10 +196,7 @@ class GEMCompatibility:
                     model_names = model_names or [model.id for model in models]
                     GEMCompatibility._export(
                         models,
-                        {
-                            "metabolite_changes": changed_mets,
-                            "reaction_changes": changed_rxns,
-                        },
+                        {"metabolite_changes": changed_mets, "reaction_changes": changed_rxns},
                         conflicts_file_name,
                         model_names,
                         export_directory,
@@ -272,13 +228,7 @@ class GEMCompatibility:
         printing: bool = True,
         extras=False,
     ):
-        unknown_mets, changed_mets, changed_rxns, unique_names, established_mets = (
-            [],
-            [],
-            [],
-            [],
-            [],
-        )
+        unknown_mets, changed_mets, changed_rxns, unique_names, established_mets = [], [], [], [], []
         unique_mets, met_conflicts = OrderedDict(), OrderedDict()
         new_models = []
         for model_index, org_model in enumerate(models):
@@ -324,21 +274,10 @@ class GEMCompatibility:
                                         f"model{model_index}_met": met,
                                     }
                                 )
-                            (
-                                model,
-                                met,
-                                reactions,
-                                results,
-                            ) = GEMCompatibility._correct_met(
-                                model, met, reactions, False, printing
-                            )
+                            (model, met, reactions, results) = GEMCompatibility._correct_met(model, met, reactions, False, printing)
                     else:
-                        former_name = unique_names[
-                            list(unique_mets.keys()).index(met.id)
-                        ]
-                        former_model_index = _remove_prefix(
-                            list(unique_mets[met.id].keys())[0].split("_")[0], "model"
-                        )
+                        former_name = unique_names[list(unique_mets.keys()).index(met.id)]
+                        former_model_index = _remove_prefix(list(unique_mets[met.id].keys())[0].split("_")[0], "model")
                         if met_name == former_name:
                             # remove the metabolite that is no longer unique
                             del unique_names[list(unique_mets.keys()).index(met.id)]
@@ -347,59 +286,31 @@ class GEMCompatibility:
                         else:
                             # describe the conflicting metabolite names
                             if met.id not in met_conflicts:
+                                metName = f"model{former_model_index}_met"
                                 met_conflicts[met.id] = {
                                     f"model{former_model_index}_name": former_name,
-                                    f"model{former_model_index}_met": unique_mets[
-                                        met.id
-                                    ][f"model{former_model_index}_met"],
+                                    metName: unique_mets[met.id][metName],
                                     f"model{model_index}_name": met.name,
                                     f"model{model_index}_met": met,
                                 }
                             else:
-                                if (
-                                    f"model{model_index}_name"
-                                    not in met_conflicts[met.id]
-                                ):
-                                    met_conflicts[met.id].update(
-                                        {
-                                            f"model{model_index}_name": met.name,
-                                            f"model{model_index}_met": met,
-                                        }
-                                    )
+                                if f"model{model_index}_name" not in met_conflicts[met.id]:
+                                    met_conflicts[met.id].update({f"model{model_index}_name": met.name, f"model{model_index}_met": met})
                                 else:
                                     iteration = 0
-                                    while (
-                                        f"model{model_index}_{iteration}_name"
-                                        in met_conflicts[met.id]
-                                    ):
+                                    while f"model{model_index}_{iteration}_name" in met_conflicts[met.id]:
                                         iteration += 1
 
                                     met_conflicts[met.id].update(
-                                        {
-                                            f"model{model_index}_{iteration}_name": met.name,
-                                            f"model{model_index}_{iteration}_met": met,
-                                        }
-                                    )
-                            (
-                                model,
-                                met,
-                                reactions,
-                                results,
-                            ) = GEMCompatibility._correct_met(
-                                model, met, reactions, False, printing
-                            )
+                                        {f"model{model_index}_{iteration}_name": met.name, f"model{model_index}_{iteration}_met": met})
+                            (model, met, reactions, results) = GEMCompatibility._correct_met(model, met, reactions, False, printing)
 
                 # correct the reaction ID
                 reaction = _remove_prefix(re.sub("(_\w\d$)", "", ex_rxn.id), "EX_")
                 if reaction in model_metabolites:
                     suffix = re.search("(_\w\d$)", reaction).group()
-                    model, met, reactions, results = GEMCompatibility._correct_met(
-                        model,
-                        _remove_suffix(reaction, suffix),
-                        reactions,
-                        False,
-                        printing,
-                    )
+                    model, met, reactions, results = GEMCompatibility._correct_met(model, _remove_suffix(reaction, suffix),
+                                                                                   reactions, False, printing)
                     ex_rxn.id = "EX_" + results.new_met_id + suffix
             new_models.append(model)
             GEMCompatibility._validate_results(model, org_model, unknown_mets)
@@ -412,16 +323,8 @@ class GEMCompatibility:
                     if "_met" not in key:
                         export_met_conflicts[met_id][key] = val
                     else:
-                        export_met_conflicts[met_id][
-                            key.replace("_met", "_formula")
-                        ] = val.formula
-            GEMCompatibility._export(
-                new_models,
-                export_met_conflicts,
-                conflicts_file_name,
-                model_names,
-                export_directory,
-            )
+                        export_met_conflicts[met_id][key.replace("_met", "_formula")] = val.formula
+            GEMCompatibility._export(new_models, export_met_conflicts, conflicts_file_name, model_names, export_directory)
 
         print(
             f"\n\n{len(changed_rxns)} exchange reactions were substituted and "
@@ -448,12 +351,7 @@ class GEMCompatibility:
         # ensure that all non-standard exchanges have been corrected
         model_exchanges = [rxn for rxn in model.reactions if "EX_" in rxn.id]
         if standardize:
-            residual_nonstandard_mets = [
-                met.id
-                for ex_rxn in model_exchanges
-                for met in ex_rxn.metabolites
-                if "cpd" not in met.id
-            ]
+            residual_nonstandard_mets = [met.id for ex_rxn in model_exchanges for met in ex_rxn.metabolites if "cpd" not in met.id]
             residuals = set(residual_nonstandard_mets) - set(unknown_mets)
             if residuals:
                 logger.error(
@@ -497,9 +395,7 @@ class GEMCompatibility:
                 path = os.path.join(export_directory, f"{model_names[index]}.json")
                 file_paths.append(os.path.relpath(path, export_directory))
                 save_json_model(model, path)
-        with ZipFile(
-            "_".join(model_names[:4]) + ".zip", "w", compression=ZIP_LZMA
-        ) as zip:
+        with ZipFile("_".join(model_names[:4]) + ".zip", "w", compression=ZIP_LZMA) as zip:
             for file in file_paths:
                 zip.write(file)
                 os.remove(file)
@@ -552,12 +448,8 @@ class GEMCompatibility:
             #     logger.warning(f"ModelSEEDError: The old metabolite {met.id} cross-references"
             #     f" ({compounds_cross_references[general_met]}) do not overlap with those"
             #     f" ({compounds_cross_references[compoundNames[met_name]]}) of the new metabolite {new_met_id}.")
-            metabolite_desc = " | ".join(
-                [x for x in [met.id, met.name, base_name, general_name] if x != ""]
-            )
-            logger.warning(
-                f"ModelSEEDError: The metabolite ({metabolite_desc}) is not recognized by the ModelSEED Database"
-            )
+            metabolite_desc = " | ".join([x for x in [met.id, met.name, base_name, general_name] if x != ""])
+            logger.warning(f"ModelSEEDError: The metabolite ({metabolite_desc}) is not recognized by the ModelSEED Database")
             return model, met, reactions, resultsTup(met.id, met.id, [], [])
         # if change_comp:  met.id = f"{general_met}_{compartment}"
         # if the compound is already the correct cpdID
@@ -569,17 +461,13 @@ class GEMCompatibility:
         new_met_id = original_id = met.id
         original_name = met.name
         ## affirm the match with cross-references, where it is possible for ModelSEED compounds
-        if (
-            "cpd" in met.id
-        ):  # TODO correct an anomaly where a valid MSID is repeated with itself
+        # TODO correct an anomaly where a valid MSID is repeated with itself
+        if "cpd" in met.id:
             logger.warning(
                 f"IDWarning: The original ID {met.id} is a ModelSEED ID, and "
                 f"may not be desirably changed to {new_met_id}."
             )
-            if (
-                general_met in compounds_cross_references
-                and compounds_cross_references[general_met] != {}
-            ):
+            if general_met in compounds_cross_references and compounds_cross_references[general_met] != {}:
                 matches = _check_cross_references(met, general_met, met_name)
                 if not matches:
                     logger.warning(
@@ -587,11 +475,7 @@ class GEMCompatibility:
                         f" ({compounds_cross_references[general_met]}) do not overlap with those"
                         f" ({compounds_cross_references[compoundNames[met_name]]}) of the new metabolite {new_met_id}."
                     )
-        new_met_id = (
-            compoundNames[met_name] + compartment
-            if not change_comp
-            else f"{compoundNames[met_name]}_{compartment}"
-        )
+        new_met_id = compoundNames[met_name] + compartment if not change_comp else f"{compoundNames[met_name]}_{compartment}"
         print(new_met_id)
         if new_met_id in model.metabolites:
             ## replace the undesirable compound in each of its reactions, since the new compound ID already exists
@@ -607,9 +491,7 @@ class GEMCompatibility:
                         f" thus this reaction ({org_rxn.id}) must be deleted to permit its replacement.",
                     }
                     if matches:
-                        change[
-                            "justification"
-                        ] += f" The ID match was verified with the {matches} cross-reference(s)."
+                        change["justification"] += f" The ID match was verified with the {matches} cross-reference(s)."
                     model.remove_reactions([org_rxn])
                     changed_rxns.append(change)
                     if printing:
@@ -618,11 +500,7 @@ class GEMCompatibility:
                 else:
                     # !!! duplicate reactions and hindrance to multiple changes on the same reaction remain challenges.
                     #### Copy the reaction stoichiometry while introducing the new metabolite
-                    rxn = (
-                        org_rxn
-                        if org_rxn.id not in reactions
-                        else reactions[org_rxn.id]
-                    )
+                    rxn = (org_rxn if org_rxn.id not in reactions else reactions[org_rxn.id])
                     reaction_met_ids = {}
                     redundant_mets = False
                     for rxn_met in rxn.metabolites:
@@ -640,15 +518,9 @@ class GEMCompatibility:
                             reaction_dict[new_met] = stoich
 
                     #### replace the original reaction with a renewed reaction
-                    new_reactants = sum(
-                        [1 for val in reaction_dict.values() if val < 0]
-                    )
+                    new_reactants = sum([1 for val in reaction_dict.values() if val < 0])
                     new_products = len(reaction_dict) - new_reactants
-                    if (
-                        len(rxn.reactants) == new_reactants
-                        and len(rxn.products) == new_products
-                        or redundant_mets
-                    ):
+                    if (len(rxn.reactants) == new_reactants and len(rxn.products) == new_products or redundant_mets):
                         new_rxn = Reaction(
                             id=rxn.id,
                             name=rxn.name,
@@ -666,19 +538,13 @@ class GEMCompatibility:
                             f" {model.id}, so each reaction (here {rxn.id}) must be replaced.",
                         }
                         if matches:
-                            change[
-                                "justification"
-                            ] += f" The ID match was verified with the {matches} cross-reference(s)."
+                            change["justification"] += f" The ID match was verified with the {matches} cross-reference(s)."
                         changed_rxns.append(change)
-                        if printing:
-                            _print_changes(change)
+                        if printing:   _print_changes(change)
                         reactions[org_rxn.id] = new_rxn
                     else:
                         ##### print the discrepancy in the reagents from the original reaction
-                        rxn_diff = DeepDiff(
-                            FBAHelper.IDRxnMets(org_rxn),
-                            FBAHelper.IDRxnMets(reaction_dict),
-                        )
+                        rxn_diff = DeepDiff(FBAHelper.IDRxnMets(org_rxn), FBAHelper.IDRxnMets(reaction_dict))
                         logger.error(
                             f"CodeError: The new reaction of {rxn.id} with"
                             f" {new_reactants} reactants | {new_products} products"
@@ -697,26 +563,12 @@ class GEMCompatibility:
                 f"hence, the {met.id} ID and {met.name} are used.",
             }
             if "cpd" not in original_id:
-                change[
-                    "justification"
-                ] += f" The {original_id} ID is not a ModelSEED Database ID."
+                change["justification"] += f" The {original_id} ID is not a ModelSEED Database ID."
             if standardize:
-                change[
-                    "justification"
-                ] += f" The {original_id} and {met.id} metabolites were matched via their name."
+                change["justification"] += f" The {original_id} and {met.id} metabolites were matched via their name."
             if matches:
-                change[
-                    "justification"
-                ] += (
-                    f" The ID match was verified with the {matches} cross-reference(s)."
-                )
+                change["justification"] += f" The ID match was verified with the {matches} cross-reference(s)."
             changed_mets.append(change)
-            if printing:
-                _print_changes(change)
+            if printing:    _print_changes(change)
 
-        return (
-            model,
-            met,
-            reactions,
-            resultsTup(new_met_id, None, changed_mets, changed_rxns),
-        )
+        return model, met, reactions, resultsTup(new_met_id, None, changed_mets, changed_rxns)
