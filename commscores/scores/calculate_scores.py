@@ -47,7 +47,7 @@ def _load(model, kbase_obj):
 
 
 def calculate_scores(pairs, member_media=None, environments=None, annotated_genomes=True, lazy_load=False,
-                     kbase_obj=None, costless=True, check_models=True, print_progress=False): 
+                     kbase_obj=None, climit=120, o2limit=120/3, costless=True, check_models=True, print_progress=False): 
     # process the arguments
     if isinstance(pairs, list):
         (pairs, member_media, environments, annotated_genomes, lazy_load, kbase_obj, check_models, print_progress) = pairs
@@ -56,12 +56,12 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
         environments = {m.name: FBAHelper.convert_kbase_media(m, 1000) for m in environments}
     elif isinstance(environments, (list, tuple)) and not isinstance(environments[0], dict):
         environments = {f"media{i}": m for i, m in enumerate(environments)}
-    # print(environments)
+    singleclimit = climit/2 if FBAHelper.isnumber(climit) else None
+    singleo2limit = o2limit/2 if FBAHelper.isnumber(o2limit) else None
         
     # compute the scores
     pid = current_process().name
     member_media = member_media or {}
-    # print(member_media)
     model_utils = {}
     count = 0
     for model1, models in pairs.items():
@@ -72,7 +72,7 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
         if lazy_load:    model1, model1_str = _load(model1, kbase_obj)
         # member_media[model1.id] = member_media.get(model1.id, CommScoresUtil._get_media(model_s_=model1))
         if member_media[model1.id] is None:  print(f"skipping {model1.id}") ; continue
-        if model1.id not in model_utils:    model_utils[model1.id] = MSModelUtil(model1, True)
+        if model1.id not in model_utils:   model_utils[model1.id] = MSModelUtil(model1, True, None, singleclimit, singleo2limit)
         for model_index, model2 in enumerate(models):
             # load and process model2
             if model2.id == "":     model2.id = "model2"
@@ -80,7 +80,7 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
             if lazy_load:     model2, model2_str = _load(model2, kbase_obj)
             # member_media[model2.id] = member_media.get(model2.id, CommScoresUtil._get_media(model_s_=model2))
             if member_media[model2.id] is None:  print(f"skipping {model1.id}") ; continue
-            if model2.id not in model_utils:   model_utils[model2.id] = MSModelUtil(model2, True)
+            if model2.id not in model_utils:   model_utils[model2.id] = MSModelUtil(model2, True, None, singleclimit, singleo2limit)
             
             # define group the model1 and model2 pair
             grouping = [model1, model2]
@@ -89,7 +89,8 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
             
             ## construct a community model
             comm_model = build_from_species_models(grouping)
-            community = MSCommunity(comm_model, ids=modelIDs)
+            print("raw model", comm_model.slim_optimize())
+            community = MSCommunity(comm_model, ids=modelIDs, climit=climit, o2limit=o2limit)
             print(f"{pid}~~{count}\t{type(community.util.model.solver)}\t{comm_model.slim_optimize()}")
             
             # test every given environment
@@ -137,7 +138,7 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
                 if print_progress:   print("CIP done", end="\t")
                 
                 ### add the MIP score
-                mip_mets = mip(grouping, comm_model, 0.1, None, None, environ, print_progress, True, costless, cip_mets)
+                mip_mets = mip(grouping_utils, community.util, 0.1, None, None, environ, print_progress, True, costless, cip_mets, climit, o2limit)
                 if mip_mets is not None:
                     report_dic.update({f"MIP_model{modelIDs.index(models_name)+1}": str(len(received))
                                        for models_name, received in mip_mets.items() if models_name != "costless"})

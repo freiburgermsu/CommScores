@@ -4,48 +4,12 @@ from itertools import chain, combinations, permutations
 
 from numpy import array, sort, unique, where
 from numpy.random import shuffle
-from pandas import concat
+
 from logger import logger
 from scores.calculate_scores import calculate_scores
 from commscoresutil import CommScoresUtil
 
 package_dir = os.path.abspath(os.path.dirname(__file__))
-
-
-def create_pairs(all_models, pair_limit: int = None):
-    if not isinstance(all_models[0], list):
-        all_models = list(set(all_models))
-        model_pairs = array(list(combinations(all_models, 2)))
-    else:
-        model_pairs = []
-        for models1, models2 in combinations(all_models, 2):
-            models1 = set(models1)
-            models2 = set(models2)
-            if len(models1) > len(models2):
-                larger_list = models1
-                smaller_list = models2
-            else:
-                larger_list = models2
-                smaller_list = models1
-            model_pairs.append([list(zip(combin, smaller_list))
-                                for combin in permutations(larger_list, len(smaller_list))])
-        # flatten the assembled pairs and filter duplicates
-        model_pairs = array([x for x in set(tuple(x) for x in [
-            i for y in list(chain.from_iterable(model_pairs)) for i in y])])
-        all_models = list(chain.from_iterable(all_models))
-    if pair_limit is not None:
-        shuffle(model_pairs)
-        new_pairs = []
-        for index, pair in enumerate(model_pairs):
-            if set(pair) not in exclude_pairs and index < pair_limit:
-                new_pairs.append(pair)
-            elif index >= pair_limit:  break
-        model_pairs = array(new_pairs)
-    if isinstance(model_pairs[0], str):
-        model_pairs = unique(sort(model_pairs, axis=1))
-    pairs = {first: model_pairs[where(model_pairs[:, 0] == first)][:, 1]
-             for first in model_pairs[:, 0]}
-    return model_pairs, pairs
 
 
 def report_generation(
@@ -56,41 +20,66 @@ def report_generation(
     exclude_pairs: list = None,
     kbase_obj=None,
     annotated_genomes: dict = True,  # True triggers internal acquisition of the genomes, where None skips
-    see_media=True,
+    see_media=False,
     environments: iter = None,  # a collection of environment dicts or KBase media objects
     pool_size: int = None,
     cip_score=True,
     costless=True,
+    climit=120,
+    o2limit=120/3,
+    skip_bad_media=False,
     check_models=True,
-    ids = None,
     print_progress=False,
 ):
-    # define the model pairs
-    assert pairs or all_models, "Either < all_models > or < pairs > must be defined to simulate interactions."
+    from pandas import concat
     if pairs:
         model_pairs = unique([{model1, model2} for model1, models in pairs.items() for model2 in models])
-        if not all_models:   all_models = list(chain(*[list(values) for values in pairs.values()])) + list(pairs.keys())
-    elif all_models:    model_pairs, pairs = create_pairs(all_models, pair_limit)
-    print(f"{model_pairs} unique model pairs")
-        
-    # assign IDs to the models
+    elif all_models is not None:
+        if not isinstance(all_models[0], list):
+            all_models = list(set(all_models))
+            model_pairs = array(list(combinations(all_models, 2)))
+        else:
+            model_pairs = []
+            for models1, models2 in combinations(all_models, 2):
+                models1 = set(models1)
+                models2 = set(models2)
+                if len(models1) > len(models2):
+                    larger_list = models1
+                    smaller_list = models2
+                else:
+                    larger_list = models2
+                    smaller_list = models1
+                model_pairs.append([list(zip(combin, smaller_list))
+                                    for combin in permutations(larger_list, len(smaller_list))])
+            # flatten the assembled pairs and filter duplicates
+            model_pairs = array([x for x in set(tuple(x) for x in [
+                i for y in list(chain.from_iterable(model_pairs)) for i in y])])
+            all_models = list(chain.from_iterable(all_models))
+        if pair_limit is not None:
+            shuffle(model_pairs)
+            new_pairs = []
+            for index, pair in enumerate(model_pairs):
+                if set(pair) not in exclude_pairs and index < pair_limit:
+                    new_pairs.append(pair)
+                elif index >= pair_limit:  break
+            model_pairs = array(new_pairs)
+        if isinstance(model_pairs[0], str):
+            model_pairs = unique(sort(model_pairs, axis=1))
+        pairs = {first: model_pairs[where(model_pairs[:, 0] == first)][:, 1]
+                 for first in model_pairs[:, 0]}
+    else:
+        raise ValueError("Either < all_models > or < pairs > must be defined to simulate interactions.")
+    if not all_models:
+        all_models = list(chain(*[list(values) for values in pairs.values()])) + list(pairs.keys())
+    lazy_load = len(model_pairs) > 10000  # all_models[0], (list,set,tuple))
+    if lazy_load and not kbase_obj:
+        ValueError("The < kbase_obj > argument must be provided to lazy load models.")
     new_models = []
     for index, model in enumerate(all_models):
-        if model.id == "":
-            if ids is not None:     model.id = ids[index]
-            else:     model.id = f"model{index}"
+        if model.id == "":   model.id = f"model_index{index}"
         new_models.append(model)
     all_models = new_models[:]
-    models_media = mem_media.copy()
-    # define the minimal media of each model
-    if mem_media is None:
-        models_media = {}
-        for model in all_models:
-            print(model.id)
-            models_media[model.id] = {}
-            for name, environ in environments:
-                print(name)
-                models_media[model.id][name] = CommScoresUtil._get_media(model_s_=model, environment=environ)
+    if not mem_media:   models_media = CommScoresUtil._get_media(model_s_=all_models, climit=climit, o2limit=o2limit)
     else:
         models_media = mem_media.copy()
         missing_models = set()
@@ -100,36 +89,27 @@ def report_generation(
                 missing_models.add(model)
                 missing_modelID.append(model if not hasattr(model, "id") else model.id)
         if missing_models != set():
-            logger.error(f"Media of the {missing_modelID} models are not defined, and will be calculated separately.")
-            models_media.update(CommScoresUtil._get_media(model_s_=missing_models))
+            logger.error(
+                f"Media of the {missing_modelID} models are not defined, and will be calculated separately.")
+            models_media.update(_get_media(model_s_=missing_models, climit=climit, o2limit=o2limit))
     if see_media:
-        print(f"The minimal media of all members:")
-        display(models_media)
+        print(f"The minimal media of all members:\n{models_media}")
     print(f"\nExamining the {len(list(model_pairs))} model pairs")
-    
-    # run the simulation, and paralellize or not
-    lazy_load = len(model_pairs) > 1000  # all_models[0], (list,set,tuple))
-    if lazy_load:
-        assert kbase_obj is not None, "The < kbase_obj > argument must be provided to lazy load models."
     if pool_size is not None:
         from datetime import datetime
         from multiprocess import Pool
 
-        # pool_size = min([pool_size, len(pairs)*5])
         print(f"Loading {int(pool_size)} workers and computing the scores", datetime.now())
         pool = Pool(int(pool_size))  # .map(calculate_scores, [{k: v} for k,v in pairs.items()])
-        args = [[dict([pair]), models_media, environments, annotated_genomes, lazy_load, kbase_obj, check_models, print_progress]
+        args = [[dict([pair]), models_media, environments, annotated_genomes, lazy_load, kbase_obj, climit, o2limit]
                 for pair in list(pairs.items())]
         output = pool.map(calculate_scores, args)
         series = chain.from_iterable([ele[0] for ele in output])
         mets = chain.from_iterable([ele[1] for ele in output])
     else:
-        series, mets = calculate_scores(pairs, models_media, environments, annotated_genomes,
-                                        lazy_load, kbase_obj, costless, check_models, print_progress)
-    df = concat(series, axis=1).T
-    df["condition"] = df["model1"] + "-" + df["model2"] + "-" + df["media"]
-    df = df.drop("Unnamed: 0", axis=1).set_index("primary_key")
-    return df, mets
+        series, mets = calculate_scores(pairs, models_media, environments, annotated_genomes, lazy_load,
+                                        kbase_obj, climit, o2limit, costless, check_models, print_progress)
+    return concat(series, axis=1).T, mets
 
 
 def html_report(df, mets, export_html_path="commscores_report.html", msdb_path=None):
@@ -200,7 +180,7 @@ def html_report(df, mets, export_html_path="commscores_report.html", msdb_path=N
     int_cols = ["CIP", "MIP_model1", "MIP_model2"]
     if "costless_MIP_model1" in heatmap_df.columns:  int_cols.extend(["c_MIP1", "c_MIP2"])
     for col in int_cols:
-        heatmap_df[col] = heatmap_df[col].apply(CommScoresutil.convert_to_int)
+        heatmap_df[col] = heatmap_df[col].apply(CommScoresUtil.convert_to_int)
 
     # construct a metabolites table
     from pandas import DataFrame

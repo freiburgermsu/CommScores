@@ -3,6 +3,7 @@ from modelseedpy.core.fbahelper import FBAHelper
 from deepdiff import DeepDiff  # (old, new)
 from typing import Iterable
 from itertools import chain
+from cobra.core.model import Model
 import re
 
 
@@ -23,20 +24,33 @@ from commscoresutil import CommScoresUtil
 
 
 def mip(member_models: Iterable, com_model=None, min_growth=0.1, interacting_media_dict=None,
-        noninteracting_media_dict=None, environment=None, printing=False, compatibilized=False, costless=False, cip_mets=None):
+        noninteracting_media_dict=None, environment=None, printing=False, compatibilized=False,
+        costless=False, cip_mets=None, climit=None, o2limit=None):
     """Determine the quantity of nutrients that can be potentially sourced through syntrophy"""
     member_models, community = CommScoresUtil._load_models(member_models, com_model, not compatibilized, "MIP_comm", printing)
+    if isinstance(member_models[0], Model):   modelutils = {MSModelUtil(model) for model in member_models}
+    else:
+        modelutils = member_models[:]
+        member_models = [util.model for util in modelutils]
+    if isinstance(community, Model):
+        comm_util = MSModelUtil(community)
+    else:
+        comm_util = community
+        community = comm_util.model
+        
 
     ## non-interacting media
     print("Non-interacting community, minimize transporters", end="\t")
-    noninteracting_medium, noninteracting_sol = CommScoresUtil._get_media(noninteracting_media_dict, community, None, min_growth, environment, False)
+    noninteracting_medium, noninteracting_sol = CommScoresUtil._get_media(
+        noninteracting_media_dict, community, None, min_growth, environment, False, printing, "minFlux", climit, o2limit)
     if noninteracting_medium is None:   raise NoMedia("There is no non-interacting media.")
     if "community_media" in noninteracting_medium:
         noninteracting_medium = noninteracting_medium["community_media"]
     
     ## interacting media
     print("Interacting community, minimize exchanges", end="\t")
-    interacting_medium, interacting_sol = CommScoresUtil._get_media(interacting_media_dict, community, None, min_growth, environment, True)
+    interacting_medium, interacting_sol = CommScoresUtil._get_media(
+        interacting_media_dict, community, None, min_growth, environment, True, printing, "minFlux", climit, o2limit)
     if interacting_medium is None:      raise NoMedia("There is no Interacting media.")
     if "community_media" in interacting_medium:
         interacting_medium = interacting_medium["community_media"]
@@ -51,7 +65,6 @@ def mip(member_models: Iterable, com_model=None, min_growth=0.1, interacting_med
     cross_fed_exIDs = [re.sub("(root\['|'\])", "", x) for x in interact_diff["dictionary_item_removed"]]
     
     # Determine each direction of the MIP score interactions
-    comm_util = MSModelUtil(community)
     cross_fed_metIDs = [ex.replace("EX_", "").replace("_e0", "") for ex in cross_fed_exIDs]
     cross_fed_copy = cross_fed_metIDs[:]
     for rxn in comm_util.transport_list():
@@ -83,7 +96,6 @@ def mip(member_models: Iterable, com_model=None, min_growth=0.1, interacting_med
     # TODO categorize all of the cross-fed substrates to examine potential associations of specific compounds
     if costless or cip_mets:
         if cip_mets is None:
-            modelutils = {MSModelUtil(model) for model in member_models}
             cip_mets = chain.from_iterable([modelutil.costless_excreta() for modelutil in modelutils])
         outputs.update({"costless":{memName: set(received_mets) & set(cip_mets) for memName, received_mets in directionalMIP.items()}})
     return outputs

@@ -21,7 +21,7 @@ def remove_comp(string):
     return re.sub(r"(\_\w\d+$)", "", string.replace("EX_", ""))
 
 
-def compute_score(minMedia, model_utils, environ, index=0):
+def compute_score(minMedia, model_utils, environ, index=0, climit=None, o2limit=None):
     scores = {}
     model1_util, model2_util = model_utils
     sol_growths = []
@@ -34,7 +34,7 @@ def compute_score(minMedia, model_utils, environ, index=0):
     # if isclose(0, min_growth):
     #     return {}
     minMedia = minMedia or CommScoresUtil._get_media(
-        model_s_=[model1_util.model, model2_util.model], min_growth=min_growth, environment=environ)
+        None, None, [model1_util.model, model2_util.model], min_growth, environ, True, True, "minFlux", climit, o2limit)
     model1_media = set(list(map(remove_comp, list(minMedia[model1_util.id]["media"].keys()))))
     model2_media = set(list(map(remove_comp, list(minMedia[model2_util.id]["media"].keys()))))
     model1_internal = {rm_comp(met.id) for rxn in model1_util.internal_list() for met in rxn.products}
@@ -53,6 +53,8 @@ def bss(
     model_utils: Iterable = None,
     environment=None,
     minMedia=None,
+    climit=None,
+    o2limit=None
 ):
     bss_scores = {}
     for combination in combinations(member_models if model_utils is None else model_utils, 2):
@@ -61,7 +63,7 @@ def bss(
         comb_utils = [model1_util, model2_util]
         if isinstance(environment, (tuple, list, set)):
             for index, environ in enumerate(environment):
-                bss_scores.update(compute_score(minMedia, comb_utils, environ, index))
+                bss_scores.update(compute_score(minMedia, comb_utils, environ, index, climit, o2limit))
         else:
-            bss_scores.update(compute_score(minMedia, comb_utils, environment))
+            bss_scores.update(compute_score(minMedia, comb_utils, environment, 0, climit, o2limit))
     return bss_scores

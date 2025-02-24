@@ -13,14 +13,15 @@ from commscoresutil import CommScoresUtil
 # else:   from ..commscoresutil import CommScoresUtil
 
 def mro(member_models: Iterable = None, mem_media: dict = None, min_growth=0.1, media_dict=None,
-        raw_content=False, environment=None, printing=False, compatibilized=False):
+        raw_content=False, environment=None, printing=False, compatibilized=False, climit=None, o2limit=None):
     """Determine the overlap of nutritional requirements (minimal media) between member organisms."""
     # determine the member minimal media if they are not parameterized
     if not mem_media:
         if not member_models:
             raise ParameterError("The either member_models or minimal_media parameter must be defined.")
         member_models = member_models if compatibilized else CommScoresUtil._compatibilize(member_models, printing)
-        mem_media = CommScoresUtil._get_media(media_dict, None, member_models, min_growth, environment, True, printing)
+        mem_media = CommScoresUtil._get_media(
+            media_dict, None, member_models, min_growth, environment, True, printing, "minFlux", climit, o2limit)
         # print(mem_media)
         # print(CommScoresUtil._get_media(model_s_=member_models))
     # MROs = array(list(map(len, pairs.values()))) / array(list(map(len, mem_media.values())))
@@ -34,7 +35,7 @@ def mro(member_models: Iterable = None, mem_media: dict = None, min_growth=0.1, 
             mro_values.update({f"{model1.id}---{model2.id}": (inter, m1_media), f"{model2.id}---{model1.id}": (inter, m2_media)})
         else:
             if len(m1_media) > 0:
-                mro_values.update({f"{model1.id}---{model2.id}": (100 * len(inter) / len(m1_media), len(inter), len(m1_media))}),
+                mro_values.update({f"{model1.id}---{model2.id}": (100 * len(inter) / len(m1_media), len(inter), len(m1_media))}) 
             if len(m2_media) > 0:
                 mro_values.update({f"{model2.id}---{model1.id}": (100 * len(inter) / len(m2_media), len(inter), len(m2_media))})
             mro_values.update({f"{model2.id}---{model1.id}--mets": inter})
