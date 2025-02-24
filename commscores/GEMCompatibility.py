@@ -18,42 +18,32 @@ from deepdiff import DeepDiff
 
 # ic.configureOutput(includeContext=True, contextAbsPath=False)
 
-logging.basicConfig(
-    filename="mscompatability.log", format="%(asctime)s %(message)s", filemode="w"
-)
+logging.basicConfig(filename="mscompatability.log", format="%(asctime)s %(message)s", filemode="w")
 logger = logging.getLogger(__name__)
 
 
 # open the parsed ModelSEED Database reactions and compounds content
-with open(
-    os.path.join(os.path.dirname(__file__), "data", "compound_Xrefs.json"), "r"
-) as cpdXRefs:
+with open(os.path.join(os.path.dirname(__file__), "data", "compound_Xrefs.json"), "r") as cpdXRefs:
     compounds_cross_references = json.load(cpdXRefs)
-with open(
-    os.path.join(os.path.dirname(__file__), "data", "compoundNames.json"), "r"
-) as cpdNames:
+with open(os.path.join(os.path.dirname(__file__), "data", "compoundNames.json"), "r") as cpdNames:
     compoundNames = json.load(cpdNames)
 
 
 # define generic helper functions
 def _remove_prefix(string, prefix):
-    if string.startswith(prefix):
-        return string[len(prefix) :]
+    if string.startswith(prefix):  return string[len(prefix) :]
     return string
 
 
 def _remove_suffix(string, suffix):
-    if string.endswith(suffix):
-        return string[: -len(suffix)]
+    if string.endswith(suffix): return string[: -len(suffix)]
     return string
 
 
 def _print_changes(change):
     print("\n")
-    if float(platform.python_version()[:3]) >= 3.8:
-        pprint(change, sort_dicts=False)
-    else:
-        pprint(change)
+    if float(platform.python_version()[:3]) >= 3.8:   pprint(change, sort_dicts=False)
+    else:   pprint(change)
 
 
 def _define_vars(*variables):
@@ -87,20 +77,13 @@ def add_custom_reaction(
     elif direction == "<=>":
         lb = -1000
     if isinstance(list(stoichiometry.keys())[0], str):
-        stoichiometry = {
-            model.metabolites.get_by_id(metID): stoich
-            for metID, stoich in stoichiometry.items()
-        }
-    new_rxn = MSEquation(
-        stoichiometry, direction, rxnID, rxnName, subsystem, lb, ub, gpr
-    )
+        stoichiometry = {model.metabolites.get_by_id(metID): stoich for metID, stoich in stoichiometry.items()}
+    new_rxn = MSEquation(stoichiometry, direction, rxnID, rxnName, subsystem, lb, ub, gpr)
     model.add_reaction(new_rxn.rxn_obj)
 
 
 # define a results object
-resultsTup = namedtuple(
-    "resultsTup", ("new_met_id", "unknown_met_id", "changed_mets", "changed_rxns")
-)
+resultsTup = namedtuple("resultsTup", ("new_met_id", "unknown_met_id", "changed_mets", "changed_rxns"))
 
 
 class GEMCompatibility:
@@ -136,22 +119,16 @@ class GEMCompatibility:
         changed_mets: Iterable = None,
         changed_rxns: Iterable = None,
     ):
-        unknown_mets, changed_mets, changed_rxns = _define_vars(
-            unknown_mets, changed_mets, changed_rxns
-        )
+        unknown_mets, changed_mets, changed_rxns = _define_vars(unknown_mets, changed_mets, changed_rxns)
         new_models = []
         single_model = False
         if not isinstance(models, (list, tuple, set)):
             models = [models]
             single_model = True
-        for (
-            org_model
-        ) in (
-            models
-        ):  # Develop a singular model function and then an abstracted version for multiple models
-            model = (
-                org_model.copy()
-            )  # model_util cannot be used, since it would cause a circular import
+        # Develop a singular model function and then an abstracted version for multiple models
+        for org_model in models:
+            # model_util cannot be used, since it would cause a circular import
+            model = org_model.copy()
             rxnIDs = [rxn.id for rxn in model.reactions]
             model_exchanges = [rxn for rxn in model.reactions if "EX_" in rxn.id]
             ex_mets_map = {
