@@ -106,13 +106,15 @@ class CommScoresUtil():
 
     @staticmethod
     def _compatibilize(member_models: Iterable, printing=False):
+        #TODO: apply the GEMCompatibility code to make MS-compatible models
         return member_models
 
     @staticmethod
-    def _load_models(member_models: Iterable, com_model=None, compatibilize=True, commID=None, printing=False):
+    def _load_models(member_models: Iterable, com_model=None, compatibilize=True, commID=None,
+                     climit=None, o2limit=None, printing=False):
         # ic(member_models, com_model, compatibilize)
         if not com_model and member_models:
-            return member_models, build_from_species_models(member_models, commID, "CommScores_community")  # (model, names=names, abundances=abundances)
+            return member_models, build_from_species_models(member_models, commID, "CommScores_community", climit=climit, o2limit=o2limit)  # (model, names=names, abundances=abundances)
         # elif com_model and not member_models:
         #     return com_model.members, com_model  # TODO the individual models of a community model can be parsed
         if compatibilize:

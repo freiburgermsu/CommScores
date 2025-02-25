@@ -28,21 +28,22 @@ def mip(member_models: Iterable, com_model=None, min_growth=0.1, interacting_med
         costless=False, cip_mets=None, climit=None, o2limit=None):
     """Determine the quantity of nutrients that can be potentially sourced through syntrophy"""
     member_models, community = CommScoresUtil._load_models(member_models, com_model, not compatibilized, "MIP_comm", printing)
-    if isinstance(member_models[0], Model):   modelutils = {MSModelUtil(model) for model in member_models}
+    if isinstance(member_models[0], Model):
+        modelutils = {MSModelUtil(model, climit=climit, o2limit=o2limit) for model in member_models}
     else:
         modelutils = member_models[:]
         member_models = [util.model for util in modelutils]
     if isinstance(community, Model):
-        comm_util = MSModelUtil(community)
+        comm_util = MSModelUtil(community, climit=climit, o2limit=o2limit)
     else:
         comm_util = community
         community = comm_util.model
-        
 
     ## non-interacting media
     print("Non-interacting community, minimize transporters", end="\t")
     noninteracting_medium, noninteracting_sol = CommScoresUtil._get_media(
         noninteracting_media_dict, community, None, min_growth, environment, False, printing, "minFlux", climit, o2limit)
+    print("here3", end="\n")
     if noninteracting_medium is None:   raise NoMedia("There is no non-interacting media.")
     if "community_media" in noninteracting_medium:
         noninteracting_medium = noninteracting_medium["community_media"]
