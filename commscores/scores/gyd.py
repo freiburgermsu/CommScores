@@ -23,18 +23,22 @@ def gyd(
     coculture_growth=False,
     community=None,
     check_models=True,
-    sigfigs=5
+    sigfigs=5,
+    climit=None,
+    o2limit=None,
+    printing=False
 ):
     gyds = {}
     for combination in combinations(model_utils or member_models, 2):
         if model_utils is None:
-            model1_util = MSModelUtil(combination[0], True)
-            model2_util = MSModelUtil(combination[1], True)
-            print(
-                f"{model1_util.model.id} ++ {model2_util.model.id}",
-                model1_util.model.slim_optimize(),
-                model2_util.model.slim_optimize(),
-            )
+            model1_util = MSModelUtil(combination[0], True, None, climit, o2limit)
+            model2_util = MSModelUtil(combination[1], True, None, climit, o2limit)
+            if printing:
+                print(
+                    f"{model1_util.model.id} ++ {model2_util.model.id}",
+                    model1_util.model.slim_optimize(),
+                    model2_util.model.slim_optimize(),
+                )
             if check_models:
                 model1_util.model = CommScoresUtil._check_model(model1_util, environment)
                 model2_util.model = CommScoresUtil._check_model(model2_util, environment)
@@ -48,6 +52,7 @@ def gyd(
             community = community or MSCommunity(
                 member_models=[model1_util.model, model2_util.model],
                 ids=[mem.id for mem in member_models],
+                climit=climit, o2limit=o2limit
             )
             community.run_fba()
             member_growths = community.parse_member_growths()

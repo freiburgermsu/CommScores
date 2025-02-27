@@ -33,8 +33,14 @@ def compute_score(minMedia, model_utils, environ, index=0, climit=None, o2limit=
     min_growth = min(sol_growths)
     # if isclose(0, min_growth):
     #     return {}
-    minMedia = minMedia or CommScoresUtil._get_media(
-        None, None, [model1_util.model, model2_util.model], min_growth, environ, True, True, "minFlux", climit, o2limit)
+    if minMedia is None:   minMedia = {}
+    if model1_util.id not in minMedia:
+        minMedia.update(CommScoresUtil._get_media(
+            None, None, [model1_util.model], min_growth, environ, True, True, "minFlux", climit, o2limit))
+    if model2_util.id not in minMedia:
+        minMedia.update(CommScoresUtil._get_media(
+            None, None, [model2_util.model], min_growth, environ, True, True, "minFlux", climit, o2limit))
+
     model1_media = set(list(map(remove_comp, list(minMedia[model1_util.id]["media"].keys()))))
     model2_media = set(list(map(remove_comp, list(minMedia[model2_util.id]["media"].keys()))))
     model1_internal = {rm_comp(met.id) for rxn in model1_util.internal_list() for met in rxn.products}
@@ -45,7 +51,7 @@ def compute_score(minMedia, model_utils, environ, index=0, climit=None, o2limit=
     if len(model1_media) > 0:
         scores[f"{model2_util.id} supporting {model1_util.id} in media{index}"] = (
             list(model2_internal), len(model1_media & model2_internal) / len(model1_media))
-    return scores
+    return scores, minMedia
 
 
 def bss(
@@ -58,12 +64,14 @@ def bss(
 ):
     bss_scores = {}
     for combination in combinations(member_models if model_utils is None else model_utils, 2):
-        model1_util = MSModelUtil(combination[0], True) if model_utils is None else combination[0]
-        model2_util = MSModelUtil(combination[1], True) if model_utils is None else combination[1]
+        model1_util = MSModelUtil(combination[0], True, None, climit, o2limit) if model_utils is None else combination[0]
+        model2_util = MSModelUtil(combination[1], True, None, climit, o2limit) if model_utils is None else combination[1]
         comb_utils = [model1_util, model2_util]
         if isinstance(environment, (tuple, list, set)):
             for index, environ in enumerate(environment):
-                bss_scores.update(compute_score(minMedia, comb_utils, environ, index, climit, o2limit))
+                scores, minMedia = compute_score(minMedia, comb_utils, environ, index, climit, o2limit)
+                bss_scores.update(scores)
         else:
-            bss_scores.update(compute_score(minMedia, comb_utils, environment, 0, climit, o2limit))
+            scores, minMedia = compute_score(minMedia, comb_utils, environment, 0, climit, o2limit)
+            bss_scores.update(scores)
     return bss_scores

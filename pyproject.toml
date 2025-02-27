@@ -7,7 +7,7 @@ license = "MIT"
 readme = "README.rst"
 
 [tool.poetry.dependencies]
-python = "^3.10,<3.13"
+python = "^3.9,<3.13"
 numpy = "^1.24.4"
 optlang = "^1.8.1"
 deepdiff = "^6.7.1"

@@ -45,15 +45,17 @@ def pc(
     community=None,
     interaction_threshold=0.1,
     compatibilized=False,
-    pfba=True
+    pfba=True,
+    climit=None,
+    o2limit=None
 ):
     assert member_models or modelutils or community, "Either member_models or modelutils or community must be defined."
     member_models = member_models or [mem.model for mem in modelutils] or community.members
     if com_model is None:
-        member_models, com_model = CommScoresUtil._load_models(member_models, None, not compatibilized, printing=False)
-    community = community or MSCommunity(com_model, member_models)
-    comm_sol = comm_sol or community.model.optimize()
-    model_utils = modelutils or [MSModelUtil(mem, True) for mem in member_models]
+        member_models, com_model = CommScoresUtil._load_models(member_models, None, not compatibilized, None, climit, o2limit, False)
+    community = community or MSCommunity(com_model, member_models, climit=climit, o2limit=o2limit)
+    comm_sol = comm_sol or community.util.model.optimize()
+    modelutils = modelutils or [MSModelUtil(mem, True, None, climit, o2limit) for mem in member_models]
     if isolate_growths is None:
         for mem in modelutils:
             mem.add_medium(environment)
@@ -66,8 +68,8 @@ def pc(
     # compute the community growth effects of each member
     comm_member_growths, comm_growth_effect = {}, {}
     for mem in community.members:
-        comm_member_growths[mem.id] = comm_sol.fluxes[mem.primary_biomass.id]
-        comm_growth_effect[mem.id] = comm_member_growths[mem.id] / isolate_growths[mem.id]
+        comm_member_growths[mem.id] = float(comm_sol.fluxes[mem.primary_biomass.id])
+        comm_growth_effect[mem.id] = float(comm_member_growths[mem.id] / isolate_growths[mem.id])
     
     th_pos, th_neg = 1 + interaction_threshold, 1 - interaction_threshold    
     return (pc_score, comm_growth_effect, comm_member_growths, bit(comm_growth_effect, th_pos, th_neg, comm_member_growths, isolate_growths))

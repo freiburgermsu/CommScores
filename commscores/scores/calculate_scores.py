@@ -46,11 +46,11 @@ def _load(model, kbase_obj):
     return model, model_str
 
 
-def calculate_scores(pairs, member_media=None, environments=None, annotated_genomes=True, lazy_load=False,
-                     kbase_obj=None, climit=120, o2limit=120/3, costless=True, check_models=True, print_progress=False): 
+def calculate_scores(pairs, member_media=None, environments=None, annotated_genomes=True, lazy_load=False, kbase_obj=None,
+                     climit=120, o2limit=120/3, kinCoef=500, costless=True, check_models=True, print_progress=False): 
     # process the arguments
     if isinstance(pairs, list):
-        (pairs, member_media, environments, annotated_genomes, lazy_load, kbase_obj, check_models, print_progress) = pairs
+        (pairs, member_media, environments, annotated_genomes, lazy_load, kbase_obj, climit, o2limit, kinCoef) = pairs
     series, mets = [], []
     if isinstance(environments, (list, tuple)) and hasattr(environments[0], "name"):
         environments = {m.name: FBAHelper.convert_kbase_media(m, 1000) for m in environments}
@@ -66,7 +66,7 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
     count = 0
     for model1, models in pairs.items():
         # load and process model1
-        print(model1, models)
+        # print(model1, models)
         if model1.id == "":    model1.id = "model1"
         model1_str = model1.id
         if lazy_load:    model1, model1_str = _load(model1, kbase_obj)
@@ -88,9 +88,9 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
             modelIDs = [model.id for model in grouping]
             
             ## construct a community model
-            comm_model = build_from_species_models(grouping)
+            comm_model = build_from_species_models(grouping, climit=climit, o2limit=o2limit)
             print("raw model", comm_model.slim_optimize())
-            community = MSCommunity(comm_model, ids=modelIDs, climit=climit, o2limit=o2limit)
+            community = MSCommunity(comm_model, ids=modelIDs, kinetic_coeff=kinCoef, climit=climit, o2limit=o2limit)
             print(f"{pid}~~{count}\t{type(community.util.model.solver)}\t{comm_model.slim_optimize()}")
             
             # test every given environment
@@ -110,9 +110,9 @@ def calculate_scores(pairs, member_media=None, environments=None, annotated_geno
                 isolate_growths = {model1.id: g1, model2.id: g2}
                 abundances = community.predict_abundances(environ, True, 10, environName)
                 if abundances is None:
-                    print(f"The {community.id} failed to compute abundances")
+                    print(f"FAILED: Abundances of {community.id} were not computed")
                     continue
-                print(abundances)
+                # print(abundances)
                 coculture_growths = {memID: abundance * comm for memID, abundance in abundances.items()}
                 report_dic.update({"media": environName,
                                    "monoculture growth model1": CommScoresUtil._sigfig_check(g1, 5, ""),

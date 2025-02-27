@@ -43,7 +43,6 @@ def mip(member_models: Iterable, com_model=None, min_growth=0.1, interacting_med
     print("Non-interacting community, minimize transporters", end="\t")
     noninteracting_medium, noninteracting_sol = CommScoresUtil._get_media(
         noninteracting_media_dict, community, None, min_growth, environment, False, printing, "minFlux", climit, o2limit)
-    print("here3", end="\n")
     if noninteracting_medium is None:   raise NoMedia("There is no non-interacting media.")
     if "community_media" in noninteracting_medium:
         noninteracting_medium = noninteracting_medium["community_media"]

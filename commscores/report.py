@@ -27,6 +27,7 @@ def report_generation(
     costless=True,
     climit=120,
     o2limit=120/3,
+    kinCoef=500,
     skip_bad_media=False,
     check_models=True,
     print_progress=False,
@@ -91,7 +92,7 @@ def report_generation(
         if missing_models != set():
             logger.error(
                 f"Media of the {missing_modelID} models are not defined, and will be calculated separately.")
-            models_media.update(_get_media(model_s_=missing_models, climit=climit, o2limit=o2limit))
+            models_media.update(CommScoresUtil._get_media(model_s_=missing_models, climit=climit, o2limit=o2limit))
     if see_media:
         print(f"The minimal media of all members:\n{models_media}")
     print(f"\nExamining the {len(list(model_pairs))} model pairs")
@@ -101,14 +102,14 @@ def report_generation(
 
         print(f"Loading {int(pool_size)} workers and computing the scores", datetime.now())
         pool = Pool(int(pool_size))  # .map(calculate_scores, [{k: v} for k,v in pairs.items()])
-        args = [[dict([pair]), models_media, environments, annotated_genomes, lazy_load, kbase_obj, climit, o2limit]
+        args = [[dict([pair]), models_media, environments, annotated_genomes, lazy_load, kbase_obj, climit, o2limit, kinCoef]
                 for pair in list(pairs.items())]
         output = pool.map(calculate_scores, args)
         series = chain.from_iterable([ele[0] for ele in output])
         mets = chain.from_iterable([ele[1] for ele in output])
     else:
         series, mets = calculate_scores(pairs, models_media, environments, annotated_genomes, lazy_load,
-                                        kbase_obj, climit, o2limit, costless, check_models, print_progress)
+                                        kbase_obj, climit, o2limit, kinCoef, costless, check_models, print_progress)
     return concat(series, axis=1).T, mets
 
 
